@@ -1,8 +1,11 @@
 module.exports = {
+  lintOnSave: 'warning',
   pluginOptions: {
     electronBuilder: {
-      nodeIntegration: true
+      preload: 'src/main/preload.js'
     }
   },
-  lintOnSave: 'warning'
+  devServer: {
+    proxy: 'http://localhost:9090'
+  }
 }

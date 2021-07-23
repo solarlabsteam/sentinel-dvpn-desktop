@@ -1,7 +1,7 @@
 <template>
   <div id="nav">
-    <router-link to="/">Hoome</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/">Subscriptions</router-link> |
+    <router-link to="/nodes">Node List</router-link>
   </div>
   <router-view/>
 </template>
