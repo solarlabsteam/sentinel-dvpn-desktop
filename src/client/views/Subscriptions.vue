@@ -3,7 +3,7 @@
 
   <button @click="disconnect">disconnect</button>
 
-  <node-list v-if="subscriptions.length" :nodes="subscriptions" :fields="['node', 'price', 'deposit']">
+  <node-list v-if="subscriptions?.subscriptionsList?.length" :nodes="subscriptions.subscriptionsList" :fields="['node']">
     <template #actions="{item}">
       <button @click="connect(item)">connect</button>
     </template>
@@ -19,11 +19,11 @@ export default {
   components: { NodeList },
 
   setup () {
-    const subscriptions = ref([])
+    const subscriptions = ref({})
     const isConnectionLoading = ref(true)
 
-    const handleSubscriptionList = (nodes) => {
-      subscriptions.value = nodes.data
+    const handleSubscriptionList = (result) => {
+      subscriptions.value = result.data
       isConnectionLoading.value = false
     }
 
@@ -46,12 +46,11 @@ export default {
 
   methods: {
     connect (subscription) {
-      window.ipc.send('CONNECT_TO_NODE', { ...subscription })
+      window.ipc.send('CONNECT_TO_NODE', JSON.stringify(subscription))
     },
 
     disconnect () {
       window.ipc.send('DISCONNECT')
-      // axios.post('/api/v1/disconnect').finally((data) => console.log(data))
     }
   }
 }

@@ -9,19 +9,21 @@
     "lint": "vue-cli-service lint",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
-    "postinstall": "electron-builder install-app-deps; yarn rebuild:grpc",
-    "postuninstall": "electron-builder install-app-deps",
-    "rebuild:grpc": "npm rebuild --build-from-source=sqlite3 --target=13.1.6 --runtime=electron --dist-url=https://atom.io/download/electron\n"
+    "postinstall": "electron-builder install-app-deps",
+    "postuninstall": "electron-builder install-app-deps"
   },
   "main": "background.js",
   "dependencies": {
+    "@cosmostation/cosmosjs": "https://github.com/solarlabsteam/cosmosjs.git",
+    "@grpc/grpc-js": "^1.3.6",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
-    "electron-builder": "^22.11.7",
-    "grpc": "^1.24.10",
+    "google-protobuf": "^3.17.3",
+    "grpc-web": "^1.2.1",
     "lodash": "^4.17.21",
     "vue": "^3.0.0",
-    "vue-router": "^4.0.0-0"
+    "vue-router": "^4.0.0-0",
+    "xhr2": "^0.2.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.14.5",
@@ -49,6 +51,7 @@
     "vue-cli-plugin-electron-builder": "~2.1.1",
     "vue-jest": "^5.0.0-0"
   },
+  "peerDependencies": {},
   "browserslist": [
     "> 1%",
     "last 2 versions",

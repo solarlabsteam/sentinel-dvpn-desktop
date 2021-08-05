@@ -24,6 +24,7 @@ module.exports = {
     }
   ],
   globals: {
-    ipc: 'readonly'
+    ipc: 'readonly',
+    goog: 'readonly'
   }
 }

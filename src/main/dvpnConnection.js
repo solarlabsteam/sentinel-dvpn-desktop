@@ -5,6 +5,8 @@ import { exec } from 'child_process'
 import { ipcMain } from 'electron'
 import { parseCliTableToJson } from '@/libs/cli-utils'
 import axios from 'axios'
+import CosmosService from '@/main/wallet/cosmos/CosmosService'
+import SentinelService from '@/main/sentinel/SentinelService'
 
 ipcMain.on('NODE_LIST', event => {
   let result = ''
@@ -29,41 +31,37 @@ ipcMain.on('NODE_LIST', event => {
   })
 })
 
-ipcMain.on('SUBSCRIPTION_LIST', event => {
-  let result = ''
-  const { stdout, stderr } = exec('sentinelcli query subscriptions \\\n' +
-    '    --home "${HOME}/.sentinelcli" \\\n' +
-    '    --node https://rpc.sentinel.co:443 \\\n' +
-    '    --status Active \\\n' +
-    '    --page 1 \\\n' +
-    '    --address sent1nrrgw4pqpq3jfjdqv78uyul6rp3tu6avdhv2rf')
-  stdout.on('data', data => {
-    result += data
-  })
-  stderr.on('data', err => {
-    console.log(err)
-  })
-  stdout.on('end', () => {
-    try {
-      result = parseCliTableToJson(result)
-      event.reply('SUBSCRIPTION_LIST', { data: result })
-    } catch (e) {
-      event.reply('SUBSCRIPTION_LIST', { errors: e })
-    }
-  })
+ipcMain.on('SUBSCRIPTION_LIST', async event => {
+  const address = CosmosService.getAddress()
+
+  try {
+    const subscriptions = await SentinelService.querySubscriptionsForAddress(address)
+    event.reply('SUBSCRIPTION_LIST', { data: subscriptions })
+  } catch (e) {
+    event.reply('SUBSCRIPTION_LIST', { errors: e })
+  }
 })
 
+/* eslint-disable no-unused-vars */
 ipcMain.on('CONNECT_TO_NODE', async (event, payload) => {
+  const address = CosmosService.getAddress()
+  const subscription = JSON.parse(payload)
+
   try {
-    const { data: { result: { name } } } = await axios.get('http://localhost:9090/api/v1/keys/test_sentinel_key')
+    const activeSessions = await SentinelService.querySessionsForAddress(address)
 
-    const connectResponse = await axios.post('http://localhost:9090/api/v1/connect', {
-      id: Number(payload.id),
-      from: name,
-      to: payload.node
-    })
+    // here will be all active sessions stopping
 
-    event.reply('CONNECT_TO_NODE', { data: connectResponse })
+    const activeSession = await SentinelService.startActiveSession(address, subscription)
+    console.log(activeSession)
+
+    // const connectResponse = await axios.post('http://localhost:9090/api/v1/connect', {
+    //   id: Number(payload.id),
+    //   from: name,
+    //   to: payload.node
+    // })
+    //
+    // event.reply('CONNECT_TO_NODE', { data: connectResponse })
   } catch (e) {
     console.log(e)
     if (e.isAxiosError) {
@@ -73,6 +71,7 @@ ipcMain.on('CONNECT_TO_NODE', async (event, payload) => {
     }
   }
 })
+/* eslint-enable no-unused-vars */
 
 ipcMain.on('DISCONNECT', async (event) => {
   try {
