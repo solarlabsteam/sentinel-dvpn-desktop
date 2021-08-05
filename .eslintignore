@@ -1,2 +1,2 @@
 src/wallet/events/*.js
-src/proto
+src/main/proto
