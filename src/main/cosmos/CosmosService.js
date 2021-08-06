@@ -3,8 +3,7 @@ import { Cosmos } from '@cosmostation/cosmosjs'
 import { TxBody, Fee, SignerInfo, ModeInfo, AuthInfo, SignDoc, TxRaw } from '@/main/proto/cosmos/tx/v1beta1/tx_pb.js'
 import { Coin } from '@/main/proto/cosmos/base/v1beta1/coin_pb.js'
 import { SignMode } from '@/main/proto/cosmos/tx/signing/v1beta1/signing_pb.js'
-import axios from 'axios'
-import KeysService from '@/shared/KeysService'
+import AccountService from '@/main/sentinel/AccountService'
 
 const CosmosService = {}
 
@@ -27,10 +26,6 @@ CosmosService.getTxBody = (messages) => {
   return txBody
 }
 
-CosmosService.getAccounts = address => {
-  return CosmosService.client.getAccounts(address)
-}
-
 CosmosService.getFeeValue = () => {
   const amount = new Coin(['udvpn', '10000'])
   const fee = new Fee([[], 100000])
@@ -41,9 +36,9 @@ CosmosService.getFeeValue = () => {
 
 CosmosService.getSignerInfo = async () => {
   const address = CosmosService.getAddress()
-  const data = await CosmosService.getAccounts(address)
+  const account = await AccountService.queryAccount(address)
 
-  const pubKey = KeysService.getPubKeyAny()
+  const pubKey = await AccountService.getPubKeyAny()
   const single = new ModeInfo.Single([SignMode.SIGN_MODE_DIRECT])
   const modeInfo = new ModeInfo()
   modeInfo.setSingle(single)
@@ -51,7 +46,7 @@ CosmosService.getSignerInfo = async () => {
   const info = new SignerInfo()
   info.setPublicKey(pubKey)
   info.setModeInfo(modeInfo)
-  info.setSequence(Number(data.account.sequence))
+  info.setSequence(account.sequence)
   return info
 }
 
@@ -65,18 +60,9 @@ CosmosService.getAuthInfo = async () => {
   return authInfo
 }
 
-CosmosService.sign = async bytes => {
-  try {
-    const { data } = await axios.post('http://localhost:9090/api/v1/keys/test_sentinel_key/sign', bytes)
-    return data.result
-  } catch (e) {
-    console.log(e)
-  }
-}
-
 CosmosService.getTxRaw = async (txBody, authInfo, chainId, accountNumber) => {
   const signDoc = new SignDoc([txBody.serializeBinary(), authInfo.serializeBinary(), chainId, accountNumber])
-  const signBytes = await CosmosService.sign(signDoc.serializeBinary())
+  const signBytes = await AccountService.querySignedBytes(signDoc.serializeBinary())
   return new TxRaw([txBody.serializeBinary(), authInfo.serializeBinary(), [signBytes.signature]])
 }
 
@@ -84,8 +70,8 @@ CosmosService.getSignedRequest = async (messages) => {
   const txBody = CosmosService.getTxBody(messages)
   const authInfo = await CosmosService.getAuthInfo()
   const address = CosmosService.getAddress()
-  const data = await CosmosService.getAccounts(address)
-  return await CosmosService.getTxRaw(txBody, authInfo, CosmosService.chainId, data.account.account_number)
+  const account = await AccountService.queryAccount(address)
+  return await CosmosService.getTxRaw(txBody, authInfo, CosmosService.chainId, account.accountNumber)
 }
 
 export default CosmosService

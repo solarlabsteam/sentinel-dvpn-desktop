@@ -11,7 +11,9 @@ module.exports = {
   parserOptions: {
     parser: 'babel-eslint'
   },
-  rules: {},
+  rules: {
+    "no-empty": ["error", { "allowEmptyCatch": true }]
+  },
   overrides: [
     {
       files: [
