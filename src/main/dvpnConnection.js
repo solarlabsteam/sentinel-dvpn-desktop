@@ -1,9 +1,5 @@
-/* eslint-disable no-template-curly-in-string */
-
 // todo: hot reloading
-import { exec } from 'child_process'
 import { ipcMain } from 'electron'
-import { parseCliTableToJson } from '@/libs/cli-utils'
 import axios from 'axios'
 import CosmosService from '@/main/cosmos/CosmosService'
 import SentinelService from '@/main/sentinel/SentinelService'
@@ -11,27 +7,13 @@ import connectionService from '@/main/wireguard/connectionService'
 import AccountService from '@/main/sentinel/AccountService'
 import { accountKey } from '@/shared/constants'
 
-ipcMain.on('NODE_LIST', event => {
-  let result = ''
-  const { stdout, stderr } = exec('sentinelcli query nodes \\\n' +
-    '    --home "${HOME}/.sentinelcli" \\\n' +
-    '    --node https://rpc.sentinel.co:443 \\\n' +
-    '    --status Active \\\n' +
-    '    --page 1')
-  stdout.on('data', data => {
-    result += data
-  })
-  stderr.on('data', err => {
-    console.log(err)
-  })
-  stdout.on('end', () => {
-    try {
-      result = parseCliTableToJson(result)
-      event.reply('NODE_LIST', { data: result })
-    } catch (e) {
-      event.reply('NODE_LIST', { errors: e })
-    }
-  })
+ipcMain.on('NODE_LIST', async event => {
+  try {
+    const nodes = await SentinelService.queryActiveNodes()
+    event.reply('NODE_LIST', { data: nodes })
+  } catch (e) {
+    event.reply('NODE_LIST', { errors: e })
+  }
 })
 
 ipcMain.on('SUBSCRIPTION_LIST', async event => {
@@ -49,9 +31,9 @@ ipcMain.on('SUBSCRIPTION_LIST', async event => {
 ipcMain.on('CONNECT_TO_NODE', async (event, payload) => {
   const address = CosmosService.getAddress(accountKey.mnemonic)
   const account = await AccountService.queryAccount(address)
-  const subscription = JSON.parse(payload)
 
   try {
+    const subscription = JSON.parse(payload)
     const activeSession = await SentinelService.startActiveSession(account.address, subscription)
     const nodeInfo = await SentinelService.queryNode(activeSession.node)
     const { result: info, privateKey } = await connectionService.queryConnectionData(nodeInfo.node.remoteUrl, account.address, activeSession.id)
@@ -78,18 +60,12 @@ ipcMain.on('DISCONNECT', async (event) => {
   }
 })
 
-ipcMain.on('SUBSCRIBE_TO_NODE', (event, payload) => {
-  const { node, deposit } = payload
-  const { stdout, stderr } = exec('sentinelcli tx subscription subscribe-to-node \\\n' +
-    '--home "${HOME}/.sentinelcli" \\\n' +
-    '--keyring-backend file \\\n' +
-    '--chain-id sentinelhub-2 \\\n' +
-    '--node https://rpc.sentinel.co:443 \\\n' +
-    '--from test_sentinel_key ' + node.address + ' ' + deposit)
-  stdout.on('data', data => {
-    console.log(data)
-  })
-  stderr.on('data', err => {
-    console.log(err)
-  })
+ipcMain.on('SUBSCRIBE_TO_NODE', async (event, payload) => {
+  try {
+    const node = JSON.parse(payload)
+    const result = await SentinelService.subscribeToNode(node.address, node.priceList[0])
+    event.reply('SUBSCRIBE_TO_NODE', { data: result })
+  } catch (e) {
+    event.reply('SUBSCRIBE_TO_NODE', { errors: e })
+  }
 })

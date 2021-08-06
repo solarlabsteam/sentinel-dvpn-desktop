@@ -11,8 +11,9 @@ import CosmosService from '@/main/cosmos/CosmosService'
 import { MsgSend } from '@/main/proto/cosmos/bank/v1beta1/tx_pb'
 import { Coin } from '@/main/proto/cosmos/base/v1beta1/coin_pb.js'
 import { urls } from '@/shared/constants'
-import { QueryNodeRequest } from '@/main/proto/sentinel/node/v1/querier_pb.js'
+import { QueryNodeRequest, QueryNodesRequest } from '@/main/proto/sentinel/node/v1/querier_pb.js'
 import { QueryServiceClient as QueryNodeServiceClient } from '@/main/proto/sentinel/node/v1/querier_grpc_pb.js'
+import { MsgSubscribeToNodeRequest } from '@/main/proto/sentinel/subscription/v1/msg_pb.js'
 import axios from 'axios'
 
 const grpc = require('@grpc/grpc-js')
@@ -104,7 +105,6 @@ SentinelService.queryNode = async address => new Promise((resolve, reject) => {
 })
 
 SentinelService.queryConnectToNode = async (subscriptionId, keyName, nodeAddress, connectionInfo, wireguardPrivateKey) => {
-  console.log(subscriptionId)
   try {
     const connectResponse = await axios.post('http://localhost:9090/api/v1/connect', {
       id: Number(subscriptionId),
@@ -119,6 +119,31 @@ SentinelService.queryConnectToNode = async (subscriptionId, keyName, nodeAddress
   } catch (e) {
     console.log(e.response.data)
   }
+}
+
+SentinelService.queryActiveNodes = async (offset = 0, limit = 25) => new Promise((resolve, reject) => {
+  const request = new QueryNodesRequest([Status.STATUS_ACTIVE])
+  const client = new QueryNodeServiceClient('lcd-sentinel-app.cosmostation.io:9090', grpc.credentials.createInsecure())
+
+  client.queryNodes(request, (err, response) => {
+    if (err) {
+      reject(err)
+      return
+    }
+
+    resolve(response.getNodesList().map(node => node.toObject()))
+  })
+})
+
+SentinelService.subscribeToNode = async (address, deposit) => {
+  const from = CosmosService.getAddress()
+  const coin = new Coin([deposit.denom, deposit.amount])
+  const msg = new MsgSubscribeToNodeRequest([from, address, coin])
+  msg.setDeposit(coin)
+  const msgAny = new Any([urls.subscribeToNodeURL, msg.serializeBinary()])
+  const signedTxBytes = await CosmosService.getSignedRequest([msgAny])
+
+  return await SentinelService.broadcastTx(signedTxBytes.serializeBinary(), BroadcastMode.BROADCAST_MODE_BLOCK)
 }
 
 export default SentinelService

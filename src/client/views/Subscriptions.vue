@@ -1,5 +1,5 @@
 <template>
-  <span v-if="isConnectionLoading">Loading...</span>
+  <span v-if="isRequestSent">Loading...</span>
 
   <button @click="disconnect">disconnect</button>
 
@@ -20,11 +20,16 @@ export default {
 
   setup () {
     const subscriptions = ref({})
-    const isConnectionLoading = ref(true)
+    const isRequestSent = ref(true)
 
     const handleSubscriptionList = (result) => {
       subscriptions.value = result.data
-      isConnectionLoading.value = false
+      isRequestSent.value = false
+    }
+
+    const handleConnectEvent = (data) => {
+      console.log(data)
+      isRequestSent.value = false
     }
 
     onMounted(() => {
@@ -33,20 +38,19 @@ export default {
       window.ipc.on('DISCONNECT', (data) => {
         console.log('response', data)
       })
-      window.ipc.on('CONNECT_TO_NODE', (data) => {
-        console.log(data)
-      })
+      window.ipc.on('CONNECT_TO_NODE', handleConnectEvent)
     })
 
     return {
       subscriptions,
-      isConnectionLoading
+      isRequestSent
     }
   },
 
   methods: {
     connect (subscription) {
       window.ipc.send('CONNECT_TO_NODE', JSON.stringify(subscription))
+      this.isRequestSent.value = true
     },
 
     disconnect () {
