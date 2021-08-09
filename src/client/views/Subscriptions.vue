@@ -3,7 +3,7 @@
 
   <button @click="disconnect">disconnect</button>
 
-  <node-list v-if="subscriptions?.subscriptionsList?.length" :nodes="subscriptions.subscriptionsList" :fields="['node']">
+  <node-list v-if="subscriptions.length" :nodes="subscriptions" :fields="['node']">
     <template #actions="{item}">
       <button @click="connect(item)">connect</button>
     </template>
@@ -19,7 +19,7 @@ export default {
   components: { NodeList },
 
   setup () {
-    const subscriptions = ref({})
+    const subscriptions = ref([])
     const isRequestSent = ref(true)
 
     const handleSubscriptionList = (result) => {
@@ -50,7 +50,7 @@ export default {
   methods: {
     connect (subscription) {
       window.ipc.send('CONNECT_TO_NODE', JSON.stringify(subscription))
-      this.isRequestSent.value = true
+      this.isRequestSent = true
     },
 
     disconnect () {
