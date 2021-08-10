@@ -1,6 +1,10 @@
 import { createApp } from 'vue'
 import App from './client/App.vue'
 import router from './client/router'
+import store from '@/client/store/store'
 
-// todo: Vuex to store all background responses
-createApp(App).use(router).mount('#app')
+const app = createApp(App)
+
+app.use(router)
+app.use(store)
+app.mount('#app')
