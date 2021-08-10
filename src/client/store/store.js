@@ -1,15 +1,9 @@
 import { createStore, createLogger } from 'vuex'
+import subscriptions from '@/client/store/modules/subscriptions'
 
 export default createStore({
-  state () {
-    return {
-      count: 1
-    }
-  },
-  mutations: {
-    increment (state) {
-      state.count++
-    }
+  modules: {
+    subscriptions
   },
   plugins: [createLogger()]
 })

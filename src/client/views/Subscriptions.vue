@@ -1,5 +1,5 @@
 <template>
-  <span v-if="isRequestSent">Loading...</span>
+  <span v-if="isSubscriptionsLoading || isRequestSent">Loading...</span>
 
   <button @click="disconnect">disconnect</button>
 
@@ -13,19 +13,15 @@
 <script>
 import NodeList from '@/client/components/NodeList'
 import { onMounted, ref } from 'vue'
+import { useStore, mapGetters } from 'vuex'
 
 export default {
   name: 'Subscriptions',
   components: { NodeList },
 
   setup () {
-    const subscriptions = ref([])
-    const isRequestSent = ref(true)
-
-    const handleSubscriptionList = (result) => {
-      subscriptions.value = result.data
-      isRequestSent.value = false
-    }
+    const isRequestSent = ref(false)
+    const store = useStore()
 
     const handleConnectEvent = (data) => {
       console.log(data)
@@ -33,8 +29,7 @@ export default {
     }
 
     onMounted(() => {
-      window.ipc.on('SUBSCRIPTION_LIST', handleSubscriptionList)
-      window.ipc.send('SUBSCRIPTION_LIST')
+      store.dispatch('fetchSubscriptions')
       window.ipc.on('DISCONNECT', (data) => {
         console.log('response', data)
       })
@@ -42,7 +37,6 @@ export default {
     })
 
     return {
-      subscriptions,
       isRequestSent
     }
   },
@@ -56,6 +50,10 @@ export default {
     disconnect () {
       window.ipc.send('DISCONNECT')
     }
+  },
+
+  computed: {
+    ...mapGetters(['subscriptions', 'isSubscriptionsLoading'])
   }
 }
 </script>
