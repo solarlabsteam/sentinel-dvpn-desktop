@@ -29,11 +29,11 @@ export default {
     }
 
     onMounted(() => {
-      store.dispatch('fetchSubscriptions')
       window.ipc.on('DISCONNECT', (data) => {
         console.log('response', data)
       })
       window.ipc.on('CONNECT_TO_NODE', handleConnectEvent)
+      store.dispatch('fetchSubscriptions').catch(e => console.error(e))
     })
 
     return {

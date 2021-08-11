@@ -19,8 +19,7 @@ export default {
 
       return new Promise((resolve, reject) => {
         window.ipc.once('SUBSCRIPTION_LIST', (payload) => {
-          if (payload.error) {
-            // todo calling error mutation
+          if (!payload.data) {
             commit(SET_SUBSCRIPTIONS_LOADING_STATE, false)
             reject(payload.error)
             return

@@ -18,13 +18,8 @@ class AccountService {
   }
 
   async queryKeyByName (name) {
-    try {
-      const { data } = await this.restFetchApi.getKey(name)
-
-      return data.result
-    } catch (e) {
-      console.log(e)
-    }
+    const { data } = await this.restFetchApi.getKey(name)
+    return data.result
   }
 
   async queryAccount (address) {
@@ -63,13 +58,8 @@ class AccountService {
   }
 
   async queryNewKey (name, mnemonic = this.getRandomMnemonic()) {
-    try {
-      const { data } = await this.restFetchApi.createKey(name, mnemonic)
-
-      return data.result
-    } catch (e) {
-      console.log(e)
-    }
+    const { data } = await this.restFetchApi.createKey(name, mnemonic)
+    return data.result
   }
 }
 

@@ -20,7 +20,6 @@ class ConnectionService {
     const { signature } = await this.signService.querySignedBytes(encodedBuffer)
     const privateKey = await Wg.genkey()
     const publicKey = await Wg.pubkey(privateKey)
-    let data
 
     try {
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
@@ -28,19 +27,15 @@ class ConnectionService {
         key: publicKey,
         signature
       })
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1'
 
-      data = {
+      return {
         ...result.data,
         privateKey
       }
-    } catch (e) {
-      console.log(e)
-      console.log(e, e.response.data)
     } finally {
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1'
     }
-
-    return data
   }
 }
 

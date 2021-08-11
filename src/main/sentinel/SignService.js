@@ -68,13 +68,8 @@ class SignService {
   }
 
   async querySignedBytes (bytes) {
-    try {
-      const { data } = await this.restFetchApi.sign(accountKey.name, bytes)
-      console.log(data.result)
-      return data.result
-    } catch (e) {
-      console.log(e)
-    }
+    const { data } = await this.restFetchApi.sign(accountKey.name, bytes)
+    return data.result
   }
 }
 

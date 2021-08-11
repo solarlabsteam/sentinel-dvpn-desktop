@@ -67,7 +67,6 @@ class SentinelService {
     const msgsEndRequestAny = await this.getSessionMsgEndAny(address)
     await this.transactionService.broadcastMessages([...msgsEndRequestAny, msgStartRequestAny], BroadcastMode.BROADCAST_MODE_BLOCK)
     const activeSessions = await this.queryActiveSessionsForAddress(address)
-    console.log(activeSessions)
 
     return activeSessions[0]
   }
