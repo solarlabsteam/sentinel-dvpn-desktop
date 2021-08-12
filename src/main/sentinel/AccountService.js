@@ -8,7 +8,7 @@ import { BaseAccount } from '@/main/proto/cosmos/auth/v1beta1/auth_pb.js'
 import { Cosmos } from '@cosmostation/cosmosjs'
 import { lcdHost } from '@/main/api/urls'
 import RestFetchApi from '@/main/api/RestFetchApi'
-import QueryServiceFactory from '@/main/api/QueryServiceFactory'
+import QueryService from '@/main/api/QueryService'
 
 class AccountService {
   constructor () {
@@ -25,7 +25,7 @@ class AccountService {
   async queryAccount (address) {
     return new Promise((resolve, reject) => {
       const request = new QueryAccountRequest([address])
-      const client = QueryServiceFactory.create(AccountQueryClient)
+      const client = QueryService.create(AccountQueryClient)
 
       client.account(request, (err, response) => {
         if (err) {

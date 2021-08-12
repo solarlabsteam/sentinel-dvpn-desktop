@@ -5,9 +5,11 @@ import AccountService from '@/main/sentinel/AccountService'
 import { accountKey } from '@/shared/constants'
 import Notifications from '@/main/common/Notifications'
 import { generateError } from '@/main/utils/errorHandler'
+import SubscriptionService from '@/main/sentinel/SubscriptionService'
 
 const accountService = new AccountService()
 const sentinelService = new SentinelService()
+const subscriptionService = new SubscriptionService()
 
 ipcMain.on('NODE_LIST', async event => {
   try {
@@ -80,5 +82,20 @@ ipcMain.on('SUBSCRIBE_TO_NODE', async (event, payload) => {
     const error = generateError(e)
     Notifications.createCritical(error.message).show()
     event.reply('SUBSCRIBE_TO_NODE', { error })
+  }
+})
+
+ipcMain.on('QUOTA', async (event, payload) => {
+  const address = accountService.getAddress(accountKey.mnemonic)
+
+  try {
+    const account = await accountService.queryAccount(address)
+    const subscription = JSON.parse(payload)
+    const result = await subscriptionService.queryQuota(subscription.id, account.address)
+    event.reply('QUOTA', { data: result })
+  } catch (e) {
+    const error = generateError(e)
+    Notifications.createCritical(error.message).show()
+    event.reply('QUOTA', { error })
   }
 })

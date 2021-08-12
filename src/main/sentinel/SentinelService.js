@@ -12,7 +12,7 @@ import { Coin } from '@/main/proto/cosmos/base/v1beta1/coin_pb.js'
 import { QueryNodeRequest, QueryNodesRequest } from '@/main/proto/sentinel/node/v1/querier_pb.js'
 import { QueryServiceClient as QueryNodeServiceClient } from '@/main/proto/sentinel/node/v1/querier_grpc_pb.js'
 import { MsgSubscribeToNodeRequest } from '@/main/proto/sentinel/subscription/v1/msg_pb.js'
-import QueryServiceFactory from '@/main/api/QueryServiceFactory'
+import QueryService from '@/main/api/QueryService'
 import RestFetchApi from '@/main/api/RestFetchApi'
 import AccountService from '@/main/sentinel/AccountService'
 import { DENOM } from '@/shared/constants'
@@ -28,7 +28,7 @@ class SentinelService {
 
   querySubscriptionsForAddress (address) {
     return new Promise((resolve, reject) => {
-      const client = QueryServiceFactory.create(SubscriptionQueryServiceClient)
+      const client = QueryService.create(SubscriptionQueryServiceClient)
       const request = new QuerySubscriptionsForAddressRequest([address, Status.STATUS_ACTIVE])
 
       client.querySubscriptionsForAddress(request, (err, response) => {
@@ -45,7 +45,7 @@ class SentinelService {
 
   queryActiveSessionsForAddress (address) {
     return new Promise((resolve, reject) => {
-      const client = QueryServiceFactory.create(SessionQueryServiceClient)
+      const client = QueryService.create(SessionQueryServiceClient)
 
       const request = new QuerySessionsForAddressRequest([address, Status.STATUS_ACTIVE])
 
@@ -99,7 +99,7 @@ class SentinelService {
   async queryNode (address) {
     return new Promise((resolve, reject) => {
       const request = new QueryNodeRequest([address])
-      const client = QueryServiceFactory.create(QueryNodeServiceClient)
+      const client = QueryService.create(QueryNodeServiceClient)
       client.queryNode(request, (err, response) => {
         if (err) {
           reject(err)
@@ -123,7 +123,7 @@ class SentinelService {
   async queryActiveNodes (offset = 0, limit = 25) {
     return new Promise((resolve, reject) => {
       const request = new QueryNodesRequest([Status.STATUS_ACTIVE])
-      const client = QueryServiceFactory.create(QueryNodeServiceClient)
+      const client = QueryService.create(QueryNodeServiceClient)
 
       client.queryNodes(request, (err, response) => {
         if (err) {

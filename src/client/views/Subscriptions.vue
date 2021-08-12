@@ -6,6 +6,7 @@
   <node-list v-if="subscriptions.length" :nodes="subscriptions" :fields="['node']">
     <template #actions="{item}">
       <button @click="connect(item)">connect</button>
+      <button @click="checkQuota(item)">Check a quota</button>
     </template>
   </node-list>
 </template>
@@ -32,6 +33,9 @@ export default {
       window.ipc.on('DISCONNECT', (data) => {
         console.log('response', data)
       })
+      window.ipc.on('QUOTA', (data) => {
+        console.log('response', data)
+      })
       window.ipc.on('CONNECT_TO_NODE', handleConnectEvent)
       store.dispatch('fetchSubscriptions').catch(e => console.error(e))
     })
@@ -49,6 +53,10 @@ export default {
 
     disconnect () {
       window.ipc.send('DISCONNECT')
+    },
+
+    checkQuota (subscription) {
+      window.ipc.send('QUOTA', JSON.stringify(subscription))
     }
   },
 
