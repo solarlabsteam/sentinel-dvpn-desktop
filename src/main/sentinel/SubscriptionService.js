@@ -1,14 +1,17 @@
-import { QueryQuotaRequest, QuerySubscriptionRequest } from '@/main/proto/sentinel/subscription/v1/querier_pb'
+import { QueryQuotaRequest, QuerySubscriptionRequest, QuerySubscriptionsForNodeRequest } from '@/main/proto/sentinel/subscription/v1/querier_pb'
 import { QueryServiceClient as SubscriptionQueryServiceClient } from '@/main/proto/sentinel/subscription/v1/querier_grpc_pb'
 import QueryService from '@/main/api/QueryService'
 
 class SubscriptionService {
+  constructor () {
+    this.client = QueryService.create(SubscriptionQueryServiceClient)
+  }
+
   queryQuota (id, address) {
     return new Promise((resolve, reject) => {
       const request = new QueryQuotaRequest([id, address])
-      const client = QueryService.create(SubscriptionQueryServiceClient)
 
-      client.queryQuota(request, (err, response) => {
+      this.client.queryQuota(request, (err, response) => {
         if (err) {
           reject(err)
           return
@@ -24,9 +27,8 @@ class SubscriptionService {
   querySubscription (id) {
     return new Promise((resolve, reject) => {
       const request = new QuerySubscriptionRequest([id])
-      const client = QueryService.create(SubscriptionQueryServiceClient)
 
-      client.querySubscription(request, (err, response) => {
+      this.client.querySubscription(request, (err, response) => {
         if (err) {
           reject(err)
           return
@@ -34,6 +36,22 @@ class SubscriptionService {
 
         const { subscription } = response.toObject()
         resolve(subscription)
+      })
+    })
+  }
+
+  querySubscriptionsForNode (address, account) {
+    return new Promise((resolve, reject) => {
+      const request = new QuerySubscriptionsForNodeRequest([address])
+
+      this.client.querySubscriptionsForNode(request, (err, response) => {
+        if (err) {
+          reject(err)
+          return
+        }
+
+        const subscriptions = response.getSubscriptionsList().map(s => s.toObject()).filter(s => s.owner === account)
+        resolve(subscriptions)
       })
     })
   }

@@ -19,7 +19,7 @@ export default {
 
       return new Promise((resolve, reject) => {
         window.ipc.once('SUBSCRIPTION_LIST', (payload) => {
-          if (!payload.data) {
+          if (payload.error) {
             commit(SET_SUBSCRIPTIONS_LOADING_STATE, false)
             reject(payload.error)
             return
@@ -39,8 +39,8 @@ export default {
     [SET_SUBSCRIPTIONS] (state, payload) {
       state.subscriptions = payload
     },
-    [SET_SUBSCRIPTIONS_LOADING_STATE] (state, payload) {
-      state.isLoading = payload
+    [SET_SUBSCRIPTIONS_LOADING_STATE] (state, value) {
+      state.isLoading = value
     }
   }
 }

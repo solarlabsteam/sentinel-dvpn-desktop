@@ -1,6 +1,6 @@
 <template>
   <div id="nav">
-    <router-link to="/">Subscriptions</router-link> |
+    <router-link to="/">Home</router-link> |
     <router-link to="/nodes">Node List</router-link>
   </div>
   <router-view/>

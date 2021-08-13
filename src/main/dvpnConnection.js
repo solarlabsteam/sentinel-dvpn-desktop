@@ -99,3 +99,20 @@ ipcMain.on('QUOTA', async (event, payload) => {
     event.reply('QUOTA', { error })
   }
 })
+
+ipcMain.on('SUBSCRIPTION_FOR_NODE', async (event, payload) => {
+  const address = accountService.getAddress(accountKey.mnemonic)
+
+  try {
+    const account = await accountService.queryAccount(address)
+    const node = JSON.parse(payload)
+    const result = await subscriptionService.querySubscriptionsForNode(node.address, account.address)
+
+    // todo: handle multiple subscriptions
+    event.reply('SUBSCRIPTION_FOR_NODE', { data: result[0] })
+  } catch (e) {
+    const error = generateError(e)
+    Notifications.createCritical(error.message).show()
+    event.reply('SUBSCRIPTION_FOR_NODE', { error })
+  }
+})

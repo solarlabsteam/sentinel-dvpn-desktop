@@ -1,6 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
-const validChannels = ['NODE_LIST', 'SUBSCRIPTION_LIST', 'CONNECT_TO_NODE', 'CLI_INPUT', 'DISCONNECT', 'SUBSCRIBE_TO_NODE', 'QUOTA']
+const validChannels = ['NODE_LIST', 'SUBSCRIPTION_LIST', 'CONNECT_TO_NODE', 'CLI_INPUT', 'DISCONNECT', 'SUBSCRIBE_TO_NODE', 'QUOTA', 'SUBSCRIPTION_FOR_NODE']
 
 contextBridge.exposeInMainWorld(
   'ipc', {
