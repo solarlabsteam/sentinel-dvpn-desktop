@@ -8,7 +8,7 @@
     <span v-else>{{ selectedNodeInfo.address }}</span>
 
     <ul v-if="selectedNodeInfo">
-      <li v-for="plan in plansGbs" :key="plan">
+      <li v-for="plan in planGbs" :key="plan">
         {{ plan }}GB  -  {{ selectedNodeInfo.priceList[0].amount * plan }} {{ selectedNodeInfo.priceList[0].denom }}
 
         <button
@@ -34,7 +34,7 @@ export default {
     store.dispatch('fetchSelectedNodeInfo', JSON.stringify(selectedNode))
 
     return {
-      plansGbs: [5, 10, 20, 20]
+      planGbs: [1, 5, 15, 20, 50, 100]
     }
   },
 

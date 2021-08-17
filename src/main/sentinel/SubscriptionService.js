@@ -18,9 +18,9 @@ class SubscriptionService {
         }
 
         const { quota } = response.toObject()
-        const kbsInGb = Math.pow(1024, 3)
-        const allocatedGb = (Number(quota.allocated) / kbsInGb)
-        const consumedGb = (Number(quota.consumed) / kbsInGb)
+        const bytesPerGb = Math.pow(1000, 3)
+        const allocatedGb = (Number(quota.allocated) / bytesPerGb)
+        const consumedGb = (Number(quota.consumed) / bytesPerGb)
         const balanceGb = allocatedGb - consumedGb
 
         quota.allocatedGb = allocatedGb.toFixed(2)
