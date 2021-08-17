@@ -24,7 +24,14 @@ class TransactionService {
           return
         }
 
-        resolve(response.toObject())
+        const txResponse = response.getTxResponse().toObject()
+
+        if (!txResponse.gasWanted) {
+          reject(txResponse.rawLog)
+          return
+        }
+
+        resolve(response)
       })
     })
   }

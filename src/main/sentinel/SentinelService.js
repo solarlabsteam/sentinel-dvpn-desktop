@@ -73,8 +73,8 @@ class SentinelService {
 
   async subscribeToNode (to, deposit) {
     const from = this.accountService.getAddress()
-    const coin = new Coin([deposit.denom, deposit.amount])
-    const msg = new MsgSubscribeToNodeRequest([from, to, coin])
+    const coin = new Coin([deposit.denom, 0])
+    const msg = new MsgSubscribeToNodeRequest([from, to])
     msg.setDeposit(coin)
     const msgAny = new Any(['/sentinel.subscription.v1.MsgService/MsgSubscribeToNode', msg.serializeBinary()])
 

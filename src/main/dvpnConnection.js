@@ -78,8 +78,8 @@ ipcMain.on('DISCONNECT', async (event) => {
 
 ipcMain.on('SUBSCRIBE_TO_NODE', async (event, payload) => {
   try {
-    const node = JSON.parse(payload)
-    const result = await sentinelService.subscribeToNode(node.address, node.priceList[0])
+    const { deposit, node } = JSON.parse(payload)
+    const result = await sentinelService.subscribeToNode(node.address, deposit)
     event.reply('SUBSCRIBE_TO_NODE', { data: result })
   } catch (e) {
     const error = generateError(e)

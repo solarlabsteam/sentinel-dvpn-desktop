@@ -3,12 +3,12 @@ import BaseError from '@/main/common/BaseError'
 class AxiosError extends BaseError {
   constructor (error) {
     super(error.message)
-    this.status = error.response.status
+    this.status = error.response && error.response.status
   }
 
   static create (e) {
     let message
-    if (e.response.data) {
+    if (e.response && e.response.data) {
       message = e.response.data.error.message
     } else {
       message = e.message

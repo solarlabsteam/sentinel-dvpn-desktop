@@ -4,27 +4,20 @@
       <button @click="() => $router.back()">Back</button>
     </div>
 
-    <span v-if="selectedNodeInfoLoading">Loading...</span>
+    <span v-if="selectedNodeInfoLoading || isPaymentLoading">Loading...</span>
     <span v-else>{{ selectedNodeInfo.address }}</span>
 
-    <table v-if="selectedNodeInfo">
-      <thead>
-      <tr>
-        <td>Denom</td>
-        <td>Amount</td>
-      </tr>
-      </thead>
+    <ul v-if="selectedNodeInfo">
+      <li v-for="plan in plansGbs" :key="plan">
+        {{ plan }}GB  -  {{ selectedNodeInfo.priceList[0].amount * plan }} {{ selectedNodeInfo.priceList[0].denom }}
 
-      <tbody>
-      <tr v-for="price in selectedNodeInfo.priceList" :key="price.denom">
-        <td>{{ price.denom }}</td>
-        <td>{{ price.amount }}</td>
-        <td>
-          <button @click="handleSubscribing" :disabled="selectedNodeInfoLoading">Subscribe</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+        <button
+          @click="buy(selectedNodeInfo.priceList[0].amount * plan, selectedNodeInfo.priceList[0].denom)"
+          :disabled="isPaymentLoading">
+          Buy
+        </button>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -39,21 +32,31 @@ export default {
     const selectedNode = store.getters.selectedNode
 
     store.dispatch('fetchSelectedNodeInfo', JSON.stringify(selectedNode))
+
+    return {
+      plansGbs: [5, 10, 20, 20]
+    }
   },
 
   computed: {
-    ...mapGetters(['selectedNodeInfoLoading', 'selectedNodeInfo'])
+    ...mapGetters(['selectedNodeInfoLoading', 'selectedNodeInfo', 'selectedNode', 'isPaymentLoading'])
   },
 
   methods: {
-    async handleSubscribing () {
+    async buy (amount, denom) {
+      const paymentInfo = {
+        deposit: { amount: amount.toString(), denom },
+        node: this.selectedNode
+      }
+
       try {
-        await this.subscribeToNode(JSON.stringify(this.selectedNodeInfo))
-        this.$router.back()
+        await this.subscribeToNode(paymentInfo)
+        this.$router.push({ name: 'home' })
       } catch (e) {
         console.log(e)
       }
     },
+
     ...mapActions(['subscribeToNode'])
   }
 }
