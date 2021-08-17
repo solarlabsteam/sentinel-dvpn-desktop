@@ -6,10 +6,13 @@ import { accountKey } from '@/shared/constants'
 import Notifications from '@/main/common/Notifications'
 import { generateError } from '@/main/utils/errorHandler'
 import SubscriptionService from '@/main/sentinel/SubscriptionService'
+import initStore from '@/main/ipc/store/store'
 
 const accountService = new AccountService()
 const sentinelService = new SentinelService()
 const subscriptionService = new SubscriptionService()
+
+initStore()
 
 ipcMain.on('NODE_LIST', async event => {
   try {
@@ -51,7 +54,7 @@ ipcMain.on('CONNECT_TO_NODE', async (event, payload) => {
     }
 
     const nodeInfo = await sentinelService.queryNode(activeSession.node)
-    const { result: info, privateKey } = await new ConnectionService().queryConnectionData(nodeInfo.node.remoteUrl, account.address, activeSession.id)
+    const { result: info, privateKey } = await new ConnectionService().queryConnectionData(nodeInfo.remoteUrl, account.address, activeSession.id)
     const result = await sentinelService.queryConnectToNode(subscription.id, accountKey.name, subscription.node, info, privateKey)
 
     event.reply('CONNECT_TO_NODE', { data: result })
@@ -114,5 +117,18 @@ ipcMain.on('SUBSCRIPTION_FOR_NODE', async (event, payload) => {
     const error = generateError(e)
     Notifications.createCritical(error.message).show()
     event.reply('SUBSCRIPTION_FOR_NODE', { error })
+  }
+})
+
+ipcMain.on('NODE_INFO', async (event, payload) => {
+  try {
+    const node = JSON.parse(payload)
+    const result = await sentinelService.queryNode(node.address)
+
+    event.reply('NODE_INFO', { data: result })
+  } catch (e) {
+    const error = generateError(e)
+    Notifications.createCritical(error.message).show()
+    event.reply('NODE_INFO', { error })
   }
 })

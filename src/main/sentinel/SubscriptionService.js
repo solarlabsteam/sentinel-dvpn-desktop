@@ -18,7 +18,14 @@ class SubscriptionService {
         }
 
         const { quota } = response.toObject()
-        quota.balance = Number(quota.allocated) - Number(quota.consumed)
+        const kbsInGb = Math.pow(1024, 3)
+        const allocatedGb = (Number(quota.allocated) / kbsInGb)
+        const consumedGb = (Number(quota.consumed) / kbsInGb)
+        const balanceGb = allocatedGb - consumedGb
+
+        quota.allocatedGb = allocatedGb.toFixed(2)
+        quota.consumedGb = consumedGb.toFixed(2)
+        quota.balanceGb = balanceGb.toFixed(2)
         resolve(quota)
       })
     })

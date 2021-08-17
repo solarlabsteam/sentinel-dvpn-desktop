@@ -1,4 +1,5 @@
 import {
+  CLEAR_CURRENT_SUBSCRIPTION,
   SET_CURRENT_SUBSCRIPTION,
   SET_CURRENT_SUBSCRIPTION_LOADING_STATE
 } from '@/client/store/mutation-types'
@@ -35,6 +36,9 @@ export default {
 
         window.ipc.send('SUBSCRIPTION_FOR_NODE', node)
       })
+    },
+    clearSubscriptionForNode ({ commit }) {
+      commit(CLEAR_CURRENT_SUBSCRIPTION)
     }
   },
 
@@ -44,6 +48,9 @@ export default {
     },
     [SET_CURRENT_SUBSCRIPTION_LOADING_STATE] (state, value) {
       state.isSubscriptionLoading = value
+    },
+    [CLEAR_CURRENT_SUBSCRIPTION] (state) {
+      state.currentSubscription = getDefaultState().currentSubscription
     }
   }
 }

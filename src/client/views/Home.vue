@@ -1,21 +1,26 @@
 <template>
-  <plan></plan>
+  <div>
+    <current-plan/>
+    <available-subscriptions />
+  </div>
 </template>
 
 <script>
 
-import Plan from '@/client/components/Plan'
+import CurrentPlan from '@/client/views/CurrentPlan'
+import AvailableSubscriptions from '@/client/views/AvailableSubscriptions'
 
 export default {
   name: 'Home',
   components: {
-    Plan
+    CurrentPlan,
+    AvailableSubscriptions
   }
 }
 </script>
 
 <style
-  lang="less"
+  lang="scss"
 >
 
 </style>

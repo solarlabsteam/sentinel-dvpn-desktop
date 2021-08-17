@@ -1,17 +1,23 @@
 <template>
-  <span v-if="isRequestSent">Loading...</span>
+  <div>
+    <div>
+      <button @click="() => $router.back()">Back</button>
+    </div>
+    <span v-if="isRequestSent">Loading...</span>
 
-  <node-list v-if="nodeList.length" :nodes="nodeList" :fields="['address']">
-    <template #actions="{item}">
-      <button @click="select(item)">select</button>
-    </template>
-  </node-list>
+    <node-list v-if="nodeList.length" :nodes="nodeList" :fields="['address']">
+      <template #actions="{item}">
+        <button @click="select(item)">select</button>
+      </template>
+    </node-list>
+  </div>
 </template>
 
 <script>
 import { onMounted, ref } from 'vue'
 import { mapActions } from 'vuex'
 import NodeList from '@/client/components/NodeList'
+import { syncStoreValue } from '@/client/store/plugins/syncStore'
 
 export default {
   components: { NodeList },
@@ -36,12 +42,20 @@ export default {
   },
 
   methods: {
-    select (node) {
-      this.selectNode(node)
-      this.$router.push({ name: 'home' })
+    async select (node) {
+      await this.clearPreviousNodeState()
+      await this.selectNode(node)
+      await syncStoreValue('selectedNode', node)
+      this.$router.back()
     },
 
-    ...mapActions(['selectNode'])
+    async clearPreviousNodeState () {
+      await this.clearSelectedNode()
+      await this.clearSubscriptionForNode()
+      await this.clearQuota()
+    },
+
+    ...mapActions(['selectNode', 'clearSubscriptionForNode', 'clearQuota', 'clearSelectedNode'])
   }
 }
 </script>

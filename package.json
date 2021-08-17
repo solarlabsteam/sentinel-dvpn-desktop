@@ -21,6 +21,7 @@
     "bip39": "^3.0.4",
     "core-js": "^3.6.5",
     "crypto": "^1.0.1",
+    "electron-store": "^8.0.0",
     "google-protobuf": "^3.17.3",
     "grpc-web": "^1.2.1",
     "lodash": "^4.17.21",

@@ -2,7 +2,7 @@ import { SET_SUBSCRIPTIONS, SET_SUBSCRIPTIONS_LOADING_STATE } from '@/client/sto
 
 const getInitialState = () => ({
   subscriptions: [],
-  isLoading: false
+  isSubscriptionsLoading: false
 })
 
 export default {
@@ -10,7 +10,7 @@ export default {
 
   getters: {
     subscriptions: state => state.subscriptions,
-    isSubscriptionsLoading: state => state.isLoading
+    isSubscriptionsLoading: state => state.isSubscriptionsLoading
   },
 
   actions: {
@@ -40,7 +40,7 @@ export default {
       state.subscriptions = payload
     },
     [SET_SUBSCRIPTIONS_LOADING_STATE] (state, value) {
-      state.isLoading = value
+      state.isSubscriptionsLoading = value
     }
   }
 }

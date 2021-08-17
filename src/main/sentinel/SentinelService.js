@@ -106,18 +106,14 @@ class SentinelService {
           return
         }
 
-        resolve(response.toObject())
+        resolve(response.toObject().node)
       })
     })
   }
 
   async queryConnectToNode (subscriptionId, keyName, nodeAddress, connectionInfo, wireguardPrivateKey) {
-    try {
-      const { data } = await this.restFetchApi.connect(Number(subscriptionId), keyName, nodeAddress, connectionInfo, [wireguardPrivateKey])
-      return data.result
-    } catch (e) {
-      console.log(e.response.data)
-    }
+    const { data } = await this.restFetchApi.connect(Number(subscriptionId), keyName, nodeAddress, connectionInfo, [wireguardPrivateKey])
+    return data.result
   }
 
   async queryActiveNodes (offset = 0, limit = 25) {
