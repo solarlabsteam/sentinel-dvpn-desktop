@@ -3,9 +3,9 @@
     <div>
       <button @click="() => $router.back()">Back</button>
     </div>
-    <span v-if="isRequestSent">Loading...</span>
+    <span v-if="isNodesLoading">Loading...</span>
 
-    <node-list v-if="nodeList.length" :nodes="nodeList" :fields="['address']">
+    <node-list v-if="nodes.length" :nodes="nodes" :fields="['address']">
       <template #actions="{item}">
         <button @click="select(item)">select</button>
       </template>
@@ -14,31 +14,19 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters, useStore } from 'vuex'
 import NodeList from '@/client/components/NodeList'
 import { syncStoreValue } from '@/client/store/plugins/syncStore'
+import { onMounted } from 'vue'
 
 export default {
   components: { NodeList },
   setup () {
-    const nodeList = ref([])
-    const isRequestSent = ref(true)
-
-    const handleNodeList = (nodes) => {
-      nodeList.value = nodes.data
-      isRequestSent.value = false
-    }
+    const store = useStore()
 
     onMounted(() => {
-      window.ipc.on('NODE_LIST', handleNodeList)
-      window.ipc.send('NODE_LIST')
+      store.dispatch('fetchNodes')
     })
-
-    return {
-      nodeList,
-      isRequestSent
-    }
   },
 
   methods: {
@@ -56,6 +44,10 @@ export default {
     },
 
     ...mapActions(['selectNode', 'clearSubscriptionForNode', 'clearQuota', 'clearSelectedNode'])
+  },
+
+  computed: {
+    ...mapGetters(['nodes', 'isNodesLoading'])
   }
 }
 </script>
