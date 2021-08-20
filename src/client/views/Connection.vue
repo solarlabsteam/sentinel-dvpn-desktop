@@ -3,8 +3,8 @@
     <p v-if="currentSubscription">{{ currentSubscription.node }}</p>
     <span>{{ isConnected ? 'Connected' : 'Disconnected' }}</span>
 
-    <button v-if="isConnected" @click="disconnect" :disabled="isConnectionLoading">Disconnect}</button>
-    <button v-else @click="connect" :disabled="!isConnectionAvailable || isConnectionLoading">Connect</button>
+    <button @click="disconnect" :disabled="isConnectionLoading">Disconnect}</button>
+    <button @click="connect" :disabled="!isConnectionAvailable || isConnectionLoading">Connect</button>
 
     <p v-if="!isNodeAvailable">Node inactive</p>
     <p v-if="!isSubscriptionAvailable">Subscription inactive</p>

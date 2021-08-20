@@ -13,16 +13,16 @@ import { QueryNodeRequest, QueryNodesRequest } from '@/main/proto/sentinel/node/
 import { QueryServiceClient as QueryNodeServiceClient } from '@/main/proto/sentinel/node/v1/querier_grpc_pb.js'
 import { MsgSubscribeToNodeRequest } from '@/main/proto/sentinel/subscription/v1/msg_pb.js'
 import QueryService from '@/main/api/QueryService'
-import RestFetchApi from '@/main/api/RestFetchApi'
 import AccountService from '@/main/sentinel/AccountService'
-import { DENOM } from '@/shared/constants'
+import { DENOM, DVPN_KEY_NAME } from '@/main/common/constants'
 import TransactionService from '@/main/sentinel/TransactionService'
+import DvpnApi from '@/main/api/rest/DvpnApi'
 
 class SentinelService {
   constructor () {
     this.accountService = new AccountService()
     this.signService = new SignService()
-    this.restFetchApi = new RestFetchApi()
+    this.restDvpnApi = new DvpnApi()
     this.transactionService = new TransactionService()
   }
 
@@ -72,9 +72,9 @@ class SentinelService {
   }
 
   async subscribeToNode (to, deposit) {
-    const from = this.accountService.getAddress()
-    const coin = new Coin([deposit.denom, 0])
-    const msg = new MsgSubscribeToNodeRequest([from, to])
+    const key = await this.accountService.queryKeyByName(DVPN_KEY_NAME)
+    const coin = new Coin([deposit.denom, deposit.amount])
+    const msg = new MsgSubscribeToNodeRequest([key.addressBech32, to])
     msg.setDeposit(coin)
     const msgAny = new Any(['/sentinel.subscription.v1.MsgService/MsgSubscribeToNode', msg.serializeBinary()])
 
@@ -112,7 +112,7 @@ class SentinelService {
   }
 
   async queryConnectToNode (subscriptionId, keyName, nodeAddress, connectionInfo, wireguardPrivateKey) {
-    const { data } = await this.restFetchApi.connect(Number(subscriptionId), keyName, nodeAddress, connectionInfo, [wireguardPrivateKey])
+    const { data } = await this.restDvpnApi.connect(Number(subscriptionId), keyName, nodeAddress, connectionInfo, [wireguardPrivateKey])
     return data.result
   }
 
@@ -133,7 +133,7 @@ class SentinelService {
   }
 
   async queryDisconnectFromNode () {
-    const { data } = await this.restFetchApi.disconnect()
+    const { data } = await this.restDvpnApi.disconnect()
 
     return data.result
   }

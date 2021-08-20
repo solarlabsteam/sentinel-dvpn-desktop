@@ -5,7 +5,9 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import path from 'path'
 import xhr2 from 'xhr2'
-import './main/dvpnConnection'
+import { launchKeyringRestServer } from '@/main/rest/keyring'
+import Notifications from '@/main/common/Notifications'
+import { launchDvpnRestServer } from '@/main/rest/dvpn'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 global.XMLHttpRequest = xhr2
@@ -61,15 +63,22 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  if (isDevelopment && !process.env.IS_TEST) {
-    // Install Vue Devtools
-    try {
-      await installExtension(VUEJS3_DEVTOOLS)
-    } catch (e) {
-      console.error('Vue Devtools failed to install:', e.toString())
+  try {
+    await Promise.all([launchKeyringRestServer(), launchDvpnRestServer()])
+    if (isDevelopment && !process.env.IS_TEST) {
+      // Install Vue Devtools
+      try {
+        await installExtension(VUEJS3_DEVTOOLS)
+      } catch (e) {
+        console.error('Vue Devtools failed to install:', e.toString())
+      }
     }
+    await import('./main/ipc')
+    createWindow()
+  } catch (e) {
+    console.log(e)
+    Notifications.createCritical(e)
   }
-  createWindow()
 })
 
 // Exit cleanly on request from parent process in development mode.

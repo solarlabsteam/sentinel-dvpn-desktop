@@ -1,11 +1,6 @@
 import BaseError from '@/main/common/BaseError'
 
 class AxiosError extends BaseError {
-  constructor (error) {
-    super(error.message)
-    this.status = error.response && error.response.status
-  }
-
   static create (e) {
     let message
     if (e.response && e.response.data) {

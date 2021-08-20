@@ -1,15 +1,19 @@
 <template>
-  <connection class="main"/>
+  <login>
+    <connection class="main"/>
 
-  <router-view class="page"/>
+    <router-view class="page"/>
+  </login>
 </template>
 
 <script>
 import Connection from '@/client/views/Connection'
+import Login from '@/client/views/Login'
 
 export default {
   components: {
-    Connection
+    Connection,
+    Login
   }
 }
 </script>

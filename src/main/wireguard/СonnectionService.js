@@ -17,7 +17,7 @@ class ConnectionService {
 
   async queryConnectionData (nodeRemoteHost, address, sessionId) {
     const encodedBuffer = uint64be.encode(sessionId)
-    const { signature } = await this.signService.querySignedBytes(encodedBuffer)
+    const { signature } = await this.signService.querySignedBytes(Array.from(encodedBuffer))
     const privateKey = await Wg.genkey()
     const publicKey = await Wg.pubkey(privateKey)
 
