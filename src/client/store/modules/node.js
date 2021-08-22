@@ -28,7 +28,7 @@ export default {
       commit(SET_SELECTED_NODE_INFO_LOADING_STATE, true)
 
       return new Promise((resolve, reject) => {
-        window.ipc.once('NODE_INFO', (payload) => {
+        window.ipc.once('QUERY_NODE_INFO', (payload) => {
           if (payload.error) {
             commit(SET_SELECTED_NODE_INFO_LOADING_STATE, false)
             reject(payload.error)
@@ -40,7 +40,7 @@ export default {
           resolve()
         })
 
-        window.ipc.send('NODE_INFO', node)
+        window.ipc.send('QUERY_NODE_INFO', node)
       })
     },
     subscribeToNode ({ commit, dispatch }, paymentInfo) {

@@ -18,7 +18,7 @@ export default {
       commit(SET_SUBSCRIPTIONS_LOADING_STATE, true)
 
       return new Promise((resolve, reject) => {
-        window.ipc.once('SUBSCRIPTION_LIST', (payload) => {
+        window.ipc.once('QUERY_SUBSCRIPTION_LIST', (payload) => {
           if (payload.error) {
             commit(SET_SUBSCRIPTIONS_LOADING_STATE, false)
             reject(payload.error)
@@ -30,7 +30,7 @@ export default {
           resolve()
         })
 
-        window.ipc.send('SUBSCRIPTION_LIST')
+        window.ipc.send('QUERY_SUBSCRIPTION_LIST')
       })
     }
   },

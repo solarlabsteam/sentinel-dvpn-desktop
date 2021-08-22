@@ -18,7 +18,7 @@ export default {
       commit(SET_NODES_LOADING_STATE, true)
 
       return new Promise((resolve, reject) => {
-        window.ipc.once('NODE_LIST', (payload) => {
+        window.ipc.once('QUERY_NODE_LIST', (payload) => {
           if (payload.error) {
             commit(SET_NODES_LOADING_STATE, false)
             reject(payload.error)
@@ -30,7 +30,7 @@ export default {
           resolve()
         })
 
-        window.ipc.send('NODE_LIST')
+        window.ipc.send('QUERY_NODE_LIST')
       })
     }
   },

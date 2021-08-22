@@ -9,16 +9,16 @@ const accountService = new AccountService()
 const subscriptionService = new SubscriptionService()
 
 function initQuotaListeners () {
-  ipcMain.on('QUOTA', async (event, payload) => {
+  ipcMain.on('QUERY_QUOTA', async (event, payload) => {
     try {
       const key = await accountService.queryKeyByName(DVPN_KEY_NAME)
       const subscription = JSON.parse(payload)
       const result = await subscriptionService.queryQuota(subscription.id, key.addressBech32)
-      event.reply('QUOTA', { data: result })
+      event.reply('QUERY_QUOTA', { data: result })
     } catch (e) {
       const error = generateError(e)
       Notifications.createCritical(error.message).show()
-      event.reply('QUOTA', { error })
+      event.reply('QUERY_QUOTA', { error })
     }
   })
 }

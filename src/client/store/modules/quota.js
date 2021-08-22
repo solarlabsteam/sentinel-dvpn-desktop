@@ -22,7 +22,7 @@ export default {
       commit(SET_QUOTA_LOADING_STATE, true)
 
       return new Promise((resolve, reject) => {
-        window.ipc.once('QUOTA', (payload) => {
+        window.ipc.once('QUERY_QUOTA', (payload) => {
           if (payload.error) {
             commit(SET_QUOTA_LOADING_STATE, false)
             reject(payload.error)
@@ -34,7 +34,7 @@ export default {
           resolve()
         })
 
-        window.ipc.send('QUOTA', subscription)
+        window.ipc.send('QUERY_QUOTA', subscription)
       })
     },
     clearQuota ({ commit }) {

@@ -9,15 +9,15 @@ const accountService = new AccountService()
 const subscriptionService = new SubscriptionService()
 
 function initSubscriptionListeners () {
-  ipcMain.on('SUBSCRIPTION_LIST', async event => {
+  ipcMain.on('QUERY_SUBSCRIPTION_LIST', async event => {
     try {
       const key = await accountService.queryKeyByName(DVPN_KEY_NAME)
       const subscriptions = await subscriptionService.querySubscriptionsForAddress(key.addressBech32)
-      event.reply('SUBSCRIPTION_LIST', { data: subscriptions })
+      event.reply('QUERY_SUBSCRIPTION_LIST', { data: subscriptions })
     } catch (e) {
       const error = generateError(e)
       Notifications.createCritical(error.message).show()
-      event.reply('SUBSCRIPTION_LIST', { error })
+      event.reply('QUERY_SUBSCRIPTION_LIST', { error })
     }
   })
 
@@ -34,18 +34,18 @@ function initSubscriptionListeners () {
     }
   })
 
-  ipcMain.on('SUBSCRIPTION_FOR_NODE', async (event, payload) => {
+  ipcMain.on('QUERY_SUBSCRIPTION_FOR_NODE', async (event, payload) => {
     try {
       const key = await accountService.queryKeyByName(DVPN_KEY_NAME)
       const node = JSON.parse(payload)
       const result = await subscriptionService.querySubscriptionsForNode(node.address, key.addressBech32)
 
       // todo: handle multiple subscriptions
-      event.reply('SUBSCRIPTION_FOR_NODE', { data: result[0] })
+      event.reply('QUERY_SUBSCRIPTION_FOR_NODE', { data: result[0] })
     } catch (e) {
       const error = generateError(e)
       Notifications.createCritical(error.message).show()
-      event.reply('SUBSCRIPTION_FOR_NODE', { error })
+      event.reply('QUERY_SUBSCRIPTION_FOR_NODE', { error })
     }
   })
 }

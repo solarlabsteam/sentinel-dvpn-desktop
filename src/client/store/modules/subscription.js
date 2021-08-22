@@ -22,7 +22,7 @@ export default {
       commit(SET_CURRENT_SUBSCRIPTION_LOADING_STATE, true)
 
       return new Promise((resolve, reject) => {
-        window.ipc.once('SUBSCRIPTION_FOR_NODE', (payload) => {
+        window.ipc.once('QUERY_SUBSCRIPTION_FOR_NODE', (payload) => {
           if (payload.error) {
             commit(SET_CURRENT_SUBSCRIPTION_LOADING_STATE, false)
             reject(payload.error)
@@ -34,7 +34,7 @@ export default {
           resolve()
         })
 
-        window.ipc.send('SUBSCRIPTION_FOR_NODE', node)
+        window.ipc.send('QUERY_SUBSCRIPTION_FOR_NODE', node)
       })
     },
     clearSubscriptionForNode ({ commit }) {
