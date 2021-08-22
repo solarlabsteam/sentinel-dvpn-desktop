@@ -1,8 +1,9 @@
 import axios from 'axios'
 import uint64be from 'uint64be'
-import SignService from '@/main/sentinel/SignService'
+import SignService from '@/main/services/SignService'
 import * as https from 'https'
 import { Wg } from 'wireguard-wrapper'
+import DvpnApi from '@/main/api/rest/DvpnApi'
 
 class ConnectionService {
   constructor () {
@@ -13,6 +14,7 @@ class ConnectionService {
     })
 
     this.signService = new SignService()
+    this.restDvpnApi = new DvpnApi()
   }
 
   async queryConnectionData (nodeRemoteHost, address, sessionId) {
@@ -36,6 +38,17 @@ class ConnectionService {
     } finally {
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1'
     }
+  }
+
+  async queryConnectToNode (subscriptionId, keyName, nodeAddress, connectionInfo, wireguardPrivateKey) {
+    const { data } = await this.restDvpnApi.connect(Number(subscriptionId), keyName, nodeAddress, connectionInfo, [wireguardPrivateKey])
+    return data.result
+  }
+
+  async queryDisconnectFromNode () {
+    const { data } = await this.restDvpnApi.disconnect()
+
+    return data.result
   }
 }
 

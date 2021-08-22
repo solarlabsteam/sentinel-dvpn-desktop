@@ -2,7 +2,7 @@ import { chainId, DVPN_KEY_NAME } from '@/main/common/constants'
 import { TxBody, Fee, SignerInfo, ModeInfo, AuthInfo, SignDoc, TxRaw } from '@/main/proto/cosmos/tx/v1beta1/tx_pb.js'
 import { Coin } from '@/main/proto/cosmos/base/v1beta1/coin_pb.js'
 import { SignMode } from '@/main/proto/cosmos/tx/signing/v1beta1/signing_pb.js'
-import AccountService from '@/main/sentinel/AccountService'
+import AccountService from '@/main/services/AccountService'
 import KeyApi from '@/main/api/rest/KeyApi'
 
 class SignService {

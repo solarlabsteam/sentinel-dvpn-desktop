@@ -1,5 +1,13 @@
 import { initStoreHandlers } from '@/main/store/store'
-import initChannelListeners from '@/main/ipc/channelListeners'
+import initAccountListeners from '@/main/ipc/channelListeners/account'
+import initConnectionListeners from '@/main/ipc/channelListeners/connection'
+import initSubscriptionListeners from '@/main/ipc/channelListeners/subscription'
+import initQuotaListeners from '@/main/ipc/channelListeners/quota'
+import initNodeListeners from '@/main/ipc/channelListeners/node'
 
 initStoreHandlers()
-initChannelListeners()
+initAccountListeners()
+initConnectionListeners()
+initSubscriptionListeners()
+initQuotaListeners()
+initNodeListeners()
