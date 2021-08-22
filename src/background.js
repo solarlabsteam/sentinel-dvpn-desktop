@@ -4,13 +4,11 @@ import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import path from 'path'
-import xhr2 from 'xhr2'
 import { launchKeyringRestServer } from '@/main/rest/keyring'
 import Notifications from '@/main/common/Notifications'
 import { launchDvpnRestServer } from '@/main/rest/dvpn'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
-global.XMLHttpRequest = xhr2
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -76,7 +74,6 @@ app.on('ready', async () => {
     await import('./main/ipc')
     createWindow()
   } catch (e) {
-    console.log(e)
     Notifications.createCritical(e)
   }
 })

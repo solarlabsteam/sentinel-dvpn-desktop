@@ -17,24 +17,20 @@ export async function launchDvpnRestServer () {
   const port = freePort.shift()
   store.set('dvpnRestServerPort', port)
 
-  return new Promise((resolve, reject) => {
-    const sudoer = new Sudoer({ name: 'Sentinel DVPN Desktop' })
-    sudoer.spawn(
-      'sentinelcli',
-      ['start', '--home', '/tmp', '--listen', `127.0.0.1:${port}`, '--tty', '--with-service'],
-      { detached: true, stdio: 'ignore' }
-    ).then(() => {
-      resolve()
-    }).catch((err) => {
-      reject(err)
-    })
-  })
+  const sudoer = new Sudoer({ name: 'Sentinel DVPN Desktop' })
+  await sudoer.spawn(
+    'sentinelcli',
+    ['start', '--home', '/tmp', '--listen', `127.0.0.1:${port}`, '--tty', '--with-service'],
+    { detached: true, stdio: 'ignore' }
+  )
 }
 
 function isDvpnRestServerLaunched () {
   return new Promise((resolve) => {
     exec('ps -ef | grep sentinelcli', (error, stdout) => {
-      console.error(error)
+      if (error) {
+        console.trace(error)
+      }
       resolve(stdout.indexOf('--with-service') !== -1)
     })
   })
