@@ -24,17 +24,17 @@ body {
 }
 
 #app {
+  display: flex;
+  height: 100vh;
+  background-color: $clr-dark-blue;
   font-family: 'Inter', sans-serif;
   color: $clr-white;
-  background-color: $clr-dark-blue;
-  height: 100vh;
-  display: flex;
 }
 
 .main {
   flex: 1 0 57%;
-  padding: 20px;
   border-right: 1px solid black;
+  padding: 20px;
 }
 
 .page {

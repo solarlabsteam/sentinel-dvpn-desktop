@@ -58,15 +58,15 @@ export default {
   padding: 25px;
 
   &__logo-wrapper {
-    text-align: center;
     margin-top: auto;
+    text-align: center;
   }
 
   &__buttons {
-    width: 100%;
     display: flex;
     justify-content: flex-end;
     margin-top: auto;
+    width: 100%;
   }
 }
 </style>
