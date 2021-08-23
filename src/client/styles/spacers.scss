@@ -1,0 +1,65 @@
+$spacer: 10px;
+$spacer-x: $spacer;
+$spacer-y: $spacer;
+
+$spacers: (
+  0: (0, 0),
+  1: ($spacer-x * .25, $spacer-y * .25),
+  2: ($spacer-x * .5, $spacer-y * .5),
+  3: ($spacer-x, $spacer-y),
+  4: ($spacer-x * 1.5, $spacer-y * 1.5),
+  5: ($spacer-x * 3,  $spacer-y * 3),
+);
+
+@each $step, $coords in $spacers {
+  $x: nth($coords, 1);
+  $y: nth($coords, 2);
+
+  .ma-#{$step} {
+    margin: $y $x !important;
+  }
+  .my-#{$step} {
+    margin-top: $y !important;
+    margin-bottom: $y !important;
+  }
+  .mx-#{$step} {
+    margin-right: $x !important;
+    margin-left: $x !important;
+  }
+  .mt-#{$step} {
+    margin-top: $y !important;
+  }
+  .mr-#{$step} {
+    margin-right: $x !important;
+  }
+  .mb-#{$step} {
+    margin-bottom: $y !important;
+  }
+  .ml-#{$step} {
+    margin-left: $x !important;
+  }
+
+  .pa-#{$step} {
+    padding: $y $x !important;
+  }
+  .py-#{$step} {
+    padding-top: $y !important;
+    padding-bottom: $y !important;
+  }
+  .px-#{$step} {
+    padding-right: $x !important;
+    padding-left: $x !important;
+  }
+  .pt-#{$step} {
+    padding-top: $y !important;
+  }
+  .pr-#{$step} {
+    padding-right: $x !important;
+  }
+  .pb-#{$step} {
+    padding-bottom: $y !important;
+  }
+  .pl-#{$step} {
+    padding-left: $x !important;
+  }
+}

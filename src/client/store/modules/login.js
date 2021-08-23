@@ -1,8 +1,9 @@
-import { SET_LOGIN_LOADING_STATE, SET_LOGIN_STATE } from '@/client/store/mutation-types'
+import { SET_LOGIN_LOADING_STATE, SET_LOGIN_CHECK_LOADING_STATE, SET_LOGIN_STATE } from '@/client/store/mutation-types'
 
 const getInitialState = () => ({
   isLogin: false,
-  isLoginLoading: false
+  isLoginCheckLoading: false,
+  isAccountLoading: false
 })
 
 export default {
@@ -10,23 +11,24 @@ export default {
 
   getters: {
     isLogin: state => state.isLogin,
-    isLoginLoading: state => state.isLoginLoading
+    isLoginCheckLoading: state => state.isLoginCheckLoading,
+    isAccountLoading: state => state.isAccountLoading
   },
 
   actions: {
     fetchUserLogin ({ commit }) {
-      commit(SET_LOGIN_LOADING_STATE, true)
+      commit(SET_LOGIN_CHECK_LOADING_STATE, true)
 
       return new Promise((resolve, reject) => {
         window.ipc.once('CHECK_LOGIN', payload => {
           if (payload.error) {
-            commit(SET_LOGIN_LOADING_STATE, false)
+            commit(SET_LOGIN_CHECK_LOADING_STATE, false)
             reject(payload.error)
             return
           }
 
           commit(SET_LOGIN_STATE, payload.data.isLogin)
-          commit(SET_LOGIN_LOADING_STATE, false)
+          commit(SET_LOGIN_CHECK_LOADING_STATE, false)
           resolve()
         })
 
@@ -59,8 +61,11 @@ export default {
     [SET_LOGIN_STATE] (state, value) {
       state.isLogin = value
     },
+    [SET_LOGIN_CHECK_LOADING_STATE] (state, value) {
+      state.isLoginCheckLoading = value
+    },
     [SET_LOGIN_LOADING_STATE] (state, value) {
-      state.isLoginLoading = value
+      state.isAccountLoading = value
     }
   }
 }

@@ -21,7 +21,7 @@
 
 <script>
 import { mapGetters, useStore } from 'vuex'
-import Quota from '@/client/components/Quota'
+import Quota from '@/client/components/app/Quota'
 
 export default {
   name: 'Plan',

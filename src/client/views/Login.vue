@@ -1,18 +1,26 @@
 <template>
-  <span v-if="isLoginLoading">Loading...</span>
+  <div class="login" v-if="!isLogin">
+    <slr-loader v-if="isLoginCheckLoading || isAccountLoading" />
 
-  <div v-if="!isLogin && !isLoginLoading">
-    <button type="button" @click="addAccount">Create a new account</button>
-    <button type="button" @click="addAccount({mnemonic: 'join never syrup early any police ready chapter marine play main shine expose tube congress assault crucial senior stove abuse forum dolphin order elder'})">I have a mnemonic</button>
+    <template v-else>
+      <div class="login__logo-wrapper">
+        <slr-logo />
+      </div>
+
+      <div class="login__buttons">
+        <slr-button @click="addAccount" class="mr-3">Create a new account</slr-button>
+        <slr-button @click="addAccount({mnemonic: 'join never syrup early any police ready chapter marine play main shine expose tube congress assault crucial senior stove abuse forum dolphin order elder'})">I have a mnemonic</slr-button>
+      </div>
+    </template>
   </div>
 
-  <slot v-if="isLogin"></slot>
+  <slot v-else></slot>
 </template>
 
 <script>
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { mapActions, mapGetters, useStore } from 'vuex'
+import { useStore } from 'vuex'
 
 export default {
   name: 'Login',
@@ -29,20 +37,36 @@ export default {
         router.push({ name: 'home' })
       }
     })
-  },
 
-  computed: {
-    ...mapGetters(['isLogin', 'isLoginLoading'])
-  },
-
-  methods: {
-    ...mapActions(['addAccount'])
+    return {
+      isLogin: computed(() => store.getters.isLogin),
+      isLoginCheckLoading: computed(() => store.getters.isLoginCheckLoading),
+      isAccountLoading: computed(() => store.getters.isAccountLoading),
+      addAccount: () => store.dispatch('addAccount')
+    }
   }
 }
 </script>
 
-<style
-  lang="scss"
->
+<style lang="scss">
+.login {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
 
+  &__logo-wrapper {
+    text-align: center;
+    margin-top: auto;
+  }
+
+  &__buttons {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+  }
+}
 </style>

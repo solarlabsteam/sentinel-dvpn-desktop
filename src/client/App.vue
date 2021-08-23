@@ -24,10 +24,9 @@ body {
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  font-family: 'Inter', sans-serif;
+  color: $clr-white;
+  background-color: $clr-dark-blue;
   height: 100vh;
   display: flex;
 }

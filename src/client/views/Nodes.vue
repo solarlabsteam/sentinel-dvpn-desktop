@@ -15,7 +15,7 @@
 
 <script>
 import { mapActions, mapGetters, useStore } from 'vuex'
-import NodeList from '@/client/components/NodeList'
+import NodeList from '@/client/components/app/NodeList'
 import { syncStoreValue } from '@/client/store/plugins/syncStore'
 import { onMounted } from 'vue'
 

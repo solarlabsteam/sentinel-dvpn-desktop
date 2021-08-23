@@ -9,7 +9,7 @@
 
 <script>
 import { mapGetters, useStore } from 'vuex'
-import NodeList from '@/client/components/NodeList'
+import NodeList from '@/client/components/app/NodeList'
 import { onMounted } from 'vue'
 
 export default {
