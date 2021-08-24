@@ -5,7 +5,7 @@ import { QueryAccountRequest } from '@/main/proto/cosmos/auth/v1beta1/query_pb.j
 import { QueryClient as AccountQueryClient } from '@/main/proto/cosmos/auth/v1beta1/query_grpc_pb.js'
 import { BaseAccount } from '@/main/proto/cosmos/auth/v1beta1/auth_pb.js'
 import KeyApi from '@/main/api/rest/KeyApi'
-import QueryService from '@/main/api/QueryService'
+import QueryService from '@/main/services/QueryService'
 import { getters } from '@/main/store/store'
 
 class AccountService {

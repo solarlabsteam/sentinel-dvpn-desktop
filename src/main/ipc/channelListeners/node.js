@@ -8,7 +8,7 @@ const nodeService = new NodeService()
 function initNodeListeners () {
   ipcMain.on('QUERY_NODE_LIST', async event => {
     try {
-      const nodes = await nodeService.queryActiveNodes()
+      const nodes = await nodeService.queryActiveNodeInfos()
       event.reply('QUERY_NODE_LIST', { data: nodes })
     } catch (e) {
       const error = generateError(e)
@@ -17,16 +17,16 @@ function initNodeListeners () {
     }
   })
 
-  ipcMain.on('QUERY_NODE_INFO', async (event, payload) => {
+  ipcMain.on('QUERY_NODE', async (event, payload) => {
     try {
       const node = JSON.parse(payload)
-      const result = await nodeService.queryNode(node.address)
+      const result = await nodeService.queryNodeInfo(node.address)
 
-      event.reply('QUERY_NODE_INFO', { data: result })
+      event.reply('QUERY_NODE', { data: result })
     } catch (e) {
       const error = generateError(e)
       Notifications.createCritical(error.message).show()
-      event.reply('QUERY_NODE_INFO', { error })
+      event.reply('QUERY_NODE', { error })
     }
   })
 }

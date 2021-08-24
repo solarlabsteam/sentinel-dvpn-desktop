@@ -1,5 +1,5 @@
 import SignService from '@/main/services/SignService'
-import QueryService from '@/main/api/QueryService'
+import QueryService from '@/main/services/QueryService'
 import { BroadcastTxRequest } from '@/main/proto/cosmos/tx/v1beta1/service_pb'
 import { ServiceClient as TxServiceClient } from '@/main/proto/cosmos/tx/v1beta1/service_grpc_pb'
 

@@ -2,9 +2,10 @@ import { Status } from '@/main/proto/sentinel/types/v1/status_pb'
 import SignService from '@/main/services/SignService'
 import { QueryNodeRequest, QueryNodesRequest } from '@/main/proto/sentinel/node/v1/querier_pb.js'
 import { QueryServiceClient as QueryNodeServiceClient } from '@/main/proto/sentinel/node/v1/querier_grpc_pb.js'
-import QueryService from '@/main/api/QueryService'
+import QueryService from '@/main/services/QueryService'
 import TransactionService from '@/main/services/TransactionService'
 import DvpnApi from '@/main/api/rest/DvpnApi'
+import RemoteNodeApi from '@/main/api/RemoteNodeApi'
 
 class NodeService {
   constructor () {
@@ -28,6 +29,21 @@ class NodeService {
     })
   }
 
+  async queryNodeStatus (remoteUrl) {
+    const api = new RemoteNodeApi(remoteUrl)
+    return await api.queryNodeStatus()
+  }
+
+  async queryNodeInfo (address) {
+    const node = await this.queryNode(address)
+    const { data } = await this.queryNodeStatus(node.remoteUrl)
+
+    return {
+      ...node,
+      ...data.result || {}
+    }
+  }
+
   async queryActiveNodes (offset = 0, limit = 25) {
     return new Promise((resolve, reject) => {
       const request = new QueryNodesRequest([Status.STATUS_ACTIVE])
@@ -42,6 +58,17 @@ class NodeService {
         resolve(response.getNodesList().map(node => node.toObject()))
       })
     })
+  }
+
+  async queryActiveNodeInfos (offset, limit) {
+    const nodes = await this.queryActiveNodes(offset, limit)
+    const result = await Promise.allSettled(nodes.map(node => {
+      return this.queryNodeInfo(node.address)
+    }))
+
+    return result
+      .filter(r => r.status === 'fulfilled')
+      .map(r => r.value)
   }
 }
 

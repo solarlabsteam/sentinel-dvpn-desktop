@@ -4,15 +4,15 @@
       <button @click="() => $router.back()">Back</button>
     </div>
 
-    <span v-if="selectedNodeInfoLoading || isPaymentLoading">Loading...</span>
-    <span v-else>{{ selectedNodeInfo.address }}</span>
+    <span v-if="isPaymentLoading">Loading...</span>
+    <span v-else>{{ selectedNode.address }}</span>
 
-    <ul v-if="selectedNodeInfo">
+    <ul v-if="selectedNode">
       <li v-for="plan in planGbs" :key="plan">
-        {{ plan }}GB  -  {{ selectedNodeInfo.priceList[0].amount * plan }} {{ selectedNodeInfo.priceList[0].denom }}
+        {{ plan }}GB  -  {{ selectedNode.priceList[0].amount * plan }} {{ selectedNode.priceList[0].denom }}
 
         <button
-          @click="buy(selectedNodeInfo.priceList[0].amount * plan, selectedNodeInfo.priceList[0].denom)"
+          @click="buy(selectedNode.priceList[0].amount * plan, selectedNode.priceList[0].denom)"
           :disabled="isPaymentLoading">
           Buy
         </button>
@@ -23,23 +23,22 @@
 
 <script>
 import { mapActions, mapGetters, useStore } from 'vuex'
+import { computed } from 'vue'
 
 export default {
   name: 'Plans',
 
   setup () {
     const store = useStore()
-    const selectedNode = store.getters.selectedNode
-
-    store.dispatch('fetchSelectedNodeInfo', JSON.stringify(selectedNode))
 
     return {
-      planGbs: [1, 5, 15, 20, 50, 100]
+      planGbs: [1, 5, 15, 20, 50, 100],
+      selectedNode: computed(() => store.getters.selectedNode)
     }
   },
 
   computed: {
-    ...mapGetters(['selectedNodeInfoLoading', 'selectedNodeInfo', 'selectedNode', 'isPaymentLoading'])
+    ...mapGetters(['isPaymentLoading'])
   },
 
   methods: {

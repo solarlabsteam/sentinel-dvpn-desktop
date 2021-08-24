@@ -1,6 +1,7 @@
-import { lcdHost, lcdPort } from '@/main/api/urls'
-
 const grpc = require('@grpc/grpc-js')
+
+const lcdHost = 'lcd-sentinel-app.cosmostation.io'
+const lcdPort = 9090
 
 class QueryService {
   static create (Client) {

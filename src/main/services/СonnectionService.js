@@ -1,18 +1,11 @@
-import axios from 'axios'
 import uint64be from 'uint64be'
 import SignService from '@/main/services/SignService'
-import * as https from 'https'
 import { Wg } from 'wireguard-wrapper'
 import DvpnApi from '@/main/api/rest/DvpnApi'
+import RemoteNodeApi from '@/main/api/RemoteNodeApi'
 
 class ConnectionService {
   constructor () {
-    this.provider = axios.create({
-      httpAgent: new https.Agent({
-        rejectUnauthorized: false
-      })
-    })
-
     this.signService = new SignService()
     this.restDvpnApi = new DvpnApi()
   }
@@ -23,20 +16,15 @@ class ConnectionService {
     const privateKey = await Wg.genkey()
     const publicKey = await Wg.pubkey(privateKey)
 
-    try {
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
-      const result = await this.provider.post(`${nodeRemoteHost}/accounts/${address}/sessions/${sessionId}`, {
-        key: publicKey,
-        signature
-      })
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1'
+    const api = new RemoteNodeApi(nodeRemoteHost)
+    const result = await api.signSession(address, sessionId, {
+      key: publicKey,
+      signature
+    })
 
-      return {
-        ...result.data,
-        privateKey
-      }
-    } finally {
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1'
+    return {
+      ...result.data,
+      privateKey
     }
   }
 

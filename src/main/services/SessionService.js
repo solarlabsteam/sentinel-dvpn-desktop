@@ -1,4 +1,4 @@
-import QueryService from '@/main/api/QueryService'
+import QueryService from '@/main/services/QueryService'
 import { QueryServiceClient as SessionQueryServiceClient } from '@/main/proto/sentinel/session/v1/querier_grpc_pb'
 import { QuerySessionsForAddressRequest } from '@/main/proto/sentinel/session/v1/querier_pb'
 import { MsgStartRequest, MsgEndRequest } from '@/main/proto/sentinel/session/v1/msg_pb'

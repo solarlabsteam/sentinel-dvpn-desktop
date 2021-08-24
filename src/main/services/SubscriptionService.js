@@ -1,6 +1,6 @@
 import { QueryQuotaRequest, QuerySubscriptionRequest, QuerySubscriptionsForNodeRequest, QuerySubscriptionsForAddressRequest } from '@/main/proto/sentinel/subscription/v1/querier_pb'
 import { QueryServiceClient as SubscriptionQueryServiceClient } from '@/main/proto/sentinel/subscription/v1/querier_grpc_pb'
-import QueryService from '@/main/api/QueryService'
+import QueryService from '@/main/services/QueryService'
 import { Status } from '@/main/proto/sentinel/types/v1/status_pb'
 import { DVPN_KEY_NAME } from '@/main/common/constants'
 import { MsgSubscribeToNodeRequest } from '@/main/proto/sentinel/subscription/v1/msg_pb.js'
