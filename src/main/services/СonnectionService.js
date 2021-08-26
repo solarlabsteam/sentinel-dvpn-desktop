@@ -38,6 +38,12 @@ class ConnectionService {
 
     return data.result
   }
+
+  async queryConnectionStatus () {
+    const { data } = await this.restDvpnApi.queryStatus()
+
+    return data.result
+  }
 }
 
 export default ConnectionService

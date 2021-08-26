@@ -1,8 +1,9 @@
 <template>
   <login>
-    <connection class="main"/>
-
-    <router-view class="page"/>
+    <connection />
+    <div class="page">
+      <router-view />
+    </div>
   </login>
 </template>
 
@@ -26,18 +27,16 @@ body {
 #app {
   display: flex;
   height: 100vh;
-  background-color: $clr-dark-blue;
+  background-color: $slr__clr-dark-blue;
   font-family: 'Inter', sans-serif;
-  color: $clr-white;
-}
-
-.main {
-  flex: 1 0 57%;
-  border-right: 1px solid black;
-  padding: 20px;
+  color: $slr__clr-white;
+  @extend .r-s12-lh15
 }
 
 .page {
-  padding: 20px;
+  flex: none;
+  box-sizing: border-box;
+  width: 400px;
+  padding: 30px;
 }
 </style>

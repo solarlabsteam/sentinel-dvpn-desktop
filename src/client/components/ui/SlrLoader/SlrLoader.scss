@@ -5,20 +5,22 @@
 
   &__lines {
     content: " ";
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+    animation: slr-loader 1.2s linear infinite;
     border-width: 2px;
     border-style: solid;
-    border-color: #fff transparent #fff transparent;
-    animation: slr-loader 1.2s linear infinite;
+    border-color: #3da0ec transparent #3da0ec transparent;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
   }
 }
 
 @keyframes slr-loader {
+
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }

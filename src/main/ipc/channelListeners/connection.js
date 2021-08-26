@@ -47,6 +47,29 @@ function initConnectionListeners () {
       event.reply('DISCONNECT', { error })
     }
   })
+
+  ipcMain.on('QUERY_CONNECTION_STATUS', async (event) => {
+    try {
+      const result = await connectionService.queryConnectionStatus()
+      event.reply('QUERY_CONNECTION_STATUS', { data: result })
+    } catch (e) {
+      const error = generateError(e)
+      Notifications.createCritical(error.message).show()
+      event.reply('QUERY_CONNECTION_STATUS', { error })
+    }
+  })
+
+  ipcMain.on('QUERY_SERVICE_SERVER', async (event) => {
+    try {
+      await connectionService.queryConnectionStatus()
+      event.reply('QUERY_SERVICE_SERVER', { data: true })
+    } catch (e) {
+      console.log(JSON.stringify(e, null, 2))
+      const error = generateError(e)
+      Notifications.createCritical(error.message).show()
+      event.reply('QUERY_SERVICE_SERVER', { error })
+    }
+  })
 }
 
 export default initConnectionListeners

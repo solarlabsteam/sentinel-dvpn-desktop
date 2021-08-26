@@ -6,6 +6,7 @@ class DvpnApi {
   constructor () {
     const port = store.get('dvpnRestServerPort')
     this.provider = axios.create({
+      timeout: 3000,
       baseURL: `http://127.0.0.1:${port}/api/v1`
     })
     const key = getters.getKeyByName(DVPN_KEY_NAME)
@@ -20,14 +21,18 @@ class DvpnApi {
     })
   }
 
-  async connect (id, from, to, info, keys) {
-    return await this.provider.post('/Service.Connect', {
+  connect (id, from, to, info, keys) {
+    return this.provider.post('/Service.Connect', {
       id, from, to, info, keys, resolvers: ['1.1.1.1', '1.0.0.1']
     })
   }
 
-  async disconnect () {
-    return await this.provider.post('/Service.Disconnect')
+  disconnect () {
+    return this.provider.post('/Service.Disconnect')
+  }
+
+  queryStatus () {
+    return this.provider.post('/Service.GetStatus')
   }
 }
 

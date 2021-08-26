@@ -17,7 +17,7 @@ contextBridge.exposeInMainWorld(
     once: (channel, func) => {
       if (channels.includes(channel)) {
         // Strip event as it includes `sender` and is a security risk
-        ipcRenderer.on(channel, (event, ...args) => func(...args))
+        ipcRenderer.once(channel, (event, ...args) => func(...args))
       }
     },
     invoke: async (channel, data) => {

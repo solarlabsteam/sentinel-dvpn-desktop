@@ -1,12 +1,15 @@
 import {
   CLEAR_SELECTED_NODE,
   SET_SELECTED_NODE,
-  SET_PAYMENT_LOADING_STATE
+  SET_PAYMENT_LOADING_STATE,
+  SET_CONNECTED_NODE,
+  CLEAR_CONNECTED_NODE
 } from '@/client/store/mutation-types'
 
 const getDefaultState = () => ({
   selectedNode: null,
-  isPaymentLoading: false
+  isPaymentLoading: false,
+  connectedNode: null
 })
 
 export default {
@@ -14,7 +17,8 @@ export default {
 
   getters: {
     selectedNode: state => state.selectedNode,
-    isPaymentLoading: state => state.isPaymentLoading
+    isPaymentLoading: state => state.isPaymentLoading,
+    connectedNode: state => state.connectedNode
   },
 
   actions: {
@@ -41,6 +45,12 @@ export default {
     },
     clearSelectedNode ({ commit }) {
       commit(CLEAR_SELECTED_NODE)
+    },
+    setConnectedNode ({ commit }, node) {
+      commit(SET_CONNECTED_NODE, node)
+    },
+    clearConnectedNode ({ commit }) {
+      commit(CLEAR_CONNECTED_NODE)
     }
   },
 
@@ -53,6 +63,12 @@ export default {
     },
     [SET_PAYMENT_LOADING_STATE] (state, value) {
       state.isPaymentLoading = value
+    },
+    [SET_CONNECTED_NODE] (state, payload) {
+      state.connectedNode = payload
+    },
+    [CLEAR_CONNECTED_NODE] (state) {
+      state.connectedNode = getDefaultState().connectedNode
     }
   }
 }

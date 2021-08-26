@@ -1,0 +1,23 @@
+@mixin font-template($font-size, $line-height) {
+    font-size: $font-size;
+    line-height: $line-height;
+}
+
+// Typography classes
+// .<weight>-s<font-size>-lh<line-height>
+
+.r-s8-lh10 {
+    @include font-template(8px, 10px)
+}
+
+.r-s10-lh12 {
+    @include font-template(10px, 12px)
+}
+
+.r-s12-lh15 {
+    @include font-template(12px, 15px);
+}
+
+.r-s18-lh22 {
+    @include font-template(18px, 22px);
+}

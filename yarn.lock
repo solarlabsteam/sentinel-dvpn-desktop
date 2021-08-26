@@ -4114,6 +4114,11 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
+country-code-lookup@^0.0.19:
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/country-code-lookup/-/country-code-lookup-0.0.19.tgz#3fbf0192758ecf0d5eee0efbc220d62706c50fd6"
+  integrity sha512-lpvgdPyj8RuP0CSZhACNf5ueKlLbv/IQUAQfg7yr/qJbFrdcWV7Y+aDN9K/u/bx3MXRfcsjuW+TdIc0AEj7kDw==
+
 crc@^3.8.0:
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/crc/-/crc-3.8.0.tgz#ad60269c2c856f8c299e2c4cc0de4556914056c6"
@@ -5901,6 +5906,11 @@ find-up@^4.0.0, find-up@^4.1.0:
   dependencies:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
+
+flagpack@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/flagpack/-/flagpack-1.0.5.tgz#c122c5eda7aec2293bbefbfe13f35f4fff51cfd1"
+  integrity sha512-jrb3OEoVXPBXjmhwZq6C9DTH6Axarh+rfnT3kA5T4xQ2FD9MogwCasqNJnMvhHHkaEVryXwQf1MQvqVv8UsK3g==
 
 flat-cache@^2.0.1:
   version "2.0.1"
