@@ -23,7 +23,7 @@ class DvpnApi {
 
   connect (id, from, to, info, keys) {
     return this.provider.post('/Service.Connect', {
-      id, from, to, info, keys, resolvers: ['1.1.1.1', '1.0.0.1']
+      id, from, to, info, keys, resolvers: ['10.8.0.1', '1.1.1.1', '1.0.0.1']
     })
   }
 

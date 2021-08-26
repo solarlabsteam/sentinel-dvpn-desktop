@@ -10,12 +10,20 @@
     @include font-template(8px, 10px)
 }
 
+.r-s9-lh11 {
+    @include font-template(9px, 11px)
+}
+
 .r-s10-lh12 {
     @include font-template(10px, 12px)
 }
 
 .r-s12-lh15 {
     @include font-template(12px, 15px);
+}
+
+.r-s16-lh19 {
+    @include font-template(16px, 19px);
 }
 
 .r-s18-lh22 {

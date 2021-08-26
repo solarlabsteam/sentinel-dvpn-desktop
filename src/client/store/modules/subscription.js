@@ -18,7 +18,7 @@ export default {
   },
 
   actions: {
-    fetchSubscriptionForNode ({ commit }, node) {
+    fetchSubscriptionForNode ({ commit, getters }) {
       commit(SET_CURRENT_SUBSCRIPTION_LOADING_STATE, true)
 
       return new Promise((resolve, reject) => {
@@ -34,7 +34,7 @@ export default {
           resolve()
         })
 
-        window.ipc.send('QUERY_SUBSCRIPTION_FOR_NODE', node)
+        window.ipc.send('QUERY_SUBSCRIPTION_FOR_NODE', JSON.stringify(getters.selectedNode))
       })
     },
     clearSubscriptionForNode ({ commit }) {

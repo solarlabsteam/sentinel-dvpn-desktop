@@ -12,17 +12,26 @@ const routes = [
   {
     path: '/home',
     component: Home,
-    name: 'home'
+    name: 'home',
+    meta: {
+      title: 'Current Plan'
+    }
   },
   {
     path: '/nodes',
     name: 'nodes',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Nodes.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Nodes.vue'),
+    meta: {
+      title: 'Change Location'
+    }
   },
   {
     path: '/plans',
     name: 'plans',
-    component: Plans
+    component: Plans,
+    meta: {
+      title: 'Plans'
+    }
   }
 ]
 

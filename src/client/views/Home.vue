@@ -1,20 +1,21 @@
 <template>
+  <page-header />
   <div>
     <current-plan/>
-    <available-subscriptions />
+<!--    <available-subscriptions />-->
   </div>
 </template>
 
 <script>
 
 import CurrentPlan from '@/client/views/CurrentPlan'
-import AvailableSubscriptions from '@/client/views/AvailableSubscriptions'
+import PageHeader from '@/client/components/app/PageHeader/PageHeader'
 
 export default {
   name: 'Home',
   components: {
     CurrentPlan,
-    AvailableSubscriptions
+    PageHeader
   }
 }
 </script>

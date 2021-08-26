@@ -18,7 +18,7 @@ export default {
   },
 
   actions: {
-    fetchQuota ({ commit }, subscription) {
+    fetchQuota ({ commit, getters }) {
       commit(SET_QUOTA_LOADING_STATE, true)
 
       return new Promise((resolve, reject) => {
@@ -34,7 +34,22 @@ export default {
           resolve()
         })
 
-        window.ipc.send('QUERY_QUOTA', subscription)
+        window.ipc.send('QUERY_QUOTA', JSON.stringify(getters.currentSubscription))
+      })
+    },
+    updateQuota ({ commit, getters }) {
+      return new Promise((resolve, reject) => {
+        window.ipc.once('QUERY_QUOTA', (payload) => {
+          if (payload.error) {
+            reject(payload.error)
+            return
+          }
+
+          commit(SET_QUOTA, payload.data)
+          resolve()
+        })
+
+        window.ipc.send('QUERY_QUOTA', JSON.stringify(getters.currentSubscription))
       })
     },
     clearQuota ({ commit }) {

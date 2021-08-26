@@ -26,6 +26,7 @@ body {
 
 #app {
   display: flex;
+  overflow: auto;
   height: 100vh;
   background-color: $slr__clr-dark-blue;
   font-family: 'Inter', sans-serif;
@@ -35,8 +36,6 @@ body {
 
 .page {
   flex: none;
-  box-sizing: border-box;
   width: 400px;
-  padding: 30px;
 }
 </style>

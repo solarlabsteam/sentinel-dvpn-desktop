@@ -10,4 +10,9 @@
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   color: $slr__clr-white;
+
+  &--block {
+    display: flex;
+    width: 100%;
+  }
 }
