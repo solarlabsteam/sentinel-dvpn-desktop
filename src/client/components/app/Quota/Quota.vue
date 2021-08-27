@@ -1,7 +1,10 @@
 <template>
   <div
     class="quota slr-card"
-    @click="() => $router.push({name: 'plans'})"
+    :class="{
+      'u-pointer': to
+    }"
+    @click="() => to && $router.push(to)"
   >
     <div class="quota__header">
       <div class="quota__count">
@@ -10,6 +13,7 @@
       </div>
 
       <slr-icon
+        v-if="to"
         :icon="'arrow-top-left'"
         :size="14"
         :rounded="true"

@@ -11,6 +11,7 @@
           :units="'DAYS LEFT'"
           :description="'pay-as-you-go'"
           :progress-color="'blue'"
+          :to="selectedNode ? {name: 'nodes'} : null"
         />
 
         <quota
@@ -19,6 +20,7 @@
           :description="`remaining of ${Number(quota?.allocatedGb || 0)} GB`"
           :total="quota?.allocatedGb"
           :progress-color="'green'"
+          :to="selectedNode ? {name: 'nodes'} : null"
         />
       </div>
 
