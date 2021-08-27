@@ -15,4 +15,12 @@
     display: flex;
     width: 100%;
   }
+
+  &--text {
+    background-color: transparent;
+  }
+
+  &--tiny {
+    padding: 2px 4px;
+  }
 }

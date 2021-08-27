@@ -17,4 +17,9 @@
     text-transform: uppercase;
     color: $slr__clr-blue-1;
   }
+
+  &__subtitle {
+    margin-top: 1px;
+    @extend .r-s8-lh10
+  }
 }

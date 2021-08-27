@@ -11,7 +11,7 @@
           :units="'DAYS LEFT'"
           :description="'pay-as-you-go'"
           :progress-color="'blue'"
-          :to="selectedNode ? {name: 'nodes'} : null"
+          :to="selectedNode ? {name: 'change-location'} : null"
         />
 
         <quota
@@ -20,13 +20,13 @@
           :description="`remaining of ${Number(quota?.allocatedGb || 0)} GB`"
           :total="quota?.allocatedGb"
           :progress-color="'green'"
-          :to="selectedNode ? {name: 'nodes'} : null"
+          :to="selectedNode ? {name: 'change-location'} : null"
         />
       </div>
 
       <div class="current-plan__change-button-wrapper">
         <slr-button
-          :to="{name: 'nodes'}"
+          :to="{name: 'change-location'}"
           class="current-plan__change-button"
           :block="true"
         >

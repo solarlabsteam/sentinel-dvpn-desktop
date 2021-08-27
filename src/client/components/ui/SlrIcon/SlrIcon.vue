@@ -4,8 +4,8 @@
   :class="classes"
   :style="{
     backgroundImage: `url('/assets/icons/${icon}.svg')`,
-    width: `${size}px`,
-    height: `${size}px`
+    width: widthPx,
+    height: heightPx
   }"
 />
 </template>
@@ -28,6 +28,14 @@ export default {
     rounded: {
       type: Boolean,
       default: false
+    },
+    width: {
+      type: Number,
+      default: null
+    },
+    height: {
+      type: Number,
+      default: null
     }
   },
 
@@ -37,7 +45,9 @@ export default {
     }
 
     return {
-      classes: computed(() => classes)
+      classes: computed(() => classes),
+      widthPx: computed(() => props.width ? `${props.width}px` : `${props.size}px`),
+      heightPx: computed(() => props.height ? `${props.height}px` : `${props.size}px`)
     }
   }
 }

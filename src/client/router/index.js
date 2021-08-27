@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/client/views/Home'
 import Plans from '@/client/views/Plans'
 import Login from '@/client/views/Login'
+import ChangeLocation from '@/client/views/ChangeLocation'
 
 const routes = [
   {
@@ -14,15 +15,17 @@ const routes = [
     component: Home,
     name: 'home',
     meta: {
-      title: 'Current Plan'
+      title: 'Current Plan',
+      hasStepBackButton: false
     }
   },
   {
-    path: '/nodes',
-    name: 'nodes',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Nodes.vue'),
+    path: '/change-location',
+    name: 'change-location',
+    component: ChangeLocation,
     meta: {
-      title: 'Change Location'
+      title: 'Change Location',
+      hasStepBackButton: true
     }
   },
   {
@@ -30,7 +33,8 @@ const routes = [
     name: 'plans',
     component: Plans,
     meta: {
-      title: 'Plans'
+      title: 'Plans',
+      hasStepBackButton: true
     }
   }
 ]

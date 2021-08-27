@@ -1,5 +1,6 @@
 <template>
   <button class="slr-button" @click="onClick" :class="classes">
+    <slot v-if="$slots['icon']" name="icon"></slot>
     <slot></slot>
   </button>
 </template>
@@ -18,6 +19,18 @@ export default {
     block: {
       type: Boolean,
       default: false
+    },
+    text: {
+      type: Boolean,
+      default: false
+    },
+    tiny: {
+      type: Boolean,
+      default: false
+    },
+    icon: {
+      type: String,
+      default: ''
     }
   },
 
@@ -31,7 +44,9 @@ export default {
     }
 
     const classes = {
-      'slr-button--block': props.block
+      'slr-button--block': props.block,
+      'slr-button--text': props.text,
+      'slr-button--tiny': props.tiny
     }
 
     return {

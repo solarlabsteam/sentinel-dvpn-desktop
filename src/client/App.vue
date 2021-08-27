@@ -36,6 +36,8 @@ body {
 
 .page {
   flex: none;
+  overflow-x: auto;
   width: 400px;
+  height: 100%;
 }
 </style>
