@@ -64,10 +64,7 @@ function initConnectionListeners () {
       await connectionService.queryConnectionStatus()
       event.reply('QUERY_SERVICE_SERVER', { data: true })
     } catch (e) {
-      console.log(JSON.stringify(e, null, 2))
-      const error = generateError(e)
-      Notifications.createCritical(error.message).show()
-      event.reply('QUERY_SERVICE_SERVER', { error })
+      event.reply('QUERY_SERVICE_SERVER', { data: false })
     }
   })
 }
