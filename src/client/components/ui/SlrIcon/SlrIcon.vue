@@ -3,7 +3,7 @@
   class="slr-icon"
   :class="classes"
   :style="{
-    backgroundImage: `url('/icons/${icon}.svg')`,
+    backgroundImage: `url('/assets/icons/${icon}.svg')`,
     width: `${size}px`,
     height: `${size}px`
   }"

@@ -1,4 +1,3 @@
-const path = require('path')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
 
 module.exports = {
@@ -25,11 +24,5 @@ module.exports = {
         additionalData: '@import "~@/client/styles/index.scss";'
       }
     }
-  },
-  chainWebpack (config) {
-    config
-      .resolve
-      .alias
-      .set('assets', path.resolve(__dirname, 'src/client/assets'))
   }
 }
