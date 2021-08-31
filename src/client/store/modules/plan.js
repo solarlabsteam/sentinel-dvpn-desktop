@@ -1,4 +1,5 @@
 import { CLEAR_SELECTED_PLAN, SET_SELECTED_CRYPTO, SET_SELECTED_PLAN } from '@/client/store/mutation-types'
+import { syncStoreValue } from '@/client/store/plugins/syncStore'
 
 const getDefaultState = () => ({
   selectedPlan: null,
@@ -14,14 +15,16 @@ export default {
   },
 
   actions: {
-    selectPlan ({ commit }, payload) {
+    async selectPlan ({ commit }, payload) {
       commit(SET_SELECTED_PLAN, payload)
+      await syncStoreValue('selectedPlan', payload)
     },
     selectCrypto ({ commit }, payload) {
       commit(SET_SELECTED_CRYPTO, payload)
     },
-    clearSelectedPlan ({ commit }) {
+    async clearSelectedPlan ({ commit }) {
       commit(CLEAR_SELECTED_PLAN)
+      await syncStoreValue('selectedPlan', null)
     }
   },
 

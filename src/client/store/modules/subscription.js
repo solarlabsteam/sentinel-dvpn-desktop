@@ -3,6 +3,7 @@ import {
   SET_CURRENT_SUBSCRIPTION,
   SET_CURRENT_SUBSCRIPTION_LOADING_STATE, SET_PAYMENT_LOADING_STATE, SET_PAYMENT_RESULT
 } from '@/client/store/mutation-types'
+import { syncStoreValue } from '@/client/store/plugins/syncStore'
 
 const getDefaultState = () => ({
   currentSubscription: null,
@@ -46,20 +47,25 @@ export default {
 
       return new Promise((resolve, reject) => {
         window.ipc.once('SUBSCRIBE_TO_NODE', async (payload) => {
+          let result
           if (payload.error) {
-            commit(SET_PAYMENT_RESULT, {
+            result = {
               success: false,
               response: payload.error
-            })
+            }
+            commit(SET_PAYMENT_RESULT, result)
+            await syncStoreValue('paymentResult', result)
             commit(SET_PAYMENT_LOADING_STATE, false)
             reject(payload.error)
             return
           }
 
-          commit(SET_PAYMENT_RESULT, {
+          result = {
             success: true,
             response: payload.data
-          })
+          }
+          await syncStoreValue('paymentResult', result)
+          commit(SET_PAYMENT_RESULT, result)
           commit(SET_PAYMENT_LOADING_STATE, false)
           resolve()
         })
@@ -69,6 +75,9 @@ export default {
     },
     clearSubscriptionForNode ({ commit }) {
       commit(CLEAR_CURRENT_SUBSCRIPTION)
+    },
+    setPaymentResult ({ commit }, payload) {
+      commit(SET_PAYMENT_RESULT, payload)
     }
   },
 
