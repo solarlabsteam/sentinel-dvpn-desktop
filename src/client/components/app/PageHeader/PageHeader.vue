@@ -4,7 +4,7 @@
       v-if="hasStepBackButton"
       :text="true"
       :tiny="true"
-      @click="() => $router.back()"
+      @click="stepBack"
     >
       <template #icon>
         <slr-icon
@@ -21,18 +21,34 @@
 </template>
 
 <script>
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { computed } from 'vue'
 
 export default {
   name: 'PageHeader',
 
-  setup () {
+  props: {
+    to: {
+      type: Object,
+      default: null
+    }
+  },
+
+  setup (props) {
     const route = useRoute()
+    const router = useRouter()
+    const stepBack = () => {
+      if (props.to) {
+        router.push(props.to)
+      } else {
+        router.back()
+      }
+    }
 
     return {
       title: computed(() => route.meta.title),
-      hasStepBackButton: computed(() => route.meta.hasStepBackButton)
+      hasStepBackButton: computed(() => route.meta.hasStepBackButton),
+      stepBack
     }
   }
 }

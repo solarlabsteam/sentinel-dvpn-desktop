@@ -1,5 +1,8 @@
 <template>
-  <div class="connection-screen">
+  <div
+    class="connection-screen"
+    :class="classes"
+  >
     <div class="connection-screen__logo-wrapper">
       <slr-logo />
     </div>
@@ -40,6 +43,7 @@
 
 <script>
 import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
 import statuses from '@/client/constants/statuses'
 import NodePreview from '@/client/components/app/NodePreview/NodePreview'
 import ConnectionToggle from '@/client/components/app/ConnectionToggle/ConnectionToggle'
@@ -55,6 +59,7 @@ export default {
 
   setup () {
     const store = useStore()
+    const route = useRoute()
     let statusFetcher = null
 
     onMounted(() => {
@@ -96,6 +101,7 @@ export default {
       displayedNode: computed(() => store.getters.connectedNode || store.getters.selectedNode),
       currentIp: computed(() => store.getters.currentIp),
       isServiceServerAvailable: computed(() => store.getters.isServiceServerAvailable),
+      classes: computed(() => ({ 'connection-screen--blur': route.meta.blurConnectionScreen })),
       isNodeAvailable,
       isSubscriptionAvailable,
       isQuotaAvailable
@@ -112,7 +118,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.1);
   min-width: 250px;
   padding: 30px;
 
@@ -128,6 +133,10 @@ export default {
   &__ip-info {
     margin-bottom: 50px;
     @extend .r-s10-lh12
+  }
+
+  &--blur {
+    filter: blur(4px);
   }
 }
 </style>

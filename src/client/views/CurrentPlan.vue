@@ -11,7 +11,7 @@
           :units="'DAYS LEFT'"
           :description="'pay-as-you-go'"
           :progress-color="'blue'"
-          :to="selectedNode ? {name: 'change-location'} : null"
+          :to="selectedNode ? {name: 'plans'} : null"
         />
 
         <quota
@@ -20,7 +20,7 @@
           :description="`remaining of ${Number(quota?.allocatedGb || 0)} GB`"
           :total="quota?.allocatedGb"
           :progress-color="'green'"
-          :to="selectedNode ? {name: 'change-location'} : null"
+          :to="selectedNode ? {name: 'plans'} : null"
         />
       </div>
 
@@ -103,11 +103,11 @@ export default {
     padding: 0 30px;
   }
 
-  &__change-button {
+  &__change-button.slr-button {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 11px 10px !important;
+    padding: 11px 10px;
     background-image: linear-gradient(210.55deg, #1F3A64 -49.23%, #031734 111.47%);
   }
 

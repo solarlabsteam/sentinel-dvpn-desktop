@@ -1,13 +1,26 @@
-@mixin font-template($font-size, $line-height) {
+@mixin font-template($font-size, $line-height, $font-weight: normal) {
     font-size: $font-size;
     line-height: $line-height;
+    font-weight: $font-weight;
 }
 
 // Typography classes
 // .<weight>-s<font-size>-lh<line-height>
 
+.r-s7-lh8 {
+    @include font-template(7px, 8px)
+}
+
 .r-s8-lh10 {
     @include font-template(8px, 10px)
+}
+
+.s-s8-lh10 {
+    @include font-template(8px, 10px, 600)
+}
+
+.m-s9-lh10 {
+    @include font-template(9px, 10px, 500)
 }
 
 .r-s9-lh11 {
@@ -18,14 +31,38 @@
     @include font-template(10px, 12px)
 }
 
+.s-s10-lh15 {
+    @include font-template(10px, 15px, 600)
+}
+
 .r-s12-lh15 {
     @include font-template(12px, 15px);
+}
+
+.r-s13-lh16 {
+    @include font-template(13px, 16px);
+}
+
+.r-s13-lh20 {
+    @include font-template(13px, 20px);
 }
 
 .r-s16-lh19 {
     @include font-template(16px, 19px);
 }
 
+.b-s16-lh19 {
+    @include font-template(16px, 19px, 700);
+}
+
 .r-s18-lh22 {
     @include font-template(18px, 22px);
+}
+
+.b-s18-lh22 {
+    @include font-template(18px, 22px, 700);
+}
+
+.s-s30-lh33 {
+    @include font-template(30px, 33px, 600);
 }

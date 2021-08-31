@@ -26,11 +26,10 @@ function initSubscriptionListeners () {
       const { deposit, node } = JSON.parse(payload)
       const result = await subscriptionService.subscribeToNode(node.address, deposit)
       event.reply('SUBSCRIBE_TO_NODE', { data: result })
-    } catch (e) {
-      const error = generateError(e)
+    } catch (response) {
+      const error = generateError(response.rawLog)
       Notifications.createCritical(error.message).show()
-      console.log(error.message)
-      event.reply('SUBSCRIBE_TO_NODE', { error })
+      event.reply('SUBSCRIBE_TO_NODE', { error: response })
     }
   })
 

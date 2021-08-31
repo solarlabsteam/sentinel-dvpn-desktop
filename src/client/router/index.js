@@ -1,8 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, RouterView } from 'vue-router'
 import Home from '@/client/views/Home'
-import Plans from '@/client/views/Plans'
+import Plans from '@/client/views/Plans/Plans'
 import Login from '@/client/views/Login'
 import ChangeLocation from '@/client/views/ChangeLocation'
+import PaymentResult from '@/client/views/PaymentResult'
 
 const routes = [
   {
@@ -30,11 +31,33 @@ const routes = [
   },
   {
     path: '/plans',
-    name: 'plans',
-    component: Plans,
+    component: RouterView,
+    children: [{
+      path: '',
+      name: 'plans',
+      component: Plans,
+      meta: {
+        title: 'Plans',
+        hasStepBackButton: true,
+        blurConnectionScreen: true
+      }
+    }, {
+      path: 'change-location',
+      name: 'plan-change-location',
+      component: ChangeLocation,
+      meta: {
+        title: 'Change Location',
+        hasStepBackButton: true,
+        blurConnectionScreen: true
+      }
+    }]
+  },
+  {
+    path: '/payment',
+    name: 'payment-result',
+    component: PaymentResult,
     meta: {
-      title: 'Plans',
-      hasStepBackButton: true
+      blurConnectionScreen: true
     }
   }
 ]

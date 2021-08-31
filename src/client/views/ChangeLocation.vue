@@ -23,7 +23,7 @@
         />
 
         <slr-icon
-          :icon="'arrow-top-left'"
+          :icon="'arrow-top-right'"
           :size="14"
           :rounded="true"
         />
@@ -79,7 +79,6 @@ export default {
 
 <style lang="scss">
 .change-location {
-  overflow-x: auto;
 
   &__node {
     display: flex;

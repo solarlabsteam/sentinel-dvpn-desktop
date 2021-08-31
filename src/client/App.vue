@@ -37,6 +37,7 @@ body {
 .page {
   flex: none;
   overflow-x: auto;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
   width: 400px;
   height: 100%;
 }

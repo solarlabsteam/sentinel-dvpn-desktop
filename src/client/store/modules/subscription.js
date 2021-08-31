@@ -1,12 +1,14 @@
 import {
   CLEAR_CURRENT_SUBSCRIPTION,
   SET_CURRENT_SUBSCRIPTION,
-  SET_CURRENT_SUBSCRIPTION_LOADING_STATE
+  SET_CURRENT_SUBSCRIPTION_LOADING_STATE, SET_PAYMENT_LOADING_STATE, SET_PAYMENT_RESULT
 } from '@/client/store/mutation-types'
 
 const getDefaultState = () => ({
   currentSubscription: null,
-  isSubscriptionLoading: false
+  isSubscriptionLoading: false,
+  isPaymentLoading: false,
+  paymentResult: null
 })
 
 export default {
@@ -14,7 +16,9 @@ export default {
 
   getters: {
     currentSubscription: state => state.currentSubscription,
-    isSubscriptionLoading: state => state.isSubscriptionLoading
+    isSubscriptionLoading: state => state.isSubscriptionLoading,
+    isPaymentLoading: state => state.isPaymentLoading,
+    paymentResult: state => state.paymentResult
   },
 
   actions: {
@@ -37,6 +41,32 @@ export default {
         window.ipc.send('QUERY_SUBSCRIPTION_FOR_NODE', JSON.stringify(getters.selectedNode))
       })
     },
+    subscribeToNode ({ commit, dispatch }, paymentInfo) {
+      commit(SET_PAYMENT_LOADING_STATE, true)
+
+      return new Promise((resolve, reject) => {
+        window.ipc.once('SUBSCRIBE_TO_NODE', async (payload) => {
+          if (payload.error) {
+            commit(SET_PAYMENT_RESULT, {
+              success: false,
+              response: payload.error
+            })
+            commit(SET_PAYMENT_LOADING_STATE, false)
+            reject(payload.error)
+            return
+          }
+
+          commit(SET_PAYMENT_RESULT, {
+            success: true,
+            response: payload.data
+          })
+          commit(SET_PAYMENT_LOADING_STATE, false)
+          resolve()
+        })
+
+        window.ipc.send('SUBSCRIBE_TO_NODE', JSON.stringify(paymentInfo))
+      })
+    },
     clearSubscriptionForNode ({ commit }) {
       commit(CLEAR_CURRENT_SUBSCRIPTION)
     }
@@ -51,6 +81,12 @@ export default {
     },
     [CLEAR_CURRENT_SUBSCRIPTION] (state) {
       state.currentSubscription = getDefaultState().currentSubscription
+    },
+    [SET_PAYMENT_LOADING_STATE] (state, value) {
+      state.isPaymentLoading = value
+    },
+    [SET_PAYMENT_RESULT] (state, payload) {
+      state.paymentResult = payload
     }
   }
 }

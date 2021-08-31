@@ -61,9 +61,6 @@ export default {
 
   &--rounded {
     border-radius: 50%;
-    padding: 4px;
-    background-color: rgba(255, 255, 255, 0.1);
-    background-size: calc(100% - 12px);
   }
 }
 </style>

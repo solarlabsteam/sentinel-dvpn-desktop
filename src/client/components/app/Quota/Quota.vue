@@ -14,7 +14,7 @@
 
       <slr-icon
         v-if="to"
-        :icon="'arrow-top-left'"
+        :icon="'arrow-top-right'"
         :size="14"
         :rounded="true"
       />

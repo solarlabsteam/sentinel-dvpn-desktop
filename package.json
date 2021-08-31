@@ -21,6 +21,7 @@
     "bip39": "^3.0.4",
     "core-js": "^3.6.5",
     "country-code-lookup": "^0.0.19",
+    "date-fns": "^2.23.0",
     "electron-store": "^8.0.0",
     "electron-sudo": "https://github.com/solarlabsteam/electron-sudo.git",
     "flagpack": "^1.0.5",
@@ -36,7 +37,7 @@
     "sudo-prompt": "^9.2.1",
     "uint64be": "^3.0.0",
     "vue": "^3.0.0",
-    "vue-router": "^4.0.0-0",
+    "vue-router": "4",
     "vuex": "^4.0.2",
     "wireguard-wrapper": "^1.0.3"
   },
