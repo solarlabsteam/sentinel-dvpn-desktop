@@ -5,8 +5,8 @@
     :success="paymentResult?.success"
     :tx-hash="paymentResult?.response.txhash"
     :timestamp="paymentResult?.response.timestamp"
-    :crypto="selectedPlan?.crypto"
-    :amount="selectedPlan?.amount"
+    :crypto="selectedPlan?.deposit.denom"
+    :amount="selectedPlan?.deposit.amount"
     :description="checkDescription"
   />
   <div class="s-s30-lh33 text-center mb-4">
@@ -15,13 +15,13 @@
   </div>
   <slr-button
     v-if="paymentResult?.success"
-    :to="{name: 'home'}"
+    @click="leavePage({name: 'home'})"
   >
     Go to Home
   </slr-button>
   <slr-button
     v-else
-    :to="{name: 'plans'}"
+    @click="leavePage({name: 'plans'})"
   >
     Check plans
   </slr-button>
@@ -36,6 +36,7 @@
 import PaymentCheck from '@/client/components/app/PaymentCheck/PaymentCheck'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'PaymentResult',
@@ -46,11 +47,17 @@ export default {
 
   setup () {
     const store = useStore()
+    const router = useRouter()
+    const leavePage = async (to) => {
+      await router.push(to)
+      store.dispatch('clearPaymentResult')
+    }
 
     return {
       selectedPlan: computed(() => store.getters.selectedPlan),
       checkDescription: computed(() => store.getters.selectedPlan?.amountGbs + 'GB ' + store.getters.selectedPlan?.type),
-      paymentResult: computed(() => store.getters.paymentResult)
+      paymentResult: computed(() => store.getters.paymentResult),
+      leavePage
     }
   }
 }

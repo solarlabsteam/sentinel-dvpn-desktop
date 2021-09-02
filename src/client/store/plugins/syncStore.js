@@ -15,9 +15,11 @@ async function prefetchPayment (store) {
 
 export async function prefetchStore (store) {
   try {
-    await prefetchNode(store)
-    await prefetchPlan(store)
-    await prefetchPayment(store)
+    await Promise.allSettled([
+      prefetchNode(store),
+      prefetchPlan(store),
+      prefetchPayment(store)]
+    )
   } catch (e) {
     console.log(e)
   }

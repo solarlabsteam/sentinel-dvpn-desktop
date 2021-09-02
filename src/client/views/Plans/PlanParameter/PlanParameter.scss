@@ -1,7 +1,8 @@
-.select-parameter {
+.plan-parameter {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
   box-sizing: border-box;
   width: 160px;
   min-height: 70px;

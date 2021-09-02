@@ -6,7 +6,7 @@ import node from '@/client/store/modules/node'
 import connection from '@/client/store/modules/connection'
 import quota from '@/client/store/modules/quota'
 import nodes from '@/client/store/modules/nodes'
-import login from '@/client/store/modules/login'
+import account from '@/client/store/modules/account'
 import plan from '@/client/store/modules/plan'
 
 export default createStore({
@@ -17,7 +17,7 @@ export default createStore({
     connection,
     quota,
     nodes,
-    login,
+    account,
     plan
   },
   plugins: [createLogger(), prefetchStore]

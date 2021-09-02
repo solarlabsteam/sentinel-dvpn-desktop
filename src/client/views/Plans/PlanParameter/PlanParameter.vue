@@ -1,14 +1,14 @@
 <template>
   <div
-    class="select-parameter slr-card"
+    class="plan-parameter slr-card"
     :class="{
       'u-pointer': to
     }"
     @click="() => to && $router.push(to)"
   >
-    <div class="select-parameter__header">
+    <div class="plan-parameter__header">
       <div
-        class="select-parameter__image"
+        class="plan-parameter__image"
         :class="{
           'fp fp-lg': !!countryIso,
           [countryIso]: !!countryIso,
@@ -17,13 +17,13 @@
         }"
       />
 
-      <span class="select-parameter__parameter">{{ parameter }}</span>
+      <span class="plan-parameter__parameter">{{ parameter }}</span>
     </div>
 
-    <div class="select-parameter__footer">
+    <div class="plan-parameter__footer">
       <span>
-        <span class="select-parameter__title">{{ title }}</span>
-        <span class="select-parameter__second-title">{{ secondTitle }}</span>
+        <span class="plan-parameter__title">{{ title }}</span>
+        <span class="plan-parameter__second-title">{{ secondTitle }}</span>
       </span>
 
       <slr-icon
@@ -80,5 +80,5 @@ export default {
 
 <style
   lang="scss"
-  src="./SelectParameter.scss"
+  src="./PlanParameter.scss"
 />

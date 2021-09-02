@@ -1,6 +1,6 @@
 <template>
-  <div class="login" v-if="!isLogin">
-    <slr-loader v-if="isLoginCheckLoading || isAccountLoading" />
+  <div class="login" v-if="!user">
+    <slr-loader v-if="isUserLoading" />
 
     <template v-else>
       <div class="login__logo-wrapper">
@@ -30,18 +30,17 @@ export default {
     const store = useStore()
 
     onMounted(async () => {
-      await store.dispatch('fetchUserLogin')
-      const isLogin = store.getters.isLogin
+      await store.dispatch('fetchUser')
+      const user = store.getters.user
 
-      if (isLogin) {
+      if (user) {
         router.push({ name: 'home' })
       }
     })
 
     return {
-      isLogin: computed(() => store.getters.isLogin),
-      isLoginCheckLoading: computed(() => store.getters.isLoginCheckLoading),
-      isAccountLoading: computed(() => store.getters.isAccountLoading),
+      user: computed(() => store.getters.user),
+      isUserLoading: computed(() => store.getters.isUserLoading),
       addAccount: () => store.dispatch('addAccount')
     }
   }

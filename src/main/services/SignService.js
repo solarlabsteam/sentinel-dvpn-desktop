@@ -4,6 +4,7 @@ import { Coin } from '@/main/proto/cosmos/base/v1beta1/coin_pb.js'
 import { SignMode } from '@/main/proto/cosmos/tx/signing/v1beta1/signing_pb.js'
 import AccountService from '@/main/services/AccountService'
 import KeyApi from '@/main/api/rest/KeyApi'
+import { transactionFee } from '@/shared/constants'
 
 class SignService {
   constructor () {
@@ -12,7 +13,7 @@ class SignService {
   }
 
   getFeeValue () {
-    const amount = new Coin(['udvpn', '10000'])
+    const amount = new Coin(['udvpn', transactionFee.toString()])
     const fee = new Fee([[], 100000])
     fee.addAmount(amount)
 

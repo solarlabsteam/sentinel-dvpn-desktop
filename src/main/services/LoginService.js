@@ -13,10 +13,10 @@ export class LoginService {
   async login () {
     try {
       const result = await this.accountService.queryKeyByName(DVPN_KEY_NAME)
-      return { isLogin: !!result }
+      return result
     } catch (e) {
       if (e.response && e.response.data && e.response.data.error.code === 1004) {
-        return { isLogin: false }
+        return null
       }
 
       throw e
@@ -24,10 +24,10 @@ export class LoginService {
   }
 
   async addAccount (mnemonic) {
-    await this.queryNewKey({
+    const result = await this.queryNewKey({
       mnemonic
     })
-    return { isLogin: true }
+    return result
   }
 
   getRandomMnemonic (strength = 256) {

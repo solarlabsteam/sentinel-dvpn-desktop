@@ -4,6 +4,8 @@ import { DVPN_KEY_NAME } from '@/main/common/constants'
 import { QueryAccountRequest } from '@/main/proto/cosmos/auth/v1beta1/query_pb.js'
 import { QueryClient as AccountQueryClient } from '@/main/proto/cosmos/auth/v1beta1/query_grpc_pb.js'
 import { BaseAccount } from '@/main/proto/cosmos/auth/v1beta1/auth_pb.js'
+import { QueryAllBalancesRequest } from '@/main/proto/cosmos/bank/v1beta1/query_pb.js'
+import { QueryClient as BankQueryClient } from '@/main/proto/cosmos/bank/v1beta1/query_grpc_pb.js'
 import KeyApi from '@/main/api/rest/KeyApi'
 import QueryService from '@/main/services/QueryService'
 import { getters } from '@/main/store/store'
@@ -50,6 +52,26 @@ class AccountService {
       '/cosmos.crypto.secp256k1.PubKey',
       pubKey.serializeBinary()
     ])
+  }
+
+  async queryBalances () {
+    const key = await this.queryKeyByName(DVPN_KEY_NAME)
+
+    return new Promise((resolve, reject) => {
+      const request = new QueryAllBalancesRequest([key.addressBech32])
+      const client = QueryService.create(BankQueryClient)
+
+      client.allBalances(request, (err, response) => {
+        if (err) {
+          console.log(err)
+          reject(err)
+          return
+        }
+
+        const balances = response.getBalancesList().map(coin => coin.toObject())
+        resolve(balances)
+      })
+    })
   }
 }
 

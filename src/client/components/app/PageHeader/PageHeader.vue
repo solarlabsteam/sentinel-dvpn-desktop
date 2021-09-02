@@ -59,6 +59,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-sizing: border-box;
+  width: 100%;
   padding: 35px 30px 42px;
 }
 </style>

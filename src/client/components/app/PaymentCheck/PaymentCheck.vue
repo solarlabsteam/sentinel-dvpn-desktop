@@ -1,7 +1,7 @@
 <template>
 <div class="payment-check">
   <div class="payment-check__date">{{ date }}</div>
-  <div class="payment-check__txhash">Ref No: {{ croppedHash }}</div>
+  <div v-if="txHash" class="payment-check__txhash">Ref No: {{ croppedHash }}</div>
 
   <hr class="payment-check__divider">
 
@@ -55,7 +55,7 @@ export default {
     },
 
     amount: {
-      type: Number,
+      type: [Number, String],
       default: 0
     },
 
@@ -68,7 +68,7 @@ export default {
   setup (props) {
     return {
       date: computed(() => format(props.timestamp * 1000, 'dd LLL uuuu p')),
-      coinsAmount: computed(() => props.amount.toLocaleString('en')),
+      coinsAmount: computed(() => Number(props.amount).toLocaleString('en')),
       croppedHash: computed(() => props.txHash.slice(0, 12))
     }
   }

@@ -25,9 +25,9 @@ contextBridge.exposeInMainWorld(
         return await ipcRenderer.invoke(channel, data)
       }
     },
-    handle: async (channel, func) => {
+    removeAllListeners: (channel) => {
       if (channels.includes(channel)) {
-        ipcRenderer.on(channel, (event, ...args) => func(...args))
+        ipcRenderer.removeAllListeners(channel)
       }
     }
   }

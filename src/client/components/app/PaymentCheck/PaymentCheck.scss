@@ -6,6 +6,7 @@
   box-shadow: 0px -3px 5px rgba(0, 0, 0, 0.15);
   border-top-left-radius: 18px;
   border-top-right-radius: 18px;
+  min-width: 140px;
   padding: 15px;
   background-color: $slr__clr-white;
   color: $slr__clr-black;
@@ -15,18 +16,21 @@
     content: '';
     position: absolute;
     top: 60px;
-    border-radius: 50%;
-    width: 25px;
+    width: 12px;
     height: 24px;
     background-color: $slr__clr-dark-blue;
   }
 
   &::after {
-    right: -18px;
+    right: 0;
+    border-top-left-radius: 24px;
+    border-bottom-left-radius: 24px;
   }
 
   &::before {
-    left: -18px;
+    left: 0;
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
   }
 
   &__date {

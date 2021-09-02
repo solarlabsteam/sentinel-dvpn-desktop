@@ -6,15 +6,15 @@
     <template v-else>
       <page-header :to="{name: 'home'}"/>
 
-      <div class="plans__selects">
-        <select-parameter
+      <div class="plans__parameters">
+        <plan-parameter
           :title="selectedNode.location.country"
           :second-title="selectedNode.address.slice(-6)"
           :parameter="'Country'"
           :to="{name: 'plan-change-location'}"
           :country="selectedNode.location.country"
         />
-        <select-parameter
+        <plan-parameter
           :title="selectedCrypto"
           :parameter="'Crypto'"
           :currency="selectedCrypto"
@@ -34,19 +34,21 @@
 </template>
 
 <script>
-import { mapActions, useStore } from 'vuex'
+import { mapActions, mapGetters, useStore } from 'vuex'
 import { computed, onMounted } from 'vue'
 import PageHeader from '@/client/components/app/PageHeader/PageHeader'
-import SelectParameter from './SelectParameter/SelectParameter'
+import PlanParameter from './PlanParameter/PlanParameter'
 import PlanList from './PlanList/PlanList'
 import Plan from './Plan/Plan'
+import { transactionFee } from '@/shared/constants'
+import getUnixTime from 'date-fns/getUnixTime'
 
 export default {
   name: 'Plans',
 
   components: {
     PageHeader,
-    SelectParameter,
+    PlanParameter,
     PlanList,
     Plan
   },
@@ -77,6 +79,7 @@ export default {
       selectedNode: computed(() => store.getters.selectedNode),
       isPaymentLoading: computed(() => store.getters.isPaymentLoading),
       selectedCrypto: computed(() => store.getters.selectedCrypto),
+      selectedPlan: computed(() => store.getters.selectedPlan),
       price: computed(() => store.getters.selectedNode.priceList.find(price => price.denom === store.getters.selectedCrypto))
     }
   },
@@ -87,26 +90,45 @@ export default {
 
       await this.selectPlan({
         amountGbs: gbs,
-        amount: amount,
-        crypto: this.selectedCrypto,
-        type: 'Unlimited'
-      })
-
-      const paymentInfo = {
+        type: 'Unlimited',
+        payBefore: (getUnixTime(new Date()) + 30 * 60) * 1000,
         deposit: { amount: amount.toString(), denom: this.selectedCrypto },
         node: this.selectedNode
-      }
+      })
 
       try {
-        await this.subscribeToNode(paymentInfo)
+        const isEnough = await this.isBalanceEnough(amount)
+
+        if (!isEnough) {
+          this.$router.push({ name: 'balance-checkout' })
+          return
+        }
+        await this.subscribeToNode({
+          deposit: this.selectedPlan.deposit,
+          node: this.selectedPlan.node
+        })
+        this.$router.push({ name: 'payment-result' })
       } catch (e) {
         console.log(e)
-      } finally {
         this.$router.push({ name: 'payment-result' })
       }
     },
 
-    ...mapActions(['subscribeToNode', 'selectCrypto', 'selectPlan'])
+    async isBalanceEnough (amount) {
+      try {
+        await this.fetchBalances()
+        return this.balances.some(b => b.denom === this.selectedCrypto && Number(b.amount) > amount * 1000000000000 + transactionFee)
+      } catch (e) {
+        console.error(e)
+        return false
+      }
+    },
+
+    ...mapActions(['subscribeToNode', 'selectCrypto', 'selectPlan', 'fetchBalances'])
+  },
+
+  computed: {
+    ...mapGetters(['balances'])
   }
 }
 </script>
@@ -116,7 +138,7 @@ export default {
 >
 .plans {
 
-  &__selects {
+  &__parameters {
     display: flex;
     justify-content: space-between;
     margin-bottom: 45px;

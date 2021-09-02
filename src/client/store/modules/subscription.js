@@ -1,5 +1,5 @@
 import {
-  CLEAR_CURRENT_SUBSCRIPTION,
+  CLEAR_CURRENT_SUBSCRIPTION, CLEAR_PAYMENT_RESULT,
   SET_CURRENT_SUBSCRIPTION,
   SET_CURRENT_SUBSCRIPTION_LOADING_STATE, SET_PAYMENT_LOADING_STATE, SET_PAYMENT_RESULT
 } from '@/client/store/mutation-types'
@@ -53,8 +53,7 @@ export default {
               success: false,
               response: payload.error
             }
-            commit(SET_PAYMENT_RESULT, result)
-            await syncStoreValue('paymentResult', result)
+            await dispatch('setPaymentResult', result)
             commit(SET_PAYMENT_LOADING_STATE, false)
             reject(payload.error)
             return
@@ -64,8 +63,7 @@ export default {
             success: true,
             response: payload.data
           }
-          await syncStoreValue('paymentResult', result)
-          commit(SET_PAYMENT_RESULT, result)
+          await dispatch('setPaymentResult', result)
           commit(SET_PAYMENT_LOADING_STATE, false)
           resolve()
         })
@@ -76,8 +74,12 @@ export default {
     clearSubscriptionForNode ({ commit }) {
       commit(CLEAR_CURRENT_SUBSCRIPTION)
     },
-    setPaymentResult ({ commit }, payload) {
+    async setPaymentResult ({ commit }, payload) {
       commit(SET_PAYMENT_RESULT, payload)
+      await syncStoreValue('paymentResult', payload)
+    },
+    clearPaymentResult ({ commit }) {
+      commit(CLEAR_PAYMENT_RESULT)
     }
   },
 
@@ -96,6 +98,9 @@ export default {
     },
     [SET_PAYMENT_RESULT] (state, payload) {
       state.paymentResult = payload
+    },
+    [CLEAR_PAYMENT_RESULT] (state) {
+      state.paymentResult = null
     }
   }
 }
