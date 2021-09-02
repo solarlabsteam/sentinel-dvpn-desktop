@@ -1,5 +1,5 @@
 <template>
-  <div class="plans h-100">
+  <div class="plans">
     <div v-if="isPaymentLoading" class="plans__loader-wrapper">
       <slr-loader :size="25" />
     </div>

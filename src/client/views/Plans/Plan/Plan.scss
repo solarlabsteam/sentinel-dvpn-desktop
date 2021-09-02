@@ -50,7 +50,7 @@
   &__denom {
     opacity: 0.4;
     text-transform: capitalize;
-    @extend .r-s9-lh11;
+    @extend .m-s9-lh11;
   }
 
   &__size,
@@ -61,11 +61,11 @@
 
   &__amount-gb {
     margin-right: 2px;
-    @extend .r-s18-lh22
+    @extend .b-s18-lh22
   }
 
   &__amount-coin {
-    @extend .r-s13-lh20;
+    @extend .b-s13-lh20;
   }
 
   &__button-buy.slr-button {

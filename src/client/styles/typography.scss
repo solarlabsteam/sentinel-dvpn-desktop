@@ -31,6 +31,10 @@
     @include font-template(9px, 11px, 500)
 }
 
+.s-s9-lh11 {
+    @include font-template(9px, 11px, 600)
+}
+
 .r-s10-lh12 {
     @include font-template(10px, 12px)
 }
@@ -59,8 +63,16 @@
     @include font-template(13px, 16px);
 }
 
+.b-s13-lh16 {
+    @include font-template(13px, 16px, 700);
+}
+
 .r-s13-lh20 {
     @include font-template(13px, 20px);
+}
+
+.b-s13-lh20 {
+    @include font-template(13px, 20px, 700);
 }
 
 .b-s15-lh18 {
@@ -71,12 +83,20 @@
     @include font-template(16px, 19px);
 }
 
+.m-s16-lh19 {
+    @include font-template(16px, 19px, 500);
+}
+
 .b-s16-lh19 {
     @include font-template(16px, 19px, 700);
 }
 
 .r-s18-lh22 {
     @include font-template(18px, 22px);
+}
+
+.m-s18-lh22 {
+    @include font-template(18px, 22px, 500);
 }
 
 .b-s18-lh22 {

@@ -37,7 +37,7 @@
             :country="selectedNode?.location.country"
           />
 
-          <span class="r-s9-lh11">CHANGE</span>
+          <span class="s-s9-lh11">CHANGE</span>
         </slr-button>
       </div>
     </template>

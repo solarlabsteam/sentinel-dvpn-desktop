@@ -15,7 +15,7 @@
       class="connection-screen__node"
     />
 
-    <span class="r-s18-lh22 mb-3">{{ isConnected ? 'Connected' : 'Disconnected' }}</span>
+    <span class="m-s18-lh22 mb-3">{{ isConnected ? 'Connected' : 'Disconnected' }}</span>
     <div class="connection-screen__ip-info">
       <span v-if="currentIp">
         <span>{{ currentIp }}</span>

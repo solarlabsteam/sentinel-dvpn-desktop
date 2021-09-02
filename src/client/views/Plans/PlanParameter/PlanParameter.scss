@@ -6,7 +6,7 @@
   box-sizing: border-box;
   width: 160px;
   min-height: 70px;
-  padding: 10px 14px;
+  padding: 10px 7px 10px 13px;
 
   &__header {
     display: flex;
@@ -24,7 +24,7 @@
   &__parameter,
   &__second-title {
     opacity: .4;
-    @extend .r-s9-lh11;
+    @extend .m-s9-lh11;
   }
 
   &__footer {
@@ -36,11 +36,10 @@
   &__title {
     margin-right: 4px;
     text-transform: capitalize;
-    @extend .r-s13-lh16
+    @extend .b-s13-lh16
   }
 
   &__second-title {
     text-transform: uppercase;
-    @extend .r-s9-lh11
   }
 }

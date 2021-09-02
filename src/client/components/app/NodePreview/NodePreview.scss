@@ -11,6 +11,7 @@
 
   &__title {
     margin-right: 8px;
+    @extend .m-s12-lh15
   }
 
   &__number {
@@ -19,7 +20,7 @@
   }
 
   &__subtitle {
-    margin-top: 1px;
+    margin-top: 3px;
     @extend .r-s8-lh10
   }
 }
