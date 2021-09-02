@@ -1,3 +1,5 @@
+import { google } from '@/client/constants/dns'
+
 async function prefetchNode (store) {
   const data = await window.ipc.invoke('GET_STORE_VALUE', 'selectedNode')
   await store.dispatch('selectNode', data || null)
@@ -13,15 +15,21 @@ async function prefetchPayment (store) {
   await store.dispatch('setPaymentResult', data || null)
 }
 
+async function prefetchDns (store) {
+  const data = await window.ipc.invoke('GET_STORE_VALUE', 'selectedDns')
+  await store.dispatch('selectDns', data || google)
+}
+
 export async function prefetchStore (store) {
   try {
     await Promise.allSettled([
       prefetchNode(store),
       prefetchPlan(store),
-      prefetchPayment(store)]
+      prefetchPayment(store),
+      prefetchDns(store)]
     )
   } catch (e) {
-    console.log(e)
+    console.error(e)
   }
 }
 

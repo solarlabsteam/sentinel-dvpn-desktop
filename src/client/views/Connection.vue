@@ -4,7 +4,7 @@
     :class="classes"
   >
     <div class="connection-screen__logo-wrapper">
-      <slr-logo />
+      <router-link :to="{name: 'home'}"><slr-logo /></router-link>
     </div>
 
     <node-preview

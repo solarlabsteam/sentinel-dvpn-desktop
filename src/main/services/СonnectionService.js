@@ -28,8 +28,8 @@ class ConnectionService {
     }
   }
 
-  async queryConnectToNode (subscriptionId, keyName, nodeAddress, connectionInfo, wireguardPrivateKey) {
-    const { data } = await this.restDvpnApi.connect(Number(subscriptionId), keyName, nodeAddress, connectionInfo, [wireguardPrivateKey])
+  async queryConnectToNode (subscriptionId, keyName, nodeAddress, connectionInfo, wireguardPrivateKey, resolvers) {
+    const { data } = await this.restDvpnApi.connect(Number(subscriptionId), keyName, nodeAddress, connectionInfo, [wireguardPrivateKey], resolvers)
     return data.result
   }
 

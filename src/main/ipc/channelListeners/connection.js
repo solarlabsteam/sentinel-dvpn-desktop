@@ -16,7 +16,7 @@ function initConnectionListeners () {
   ipcMain.on('CONNECT_TO_NODE', async (event, payload) => {
     try {
       const key = await accountService.queryKeyByName(DVPN_KEY_NAME)
-      const subscription = JSON.parse(payload)
+      const { subscription, resolvers } = JSON.parse(payload)
       const activeSession = await sessionService.startActiveSession(key.addressBech32, subscription)
 
       if (!activeSession) {
@@ -27,7 +27,7 @@ function initConnectionListeners () {
 
       const nodeInfo = await nodeService.queryNode(activeSession.node)
       const { result: info, privateKey } = await connectionService.queryConnectionData(nodeInfo.remoteUrl, key.addressBech32, activeSession.id)
-      const result = await connectionService.queryConnectToNode(subscription.id, DVPN_KEY_NAME, subscription.node, info, privateKey)
+      const result = await connectionService.queryConnectToNode(subscription.id, DVPN_KEY_NAME, subscription.node, info, privateKey, resolvers)
 
       event.reply('CONNECT_TO_NODE', { data: result })
     } catch (e) {

@@ -1,5 +1,18 @@
 <template>
-  <page-header />
+  <page-header>
+    <slr-button
+      :text="true"
+      :tiny="true"
+      :to="{name: 'settings'}"
+    >
+      <template #icon>
+        <slr-icon
+          :size="24"
+          :icon="'settings'"
+        />
+      </template>
+    </slr-button>
+  </page-header>
   <div>
     <current-plan/>
 <!--    <available-subscriptions />-->

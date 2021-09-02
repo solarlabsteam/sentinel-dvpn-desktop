@@ -1,4 +1,5 @@
 const StyleLintPlugin = require('stylelint-webpack-plugin')
+process.env.VUE_APP_VERSION = require('./package.json').version
 
 module.exports = {
   lintOnSave: 'warning',

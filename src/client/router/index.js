@@ -5,6 +5,7 @@ import Login from '@/client/views/Login'
 import ChangeLocation from '@/client/views/ChangeLocation'
 import PaymentResult from '@/client/views/PaymentResult'
 import BalanceCheckout from '@/client/views/BalanceCheckout/BalanceCheckout'
+import Settings from '@/client/views/settings/Settings'
 
 const routes = [
   {
@@ -68,6 +69,15 @@ const routes = [
     component: PaymentResult,
     meta: {
       blurConnectionScreen: true
+    }
+  },
+  {
+    path: '/settings',
+    name: 'settings',
+    component: Settings,
+    meta: {
+      title: 'Default DNS Server',
+      hasStepBackButton: true
     }
   }
 ]

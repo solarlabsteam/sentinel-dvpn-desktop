@@ -27,6 +27,10 @@
     @include font-template(9px, 11px)
 }
 
+.m-s9-lh11 {
+    @include font-template(9px, 11px, 500)
+}
+
 .r-s10-lh12 {
     @include font-template(10px, 12px)
 }
@@ -45,6 +49,10 @@
 
 .r-s12-lh15 {
     @include font-template(12px, 15px);
+}
+
+.m-s12-lh15 {
+    @include font-template(12px, 15px, 500);
 }
 
 .r-s13-lh16 {

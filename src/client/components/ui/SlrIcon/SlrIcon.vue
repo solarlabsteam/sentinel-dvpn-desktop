@@ -55,6 +55,7 @@ export default {
 
 <style lang="scss">
 .slr-icon {
+  display: inline-block;
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;

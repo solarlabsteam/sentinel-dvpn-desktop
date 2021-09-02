@@ -49,7 +49,7 @@ export default {
       if (store.getters.isConnected) {
         store.dispatch('disconnectFromNode')
       } else {
-        store.dispatch('connectToNode', { ...store.getters.selectedNode })
+        store.dispatch('connectToNode')
       }
     }
 

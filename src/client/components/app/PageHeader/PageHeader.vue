@@ -16,7 +16,9 @@
     </slr-button>
     <span class="r-s16-lh19">{{ title }}</span>
 
-    <div/>
+    <slot name="default">
+      <div/>
+    </slot>
   </div>
 </template>
 

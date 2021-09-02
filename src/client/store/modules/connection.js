@@ -22,7 +22,7 @@ export default {
   },
 
   actions: {
-    connectToNode ({ commit, dispatch, getters }, node) {
+    connectToNode ({ commit, dispatch, getters }) {
       commit(SET_CONNECTION_LOADING_STATE, true)
 
       return Promise
@@ -38,14 +38,17 @@ export default {
               resolve()
             })
 
-            window.ipc.send('CONNECT_TO_NODE', JSON.stringify(getters.currentSubscription))
+            window.ipc.send('CONNECT_TO_NODE', JSON.stringify({
+              subscription: getters.currentSubscription,
+              resolvers: getters.selectedDns.value.split(', ')
+            }))
           })
         })
         .then(() => {
           return dispatch('fetchCurrentIp')
         })
         .then(() => {
-          dispatch('setConnectedNode', node)
+          dispatch('setConnectedNode', getters.selectedNode)
           commit(SET_CONNECTION_STATE, true)
         })
         .finally(() => {
