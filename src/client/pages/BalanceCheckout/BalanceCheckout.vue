@@ -57,9 +57,9 @@ import PlanParameter from '@/client/pages/Plans/PlanParameter'
 import QrCode from '@/client/components/app/QrCode'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
-import { transactionFee } from '@/shared/constants'
 import { useRouter } from 'vue-router'
 import getUnixTime from 'date-fns/getUnixTime'
+import checkBalance from './checkBalance'
 
 export default {
   name: 'BalanceCheckout',
@@ -74,18 +74,6 @@ export default {
     const store = useStore()
     const router = useRouter()
     let isSubscriptionLoadingOnce = false
-
-    const checkBalance = async (amount) => {
-      try {
-        await store.dispatch('fetchBalances')
-        return store.getters.balances.some(b => {
-          return b.denom === store.getters.selectedCrypto && Number(b.amount) > (amount + transactionFee)
-        })
-      } catch (e) {
-        console.error(e)
-        return false
-      }
-    }
 
     const setFailedResult = async () => {
       await store.dispatch('setPaymentResult', {

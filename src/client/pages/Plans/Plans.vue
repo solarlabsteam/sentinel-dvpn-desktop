@@ -34,14 +34,16 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, useStore } from 'vuex'
+import { useStore } from 'vuex'
 import { computed, onMounted } from 'vue'
 import PageHeader from '@/client/components/app/PageHeader'
 import PlanParameter from './PlanParameter'
 import PlanList from './PlanList'
 import Plan from './Plan'
-import { transactionFee } from '@/shared/constants'
 import getUnixTime from 'date-fns/getUnixTime'
+import plans from '@/client/constants/plans'
+import checkBalance from '@/client/pages/BalanceCheckout/checkBalance'
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'Plans',
@@ -55,80 +57,47 @@ export default {
 
   setup () {
     const store = useStore()
+    const router = useRouter()
+    const selectedCrypto = computed(() => store.getters.selectedCrypto)
+    const selectedNode = computed(() => store.getters.selectedNode)
+    const price = computed(() => selectedNode.value.priceList.find(price => price.denom === selectedCrypto.value))
+    const selectedPlan = computed(() => store.getters.selectedPlan)
+    const isPaymentLoading = computed(() => store.getters.isPaymentLoading)
 
     onMounted(async () => {
-      await store.dispatch('selectCrypto', store.getters.selectedNode.priceList[0].denom)
+      await store.dispatch('selectCrypto', selectedNode.value.priceList[0].denom)
     })
 
-    return {
-      plans: [{
-        amountGbs: 1
-      }, {
-        amountGbs: 5,
-        feature: 'new'
-      }, {
-        amountGbs: 15,
-        feature: 'popular'
-      }, {
-        amountGbs: 20
-      }, {
-        amountGbs: 50
-      }, {
-        amountGbs: 100
-      }],
-      selectedNode: computed(() => store.getters.selectedNode),
-      isPaymentLoading: computed(() => store.getters.isPaymentLoading),
-      selectedCrypto: computed(() => store.getters.selectedCrypto),
-      selectedPlan: computed(() => store.getters.selectedPlan),
-      price: computed(() => store.getters.selectedNode.priceList.find(price => price.denom === store.getters.selectedCrypto))
-    }
-  },
+    const buy = async gbs => {
+      const amount = price.value.amount * gbs
 
-  methods: {
-    async buy (gbs) {
-      const amount = this.price.amount * gbs
-
-      await this.selectPlan({
+      await store.dispatch('selectPlan', {
         amountGbs: gbs,
         type: 'Unlimited',
         payBefore: (getUnixTime(new Date()) + 30 * 60) * 1000,
-        deposit: { amount: amount.toString(), denom: this.selectedCrypto },
-        node: this.selectedNode
+        deposit: { amount: amount.toString(), denom: selectedCrypto.value },
+        node: selectedNode.value
       })
 
       try {
-        const isEnough = await this.isBalanceEnough(amount)
+        const isEnough = await checkBalance(amount)
 
         if (!isEnough) {
-          this.$router.push({ name: 'balance-checkout' })
+          router.push({ name: 'balance-checkout' })
           return
         }
-        await this.subscribeToNode({
-          deposit: this.selectedPlan.deposit,
-          node: this.selectedPlan.node
+        await store.dispatch('subscribeToNode', {
+          deposit: selectedPlan.value.deposit,
+          node: selectedPlan.value.node
         })
-        this.$router.push({ name: 'payment-result' })
-      } catch (e) {
-        console.log(e)
-        this.$router.push({ name: 'payment-result' })
-      }
-    },
-
-    async isBalanceEnough (amount) {
-      try {
-        await this.fetchBalances()
-        return this.balances.some(b => b.denom === this.selectedCrypto && Number(b.amount) > amount * 1000000000000 + transactionFee)
+        router.push({ name: 'payment-result' })
       } catch (e) {
         console.error(e)
-        return false
+        router.push({ name: 'payment-result' })
       }
-    },
+    }
 
-    ...mapActions(['subscribeToNode', 'selectCrypto', 'selectPlan', 'fetchBalances'])
-  },
-
-  computed: {
-    ...mapGetters(['balances'])
+    return { plans, selectedNode, isPaymentLoading, selectedCrypto, selectedPlan, price, buy }
   }
 }
 </script>
@@ -149,7 +118,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: 100vh;
   }
 }
 </style>
