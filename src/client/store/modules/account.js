@@ -40,7 +40,7 @@ export default {
       })
     },
 
-    addAccount ({ commit }, payload) {
+    addAccount ({ commit }, payload = {}) {
       commit(SET_USER_LOADING_STATE, true)
 
       return new Promise((resolve, reject) => {

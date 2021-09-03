@@ -9,7 +9,7 @@
 
 <script>
 import Connection from '@/client/views/Connection/Connection'
-import Login from '@/client/views/Login'
+import Login from '@/client/views/Login/Login'
 
 export default {
   components: {

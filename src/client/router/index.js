@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouterView } from 'vue-router'
 import Home from '@/client/views/Home'
 import Plans from '@/client/views/Plans/Plans'
-import Login from '@/client/views/Login'
+import Login from '@/client/views/Login/Login'
 import ChangeLocation from '@/client/views/ChangeLocation'
 import PaymentResult from '@/client/views/PaymentResult'
 import BalanceCheckout from '@/client/views/BalanceCheckout/BalanceCheckout'

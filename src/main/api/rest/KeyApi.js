@@ -13,7 +13,7 @@ class KeyApi {
     const key = getters.getKeyByName(DVPN_KEY_NAME)
     this.provider.interceptors.request.use(config => {
       config.data = {
-        backend: 'file',
+        backend: 'test',
         password: key && key.password,
         ...config.data
       }
