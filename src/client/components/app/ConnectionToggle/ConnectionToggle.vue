@@ -1,5 +1,9 @@
 <template>
-<div class="connection-toggle" @click="toggleConnect">
+<div
+  class="connection-toggle"
+  :class="{'connection-toggle--disabled': isDisabled}"
+  @click="toggleConnect"
+>
   <div
     class="connection-toggle__background"
     :class="{'connection-toggle__background--on' : isConnected}"
@@ -45,17 +49,31 @@ export default {
   setup () {
     const store = useStore()
 
+    const selectedNode = computed(() => store.getters.selectedNode)
+    const currentSubscription = computed(() => store.getters.currentSubscription)
+    const quota = computed(() => store.getters.quota)
+    const isDisabled = computed(() => !selectedNode.value || !currentSubscription.value || !quota.value)
+
     const toggleConnect = () => {
       if (store.getters.isConnected) {
         store.dispatch('disconnectFromNode')
-      } else {
-        store.dispatch('connectToNode')
+        return
       }
+
+      if (isDisabled.value) {
+        return
+      }
+
+      store.dispatch('connectToNode')
     }
 
     return {
       isConnected: computed(() => store.getters.isConnected),
       isConnectionLoading: computed(() => store.getters.isConnectionLoading),
+      isDisabled,
+      selectedNode,
+      currentSubscription,
+      quota,
       toggleConnect
     }
   }

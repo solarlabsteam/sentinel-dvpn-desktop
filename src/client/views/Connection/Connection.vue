@@ -7,36 +7,44 @@
       <router-link :to="{name: 'home'}"><slr-logo /></router-link>
     </div>
 
-    <node-preview
-      :title="displayedNode?.location.country"
-      :number="nodeNumber"
-      :size="30"
-      :country="displayedNode?.location.country"
-      class="connection-screen__node"
-    />
+    <div class="connection-screen__content-wrapper">
+      <div class="connection-screen__content-gap"/>
+      <node-preview
+        :title="displayedNode?.location.country"
+        :number="nodeNumber"
+        :size="30"
+        :country="displayedNode?.location.country"
+        class="connection-screen__node"
+      />
 
-    <span class="m-s18-lh22 mb-3">{{ isConnected ? 'Connected' : 'Disconnected' }}</span>
-    <div class="connection-screen__ip-info">
-      <span v-if="currentIp">
-        <span>{{ currentIp }}</span>
-        &nbsp;—&nbsp;
-        <span>
-          <span v-if="isConnected" class="text-green">Secured</span>
-          <span v-else class="text-red">IP Address is Exposed</span>
+      <span class="m-s18-lh22 mb-3">{{ isConnected ? 'Connected' : 'Disconnected' }}</span>
+      <div class="connection-screen__ip-info">
+        <span v-if="currentIp">
+          <span>{{ currentIp }}</span>
+          &nbsp;—&nbsp;
+          <span>
+            <span v-if="isConnected" class="text-green">Secured</span>
+            <span v-else class="text-red">IP Address is Exposed</span>
+          </span>
         </span>
-      </span>
 
-      <span v-else>
-        Unknown IP
-      </span>
-    </div>
-
-    <connection-toggle v-if="isServiceServerAvailable" />
-    <div class="text-center" v-else>
-      <div>
-        <slr-loader class="mb-3"/>
+        <span v-else>
+          Unknown IP
+        </span>
       </div>
-      <span class="r-s10-lh12">Checking the connection to the server</span>
+
+      <div
+        class="connection-screen__toggle-wrapper"
+        :class="{'connection-screen__toggle-wrapper--connected': isConnected}"
+      >
+        <connection-toggle v-if="isServiceServerAvailable" />
+        <div class="text-center" v-else>
+          <div>
+            <slr-loader class="mb-3"/>
+          </div>
+          <span class="r-s10-lh12">Checking the connection to the server</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -112,31 +120,5 @@ export default {
 
 <style
   lang="scss"
->
-.connection-screen {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 250px;
-  padding: 30px;
-
-  &__logo-wrapper {
-    align-self: start;
-    padding-bottom: 45px;
-  }
-
-  &__node {
-    margin-bottom: 40px;
-  }
-
-  &__ip-info {
-    margin-bottom: 50px;
-    @extend .r-s10-lh12
-  }
-
-  &--blur {
-    filter: blur(4px);
-  }
-}
-</style>
+  src="./Connection.scss"
+/>

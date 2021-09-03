@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Connection from '@/client/views/Connection'
+import Connection from '@/client/views/Connection/Connection'
 import Login from '@/client/views/Login'
 
 export default {

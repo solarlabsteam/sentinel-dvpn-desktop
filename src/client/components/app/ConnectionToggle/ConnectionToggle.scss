@@ -1,4 +1,9 @@
 .connection-toggle {
+  cursor: pointer;
+
+  &--disabled {
+    cursor: default;
+  }
 
   &__background {
     position: relative;
@@ -38,9 +43,8 @@
     box-sizing: border-box;
     width: 98px;
     height: 198px;
-    padding: 42px;
+    padding: 42px 0;
     background-image: linear-gradient(210.55deg, #071932 -3.02%, #021024 93.08%);
-    cursor: pointer;
   }
 
   &__control-background {
