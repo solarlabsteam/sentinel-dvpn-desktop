@@ -12,6 +12,8 @@
     />
   </div>
 
+  <div class="flex-1" />
+
   <div class="settings__footer">
     <div class="settings__about">
       <div>
