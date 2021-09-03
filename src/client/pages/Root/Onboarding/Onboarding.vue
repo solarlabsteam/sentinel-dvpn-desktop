@@ -51,7 +51,7 @@
 <script>
 import featureSlides from '@/client/constants/featureSlides'
 import { computed, ref } from 'vue'
-import Login from '@/client/views/Root/Login/Login'
+import Login from '@/client/pages/Root/Login/Login'
 
 export default {
   name: 'Onboarding',

@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import Connection from '@/client/views/Connection/Connection'
-import Root from '@/client/views/Root/Root'
+import Connection from '@/client/pages/Connection/Connection'
+import Root from '@/client/pages/Root/Root'
 
 export default {
   components: {

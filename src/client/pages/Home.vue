@@ -21,7 +21,7 @@
 
 <script>
 
-import CurrentPlan from '@/client/views/CurrentPlan'
+import CurrentPlan from '@/client/pages/CurrentPlan'
 import PageHeader from '@/client/components/app/PageHeader/PageHeader'
 
 export default {

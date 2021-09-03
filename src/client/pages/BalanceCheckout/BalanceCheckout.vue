@@ -53,7 +53,7 @@
 
 <script>
 import PageHeader from '@/client/components/app/PageHeader/PageHeader'
-import PlanParameter from '@/client/views/Plans/PlanParameter/PlanParameter'
+import PlanParameter from '@/client/pages/Plans/PlanParameter/PlanParameter'
 import QrCode from '@/client/components/app/QrCode/QrCode'
 import { useStore } from 'vuex'
 import { computed } from 'vue'

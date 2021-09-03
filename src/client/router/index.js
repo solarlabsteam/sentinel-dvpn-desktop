@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory, RouterView } from 'vue-router'
-import Home from '@/client/views/Home'
-import Plans from '@/client/views/Plans/Plans'
-import ChangeLocation from '@/client/views/ChangeLocation'
-import PaymentResult from '@/client/views/PaymentResult'
-import BalanceCheckout from '@/client/views/BalanceCheckout/BalanceCheckout'
-import Settings from '@/client/views/settings/Settings'
-import Root from '@/client/views/Root/Root'
+import Home from '@/client/pages/Home'
+import Plans from '@/client/pages/Plans/Plans'
+import ChangeLocation from '@/client/pages/ChangeLocation'
+import PaymentResult from '@/client/pages/PaymentResult'
+import BalanceCheckout from '@/client/pages/BalanceCheckout/BalanceCheckout'
+import Settings from '@/client/pages/Settings/Settings'
+import Root from '@/client/pages/Root/Root'
 
 const routes = [
   {
