@@ -1,5 +1,5 @@
 <template>
-  <slr-logo v-if="isUserLoading"/>
+  <slr-logo class="logo" v-if="isUserLoading"/>
 
   <template v-else>
     <onboarding v-if="!user" />
@@ -38,3 +38,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.logo {
+  align-self: center;
+  margin: auto;
+}
+</style>
