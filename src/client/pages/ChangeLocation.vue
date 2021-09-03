@@ -34,8 +34,8 @@
 
 <script>
 import { mapActions, useStore } from 'vuex'
-import NodePreview from '@/client/components/app/NodePreview/NodePreview'
-import PageHeader from '@/client/components/app/PageHeader/PageHeader'
+import NodePreview from '@/client/components/app/NodePreview'
+import PageHeader from '@/client/components/app/PageHeader'
 import { syncStoreValue } from '@/client/store/plugins/syncStore'
 import { computed, onMounted } from 'vue'
 

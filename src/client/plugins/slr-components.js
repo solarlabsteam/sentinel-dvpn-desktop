@@ -1,9 +1,9 @@
-import SlrButton from '@/client/components/ui/SlrButton/SlrButton'
-import SlrLoader from '@/client/components/ui/SlrLoader/SlrLoader'
-import SlrLogo from '@/client/components/ui/SlrLogo/SlrLogo'
-import SlrProgress from '@/client/components/ui/SlrProgress/SlrProgress'
-import SlrIcon from '@/client/components/ui/SlrIcon/SlrIcon'
-import SlrTimer from '@/client/components/ui/SlrTimer/SlrTimer'
+import SlrButton from '@/client/components/ui/SlrButton'
+import SlrLoader from '@/client/components/ui/SlrLoader'
+import SlrLogo from '@/client/components/ui/SlrLogo'
+import SlrProgress from '@/client/components/ui/SlrProgress'
+import SlrIcon from '@/client/components/ui/SlrIcon'
+import SlrTimer from '@/client/components/ui/SlrTimer'
 
 export default function registerSlrComponents (app) {
   app.component('slr-button', SlrButton)

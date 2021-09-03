@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import PaymentCheck from '@/client/components/app/PaymentCheck/PaymentCheck'
+import PaymentCheck from '@/client/components/app/PaymentCheck'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'

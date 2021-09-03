@@ -46,10 +46,10 @@
 
 <script>
 import { useStore } from 'vuex'
-import Quota from '@/client/components/app/Quota/Quota'
+import Quota from '@/client/components/app/Quota'
 import { computed } from 'vue'
-import SlrLoader from '@/client/components/ui/SlrLoader/SlrLoader'
-import NodePreview from '@/client/components/app/NodePreview/NodePreview'
+import SlrLoader from '@/client/components/ui/SlrLoader'
+import NodePreview from '@/client/components/app/NodePreview'
 
 export default {
   name: 'Plan',

@@ -22,7 +22,7 @@
 <script>
 
 import CurrentPlan from '@/client/pages/CurrentPlan'
-import PageHeader from '@/client/components/app/PageHeader/PageHeader'
+import PageHeader from '@/client/components/app/PageHeader'
 
 export default {
   name: 'Home',

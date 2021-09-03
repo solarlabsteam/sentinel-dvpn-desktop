@@ -36,10 +36,10 @@
 <script>
 import { mapActions, mapGetters, useStore } from 'vuex'
 import { computed, onMounted } from 'vue'
-import PageHeader from '@/client/components/app/PageHeader/PageHeader'
-import PlanParameter from './PlanParameter/PlanParameter'
-import PlanList from './PlanList/PlanList'
-import Plan from './Plan/Plan'
+import PageHeader from '@/client/components/app/PageHeader'
+import PlanParameter from './PlanParameter'
+import PlanList from './PlanList'
+import Plan from './Plan'
 import { transactionFee } from '@/shared/constants'
 import getUnixTime from 'date-fns/getUnixTime'
 

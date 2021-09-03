@@ -52,9 +52,9 @@
 </template>
 
 <script>
-import PageHeader from '@/client/components/app/PageHeader/PageHeader'
-import PlanParameter from '@/client/pages/Plans/PlanParameter/PlanParameter'
-import QrCode from '@/client/components/app/QrCode/QrCode'
+import PageHeader from '@/client/components/app/PageHeader'
+import PlanParameter from '@/client/pages/Plans/PlanParameter'
+import QrCode from '@/client/components/app/QrCode'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { transactionFee } from '@/shared/constants'

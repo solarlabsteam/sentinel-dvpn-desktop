@@ -28,11 +28,10 @@
 <script>
 import { computed } from 'vue'
 import format from 'date-fns/format'
-import SlrIcon from '@/client/components/ui/SlrIcon/SlrIcon'
 
 export default {
   name: 'PaymentCheck',
-  components: { SlrIcon },
+
   props: {
     success: {
       type: Boolean,

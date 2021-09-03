@@ -11,7 +11,7 @@
 import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import Onboarding from '@/client/pages/Root/Onboarding/Onboarding'
+import Onboarding from '@/client/pages/Root/Onboarding'
 
 export default {
   name: 'Root',

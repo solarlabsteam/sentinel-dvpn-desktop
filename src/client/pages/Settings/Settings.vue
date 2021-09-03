@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import PageHeader from '@/client/components/app/PageHeader/PageHeader'
-import DnsCheckbox from '@/client/pages/Settings/DnsCheckbox/DnsCheckbox'
+import PageHeader from '@/client/components/app/PageHeader'
+import DnsCheckbox from '@/client/pages/Settings/DnsCheckbox'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import servers from '@/client/constants/dns'

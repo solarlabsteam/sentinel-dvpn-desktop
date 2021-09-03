@@ -53,8 +53,8 @@
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import statuses from '@/client/constants/statuses'
-import NodePreview from '@/client/components/app/NodePreview/NodePreview'
-import ConnectionToggle from '@/client/components/app/ConnectionToggle/ConnectionToggle'
+import NodePreview from '@/client/components/app/NodePreview'
+import ConnectionToggle from '@/client/components/app/ConnectionToggle'
 import { computed, onMounted, onUnmounted, watchEffect } from 'vue'
 
 export default {
