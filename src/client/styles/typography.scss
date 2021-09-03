@@ -103,6 +103,10 @@
     @include font-template(18px, 22px, 700);
 }
 
+.b-s22-lh27 {
+    @include font-template(22px, 27px, 700);
+}
+
 .s-s30-lh33 {
     @include font-template(30px, 33px, 600);
 }

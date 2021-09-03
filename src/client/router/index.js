@@ -1,17 +1,17 @@
 import { createRouter, createWebHistory, RouterView } from 'vue-router'
 import Home from '@/client/views/Home'
 import Plans from '@/client/views/Plans/Plans'
-import Login from '@/client/views/Login/Login'
 import ChangeLocation from '@/client/views/ChangeLocation'
 import PaymentResult from '@/client/views/PaymentResult'
 import BalanceCheckout from '@/client/views/BalanceCheckout/BalanceCheckout'
 import Settings from '@/client/views/settings/Settings'
+import Root from '@/client/views/Root/Root'
 
 const routes = [
   {
     path: '/',
-    component: Login,
-    name: 'login'
+    name: 'root',
+    component: Root
   },
   {
     path: '/home',

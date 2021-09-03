@@ -1,20 +1,20 @@
 <template>
-  <login>
+  <root>
     <connection />
     <div class="page">
       <router-view />
     </div>
-  </login>
+  </root>
 </template>
 
 <script>
 import Connection from '@/client/views/Connection/Connection'
-import Login from '@/client/views/Login/Login'
+import Root from '@/client/views/Root/Root'
 
 export default {
   components: {
     Connection,
-    Login
+    Root
   }
 }
 </script>
