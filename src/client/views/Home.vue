@@ -15,7 +15,7 @@
   </page-header>
   <div>
     <current-plan/>
-<!--    <available-subscriptions />-->
+    <!--favourites-->
   </div>
 </template>
 
