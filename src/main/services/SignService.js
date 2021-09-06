@@ -1,4 +1,4 @@
-import { chainId, DVPN_KEY_NAME } from '@/main/common/constants'
+import { chainId, DVPN_KEY_NAME, DENOM } from '@/main/common/constants'
 import { TxBody, Fee, SignerInfo, ModeInfo, AuthInfo, SignDoc, TxRaw } from '@/main/proto/cosmos/tx/v1beta1/tx_pb.js'
 import { Coin } from '@/main/proto/cosmos/base/v1beta1/coin_pb.js'
 import { SignMode } from '@/main/proto/cosmos/tx/signing/v1beta1/signing_pb.js'
@@ -13,7 +13,7 @@ class SignService {
   }
 
   getFeeValue () {
-    const amount = new Coin(['udvpn', transactionFee.toString()])
+    const amount = new Coin([DENOM, transactionFee.toString()])
     const fee = new Fee([[], 100000])
     fee.addAmount(amount)
 
