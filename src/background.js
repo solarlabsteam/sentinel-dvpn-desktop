@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, Menu } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import path from 'path'
@@ -73,6 +73,13 @@ app.on('ready', async () => {
     }
     await import('./main/ipc')
     createWindow()
+
+    if (!isDevelopment) {
+      const menu = Menu.buildFromTemplate([{
+        role: 'fileMenu'
+      }])
+      Menu.setApplicationMenu(menu)
+    }
   } catch (e) {
     Notifications.createCritical(e)
   }
