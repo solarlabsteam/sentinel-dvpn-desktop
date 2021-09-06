@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouterView } from 'vue-router'
+import { createRouter, createWebHashHistory, RouterView } from 'vue-router'
 import Home from '@/client/pages/Home'
 import Plans from '@/client/pages/Plans'
 import ChangeLocation from '@/client/pages/ChangeLocation'
@@ -83,7 +83,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(process.env.BASE_URL),
   routes
 })
 
