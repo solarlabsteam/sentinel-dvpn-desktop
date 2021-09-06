@@ -1,4 +1,5 @@
 import { Notification } from 'electron'
+import path from 'path'
 
 class Notifications {
   static create (options) {
@@ -6,6 +7,7 @@ class Notifications {
       title: 'Sentinel DVPN',
       silent: false,
       timeoutType: 'default',
+      icon: path.resolve(__static, 'assets/images/logo.png'),
       ...options
     })
   }

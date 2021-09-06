@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow, Menu } from 'electron'
+import { app, protocol, BrowserWindow, Menu, nativeImage } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import path from 'path'
@@ -20,6 +20,7 @@ async function createWindow () {
   const win = new BrowserWindow({
     width: 1200,
     height: 800,
+    icon: nativeImage.createFromPath(path.resolve(__static, 'assets/images/logo.png')),
     webPreferences: {
 
       // Use pluginOptions.nodeIntegration, leave this alone
