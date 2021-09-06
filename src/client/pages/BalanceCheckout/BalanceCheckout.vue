@@ -6,17 +6,17 @@
       <plan-parameter
         :title="selectedNode.location.country"
         :second-title="selectedNode.address.slice(-6)"
-        :parameter="'Country'"
+        :parameter="t('plan.parameter.country.title')"
         :country="selectedNode.location.country"
       />
       <plan-parameter
         :title="`${selectedCrypto} ${selectedAmount}`"
-        :parameter="'Crypto'"
+        :parameter="t('plan.parameter.crypto.title')"
         :currency="selectedCrypto"
       />
     </div>
 
-    <div class="text-center r-s10-lh12 mb-3">Scan the QR Code</div>
+    <div class="text-center r-s10-lh12 mb-3">{{ t('checkout.scanQr') }}</div>
     <qr-code
       class="mb-4"
       :value="user.addressBech32"
@@ -40,7 +40,7 @@
     </div>
 
     <div class="balance-checkout__info-message">
-      Your transation should be processed within
+      {{ t('checkout.message.timer') }}
     </div>
 
     <slr-timer
@@ -60,6 +60,7 @@ import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import getUnixTime from 'date-fns/getUnixTime'
 import checkBalance from './checkBalance'
+import { useI18n } from 'vue-i18n'
 
 export default {
   name: 'BalanceCheckout',
@@ -73,6 +74,7 @@ export default {
   setup () {
     const store = useStore()
     const router = useRouter()
+    const { t } = useI18n()
     let isSubscriptionLoadingOnce = false
 
     const setFailedResult = async () => {
@@ -117,7 +119,8 @@ export default {
       selectedPlan: computed(() => store.getters.selectedPlan),
       selectedAmount: computed(() => Number(store.getters.selectedPlan.deposit.amount).toLocaleString()),
       user: computed(() => store.getters.user),
-      handleTick
+      handleTick,
+      t
     }
   }
 }

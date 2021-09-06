@@ -41,6 +41,7 @@
     "tiny-timer": "^1.6.0",
     "uint64be": "^3.0.0",
     "vue": "^3.0.0",
+    "vue-i18n": "^9.1.7",
     "vue-router": "4",
     "vue3-clipboard": "^1.0.0",
     "vuex": "^4.0.2",

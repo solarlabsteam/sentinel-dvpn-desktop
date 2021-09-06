@@ -9,11 +9,11 @@
 
   <div class="plan__description">
     <div class="plan__tariff">
-      <span class="plan__type">Unlimited</span>
+      <span class="plan__type">{{ t('plan.type.unlimited.title') }}</span>
 
       <div class="plan__size">
         <span class="plan__amount-gb">{{ plan.amountGbs }}</span>
-        <span class="plan__unit">gb</span>
+        <span class="plan__unit">{{ t('plan.unit.gb.title') }}</span>
       </div>
     </div>
 
@@ -26,7 +26,7 @@
       @click="$emit('buy', plan.amountGbs)"
       class="plan__button-buy"
     >
-      Buy
+      {{ t('plan.action.buy') }}
     </slr-button>
   </div>
 </li>
@@ -35,6 +35,7 @@
 <script>
 import { useStore } from 'vuex'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 export default {
   name: 'Plan',
@@ -50,10 +51,12 @@ export default {
 
   setup (props) {
     const store = useStore()
+    const { t } = useI18n()
 
     return {
       selectedNode: computed(() => store.getters.selectedNode),
-      coinsAmount: computed(() => (store.getters.selectedNode.priceList[0].amount * props.plan.amountGbs).toLocaleString('en'))
+      coinsAmount: computed(() => (store.getters.selectedNode.priceList[0].amount * props.plan.amountGbs).toLocaleString('en')),
+      t
     }
   }
 }

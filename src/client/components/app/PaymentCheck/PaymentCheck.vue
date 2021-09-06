@@ -1,7 +1,7 @@
 <template>
 <div class="payment-check">
   <div class="payment-check__date">{{ date }}</div>
-  <div v-if="txHash" class="payment-check__txhash">Ref No: {{ croppedHash }}</div>
+  <div v-if="txHash" class="payment-check__txhash">{{ t('payment.check.hash', {hash: croppedHash}) }}</div>
 
   <hr class="payment-check__divider">
 
@@ -28,6 +28,7 @@
 <script>
 import { computed } from 'vue'
 import format from 'date-fns/format'
+import { useI18n } from 'vue-i18n'
 
 export default {
   name: 'PaymentCheck',
@@ -65,10 +66,13 @@ export default {
   },
 
   setup (props) {
+    const { t } = useI18n()
+
     return {
       date: computed(() => format(props.timestamp * 1000, 'dd LLL uuuu p')),
       coinsAmount: computed(() => Number(props.amount).toLocaleString('en')),
-      croppedHash: computed(() => props.txHash.slice(0, 12))
+      croppedHash: computed(() => props.txHash.slice(0, 12)),
+      t
     }
   }
 }
