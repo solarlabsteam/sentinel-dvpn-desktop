@@ -2,7 +2,7 @@
   <div
     class="quota slr-card"
     :class="{
-      'u-pointer': to
+      'slr-hoverable': to
     }"
     @click="() => to && $router.push(to)"
   >
