@@ -6,6 +6,7 @@ import PaymentResult from '@/client/pages/PaymentResult'
 import BalanceCheckout from '@/client/pages/BalanceCheckout'
 import Settings from '@/client/pages/Settings'
 import Root from '@/client/pages/Root'
+import i18n from '@/client/plugins/i18n'
 
 const routes = [
   {
@@ -18,7 +19,7 @@ const routes = [
     component: Home,
     name: 'home',
     meta: {
-      title: 'Current Plan',
+      title: i18n.global.t('route.home.title'),
       hasStepBackButton: false
     }
   },
@@ -27,7 +28,7 @@ const routes = [
     name: 'change-location',
     component: ChangeLocation,
     meta: {
-      title: 'Change Location',
+      title: i18n.global.t('route.changeLocation.title'),
       hasStepBackButton: true
     }
   },
@@ -39,7 +40,7 @@ const routes = [
       name: 'plans',
       component: Plans,
       meta: {
-        title: 'Plans',
+        title: i18n.global.t('route.plans.title'),
         hasStepBackButton: true,
         blurConnectionScreen: true
       }
@@ -48,7 +49,7 @@ const routes = [
       name: 'plan-change-location',
       component: ChangeLocation,
       meta: {
-        title: 'Change Location',
+        title: i18n.global.t('route.changeLocation.title'),
         hasStepBackButton: true,
         blurConnectionScreen: true
       }
@@ -57,7 +58,7 @@ const routes = [
       name: 'balance-checkout',
       component: BalanceCheckout,
       meta: {
-        title: 'Checkout',
+        title: i18n.global.t('route.checkout.title'),
         hasStepBackButton: true,
         blurConnectionScreen: true
       }
@@ -76,7 +77,7 @@ const routes = [
     name: 'settings',
     component: Settings,
     meta: {
-      title: 'Default DNS Server',
+      title: i18n.global.t('route.defaultDns.title'),
       hasStepBackButton: true
     }
   }

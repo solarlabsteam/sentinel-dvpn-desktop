@@ -10,7 +10,7 @@
   >
     <div class="connection-toggle__layout">
       <slr-loader v-if="isConnectionLoading" :size="20"/>
-      <span v-else>OFF</span>
+      <span class="text-uppercase" v-else>{{ t('connection.toggle.off') }}</span>
 
       <div
         class="connection-toggle__control-background"
@@ -33,7 +33,7 @@
       </div>
 
       <slr-loader v-if="isConnectionLoading" :size="20" />
-      <span v-else>ON</span>
+      <span class="text-uppercase" v-else>{{ t('connection.toggle.on') }}</span>
     </div>
   </div>
 </div>
@@ -42,12 +42,14 @@
 <script>
 import { useStore } from 'vuex'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 export default {
   name: 'ConnectionToggle',
 
   setup () {
     const store = useStore()
+    const { t } = useI18n()
 
     const selectedNode = computed(() => store.getters.selectedNode)
     const currentSubscription = computed(() => store.getters.currentSubscription)
@@ -74,7 +76,8 @@ export default {
       selectedNode,
       currentSubscription,
       quota,
-      toggleConnect
+      toggleConnect,
+      t
     }
   }
 }

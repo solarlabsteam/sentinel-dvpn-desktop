@@ -10,13 +10,13 @@
         <plan-parameter
           :title="selectedNode.location.country"
           :second-title="selectedNode.address.slice(-6)"
-          :parameter="'Country'"
+          :parameter="t('plan.parameter.country.title')"
           :to="{name: 'plan-change-location'}"
           :country="selectedNode.location.country"
         />
         <plan-parameter
           :title="selectedCrypto"
-          :parameter="'Crypto'"
+          :parameter="t('plan.parameter.crypto.title')"
           :currency="selectedCrypto"
         />
       </div>
@@ -44,6 +44,7 @@ import getUnixTime from 'date-fns/getUnixTime'
 import plans from '@/client/constants/plans'
 import checkBalance from '@/client/pages/BalanceCheckout/checkBalance'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 export default {
   name: 'Plans',
@@ -58,6 +59,7 @@ export default {
   setup () {
     const store = useStore()
     const router = useRouter()
+    const { t } = useI18n()
     const selectedCrypto = computed(() => store.getters.selectedCrypto)
     const selectedNode = computed(() => store.getters.selectedNode)
     const price = computed(() => selectedNode.value.priceList.find(price => price.denom === selectedCrypto.value))
@@ -73,7 +75,7 @@ export default {
 
       await store.dispatch('selectPlan', {
         amountGbs: gbs,
-        type: 'Unlimited',
+        type: t('plan.type.unlimited.title'),
         payBefore: (getUnixTime(new Date()) + 30 * 60) * 1000,
         deposit: { amount: amount.toString(), denom: selectedCrypto.value },
         node: selectedNode.value
@@ -97,7 +99,7 @@ export default {
       }
     }
 
-    return { plans, selectedNode, isPaymentLoading, selectedCrypto, selectedPlan, price, buy }
+    return { plans, selectedNode, isPaymentLoading, selectedCrypto, selectedPlan, price, buy, t }
   }
 }
 </script>

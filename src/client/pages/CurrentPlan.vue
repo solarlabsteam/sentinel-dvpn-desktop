@@ -8,16 +8,16 @@
       <div class="current-plan__quotas">
         <quota
           :count="Infinity"
-          :units="'DAYS LEFT'"
-          :description="'pay-as-you-go'"
+          :units="t('quota.unit.day.title')"
+          :description="t('quota.unit.day.description')"
           :progress-color="'blue'"
           :to="selectedNode ? {name: 'plans'} : null"
         />
 
         <quota
           :count="quota?.balanceGb"
-          :units="'GB'"
-          :description="`remaining of ${Number(quota?.allocatedGb || 0)} GB`"
+          :units="t('quota.unit.gb.title')"
+          :description="t('quota.unit.gb.description', {count: Number(quota?.allocatedGb || 0)})"
           :total="quota?.allocatedGb"
           :progress-color="'green'"
           :to="selectedNode ? {name: 'plans'} : null"
@@ -37,7 +37,7 @@
             :country="selectedNode?.location.country"
           />
 
-          <span class="s-s9-lh11">CHANGE</span>
+          <span class="s-s9-lh11 text-uppercase">{{ t('node.selected.change') }}</span>
         </slr-button>
       </div>
     </template>
@@ -50,6 +50,7 @@ import Quota from '@/client/components/app/Quota'
 import { computed } from 'vue'
 import SlrLoader from '@/client/components/ui/SlrLoader'
 import NodePreview from '@/client/components/app/NodePreview'
+import { useI18n } from 'vue-i18n'
 
 export default {
   name: 'Plan',
@@ -62,6 +63,7 @@ export default {
 
   setup () {
     const store = useStore()
+    const { t } = useI18n()
     const selectedNode = store.getters.selectedNode
 
     const handleSelectedNode = async () => {
@@ -87,7 +89,8 @@ export default {
       quota: computed(() => store.getters.quota),
       isQuotaLoading: computed(() => store.getters.isQuotaLoading),
       nodeNumber: computed(() => store.getters.selectedNode?.address.slice(-6)),
-      isConnected: computed(() => store.getters.isConnected)
+      isConnected: computed(() => store.getters.isConnected),
+      t
     }
   }
 }

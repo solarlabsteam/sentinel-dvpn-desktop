@@ -11,19 +11,19 @@
   />
   <div class="s-s30-lh33 text-center mb-4">
     <span>Payment</span><br>
-    <span>{{ paymentResult?.success ?  'Successful' : 'Failed!' }}</span>
+    <span>{{ paymentResult?.success ?  t('payment.result.status.success') : t('payment.result.status.failed') }}</span>
   </div>
   <slr-button
     v-if="paymentResult?.success"
     @click="leavePage({name: 'home'})"
   >
-    Go to Home
+    {{ t('payment.result.action.goHome') }}
   </slr-button>
   <slr-button
     v-else
     @click="leavePage({name: 'plans'})"
   >
-    Check plans
+    {{ t('payment.result.action.checkPlans') }}
   </slr-button>
 
   <div class="payment-result__background-circle payment-result__background-circle-1" />
@@ -37,6 +37,7 @@ import PaymentCheck from '@/client/components/app/PaymentCheck'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 export default {
   name: 'PaymentResult',
@@ -48,6 +49,7 @@ export default {
   setup () {
     const store = useStore()
     const router = useRouter()
+    const { t } = useI18n()
     const leavePage = async (to) => {
       await router.push(to)
       store.dispatch('clearPaymentResult')
@@ -57,7 +59,8 @@ export default {
       selectedPlan: computed(() => store.getters.selectedPlan),
       checkDescription: computed(() => store.getters.selectedPlan?.amountGbs + 'GB ' + store.getters.selectedPlan?.type),
       paymentResult: computed(() => store.getters.paymentResult),
-      leavePage
+      leavePage,
+      t
     }
   }
 }

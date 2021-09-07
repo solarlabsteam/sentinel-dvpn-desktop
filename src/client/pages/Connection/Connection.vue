@@ -17,19 +17,19 @@
         class="connection-screen__node"
       />
 
-      <span class="m-s18-lh22 mb-3">{{ isConnected ? 'Connected' : 'Disconnected' }}</span>
+      <span class="m-s18-lh22 mb-3">{{ isConnected ? t('connection.connectedStatus') : t('connection.disconnectedStatus') }}</span>
       <div class="connection-screen__ip-info">
         <span v-if="currentIp">
           <span>{{ currentIp }}</span>
           &nbsp;—&nbsp;
           <span>
-            <span v-if="isConnected" class="text-green">Secured</span>
-            <span v-else class="text-red">IP Address is Exposed</span>
+            <span v-if="isConnected" class="text-green">{{ t('connection.securedIp') }}</span>
+            <span v-else class="text-red">{{ t('connection.exposedIp') }}</span>
           </span>
         </span>
 
         <span v-else>
-          Unknown IP
+          {{ t('connection.unknownIp') }}
         </span>
       </div>
 
@@ -42,7 +42,7 @@
           <div>
             <slr-loader class="mb-3"/>
           </div>
-          <span class="r-s10-lh12">Checking the connection to the server</span>
+          <span class="r-s10-lh12">{{ t('connection.checkingConnection') }}</span>
         </div>
       </div>
     </div>
@@ -52,6 +52,7 @@
 <script>
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import statuses from '@/client/constants/statuses'
 import NodePreview from '@/client/components/app/NodePreview'
 import ConnectionToggle from '@/client/components/app/ConnectionToggle'
@@ -68,6 +69,7 @@ export default {
   setup () {
     const store = useStore()
     const route = useRoute()
+    const { t } = useI18n()
     let statusFetcher = null
 
     onMounted(() => {
@@ -112,7 +114,8 @@ export default {
       classes: computed(() => ({ 'connection-screen--blur': route.meta.blurConnectionScreen })),
       isNodeAvailable,
       isSubscriptionAvailable,
-      isQuotaAvailable
+      isQuotaAvailable,
+      t
     }
   }
 }

@@ -4,6 +4,7 @@ import App from './client/App.vue'
 import router from './client/router'
 import store from '@/client/store/store'
 import registerSlrComponents from '@/client/plugins/slr-components'
+import i18n from '@/client/plugins/i18n'
 
 const app = createApp(App)
 
@@ -14,5 +15,6 @@ app.use(VueClipboard, {
   autoSetContainer: true,
   appendToBody: true
 })
+app.use(i18n)
 
 app.mount('#app')
