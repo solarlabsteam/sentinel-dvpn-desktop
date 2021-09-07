@@ -4,7 +4,7 @@
 
   &__feature {
     flex: none;
-    display: flex;
+    display: none; // flex
     justify-content: center;
     align-items: center;
     transform: rotate(180deg);

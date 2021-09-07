@@ -1,11 +1,9 @@
 export default [{
   amountGbs: 1
 }, {
-  amountGbs: 5,
-  feature: 'new'
+  amountGbs: 5
 }, {
-  amountGbs: 15,
-  feature: 'popular'
+  amountGbs: 15
 }, {
   amountGbs: 20
 }, {

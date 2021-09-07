@@ -91,6 +91,9 @@ export default {
     },
     action: {
       buy: 'Buy'
+    },
+    warning: {
+      lessBytes: 'Subscription to the node may get a less bytes allocated than expected because the calculation for bytes is based on the smallest token value'
     }
   },
 

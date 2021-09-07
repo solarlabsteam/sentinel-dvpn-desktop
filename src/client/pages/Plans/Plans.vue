@@ -21,7 +21,7 @@
         />
       </div>
 
-      <plan-list>
+      <plan-list class="mb-5 px-5">
         <plan
           v-for="plan in plans"
           :key="plan.amountGbs"
@@ -29,6 +29,8 @@
           @buy="buy"
         />
       </plan-list>
+
+      <div class="plans__info-message px-5">{{ t('plan.warning.lessBytes') }}</div>
     </template>
   </div>
 </template>
@@ -121,6 +123,13 @@ export default {
     justify-content: center;
     align-items: center;
     height: 100vh;
+  }
+
+  &__info-message {
+    opacity: 0.4;
+    margin-bottom: 10px;
+    text-align: center;
+    @extend .m-s10-lh12
   }
 }
 </style>
