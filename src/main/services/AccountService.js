@@ -1,6 +1,6 @@
 import { Any } from '@/main/proto/google/protobuf/any_pb.js'
 import { PubKey } from '@/main/proto/cosmos/crypto/secp256k1/keys_pb.js'
-import { DVPN_KEY_NAME } from '@/main/common/constants'
+import { DENOM, DVPN_KEY_NAME } from '@/main/common/constants'
 import { QueryAccountRequest } from '@/main/proto/cosmos/auth/v1beta1/query_pb.js'
 import { QueryClient as AccountQueryClient } from '@/main/proto/cosmos/auth/v1beta1/query_grpc_pb.js'
 import { BaseAccount } from '@/main/proto/cosmos/auth/v1beta1/auth_pb.js'
@@ -9,6 +9,7 @@ import { QueryClient as BankQueryClient } from '@/main/proto/cosmos/bank/v1beta1
 import KeyApi from '@/main/api/rest/KeyApi'
 import QueryService from '@/main/services/QueryService'
 import { getters } from '@/main/store/store'
+import { transactionFee } from '@/shared/constants'
 
 class AccountService {
   constructor () {
@@ -71,6 +72,13 @@ class AccountService {
         const balances = response.getBalancesList().map(coin => coin.toObject())
         resolve(balances)
       })
+    })
+  }
+
+  async isBalanceEnoughForTransaction () {
+    const balances = await this.queryBalances()
+    return balances.some(b => {
+      return b.denom === DENOM && Number(b.amount) > transactionFee
     })
   }
 }

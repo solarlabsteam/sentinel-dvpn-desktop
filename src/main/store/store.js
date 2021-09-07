@@ -1,15 +1,7 @@
 import { ipcMain } from 'electron'
 import Store from 'electron-store'
 
-const schema = {
-  keyringRestServerPort: {
-    default: '11112'
-  },
-  dvpnRestServerPort: {
-    default: '11112'
-  }
-}
-const store = new Store({ schema })
+const store = new Store()
 
 export function initStoreHandlers () {
   ipcMain.handle('GET_STORE_VALUE', (event, key) => {

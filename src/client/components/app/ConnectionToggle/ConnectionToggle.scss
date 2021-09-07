@@ -1,10 +1,6 @@
 .connection-toggle {
   cursor: pointer;
 
-  &--disabled {
-    cursor: default;
-  }
-
   &__background {
     position: relative;
     display: flex;

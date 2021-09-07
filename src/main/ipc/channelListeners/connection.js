@@ -6,6 +6,7 @@ import ConnectionService from '@/main/services/СonnectionService'
 import AccountService from '@/main/services/AccountService'
 import NodeService from '@/main/services/NodeService'
 import SessionService from '@/main/services/SessionService'
+import i18next from 'i18next'
 
 const accountService = new AccountService()
 const nodeService = new NodeService()
@@ -17,11 +18,31 @@ function initConnectionListeners () {
     try {
       const key = await accountService.queryKeyByName(DVPN_KEY_NAME)
       const { subscription, resolvers } = JSON.parse(payload)
+
+      if (!subscription) {
+        const message = i18next.t('connection.error.noSubscription')
+        Notifications.createCritical(message).show()
+        event.reply('CONNECT_TO_NODE', { error: generateError({ message }) })
+        return
+      }
+
+      try {
+        const isBalanceEnough = await accountService.isBalanceEnoughForTransaction()
+
+        if (!isBalanceEnough) {
+          const message = i18next.t('connection.error.noBalance')
+          Notifications.createCritical(message).show()
+          event.reply('CONNECT_TO_NODE', { error: generateError({ message: message }) })
+          return
+        }
+      } catch (e) {}
+
       const activeSession = await sessionService.startActiveSession(key.addressBech32, subscription)
 
       if (!activeSession) {
-        Notifications.createCritical('Cannot create a session').show()
-        event.reply('CONNECT_TO_NODE', { error: generateError({ message: 'Cannot create a session' }) })
+        const message = i18next.t('connection.error.noSession')
+        Notifications.createCritical(message).show()
+        event.reply('CONNECT_TO_NODE', { error: generateError({ message: message }) })
         return
       }
 
@@ -32,7 +53,7 @@ function initConnectionListeners () {
       event.reply('CONNECT_TO_NODE', { data: result })
     } catch (e) {
       const error = generateError(e)
-      Notifications.createCritical(error.message).show()
+      Notifications.createCritical(i18next.t('connection.error.common')).show()
       event.reply('CONNECT_TO_NODE', { error })
     }
   })

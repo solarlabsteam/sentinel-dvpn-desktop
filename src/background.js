@@ -7,6 +7,7 @@ import path from 'path'
 import { launchKeyringRestServer } from '@/main/rest/keyring'
 import Notifications from '@/main/common/Notifications'
 import { launchDvpnRestServer } from '@/main/rest/dvpn'
+import initI18n from '@/main/i18n'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -62,6 +63,12 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
+  try {
+    await initI18n()
+  } catch (e) {
+    console.trace('Cannot load locales')
+  }
+
   try {
     await Promise.all([launchKeyringRestServer(), launchDvpnRestServer()])
     if (isDevelopment && !process.env.IS_TEST) {
