@@ -1,4 +1,4 @@
-import { google } from '@/client/constants/dns'
+import { defaultDns } from '@/client/constants/dns'
 
 async function prefetchNode (store) {
   const data = await window.ipc.invoke('GET_STORE_VALUE', 'selectedNode')
@@ -17,7 +17,7 @@ async function prefetchPayment (store) {
 
 async function prefetchDns (store) {
   const data = await window.ipc.invoke('GET_STORE_VALUE', 'selectedDns')
-  await store.dispatch('selectDns', data || google)
+  await store.dispatch('selectDns', data || defaultDns)
 }
 
 export async function prefetchStore (store) {

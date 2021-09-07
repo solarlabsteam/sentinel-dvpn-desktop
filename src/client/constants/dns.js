@@ -1,4 +1,4 @@
-export const cloudfare = {
+export const cloudflare = {
   name: 'Cloudflare',
   value: '1.1.1.1, 1.0.0.1'
 }
@@ -13,4 +13,6 @@ export const freenom = {
   value: '80.80.80.80, 80.80.81.81'
 }
 
-export default [cloudfare, google, freenom]
+export const defaultDns = cloudflare
+
+export default [cloudflare, google, freenom]
