@@ -37,10 +37,9 @@ function initSubscriptionListeners () {
     try {
       const key = await accountService.queryKeyByName(DVPN_KEY_NAME)
       const node = JSON.parse(payload)
-      const result = await subscriptionService.querySubscriptionsForNode(node.address, key.addressBech32)
+      const result = await subscriptionService.querySubscriptionForAddress(key.addressBech32, node.address)
 
-      // todo: handle multiple subscriptions
-      event.reply('QUERY_SUBSCRIPTION_FOR_NODE', { data: result[0] })
+      event.reply('QUERY_SUBSCRIPTION_FOR_NODE', { data: result })
     } catch (e) {
       const error = generateError(e)
       Notifications.createCritical(error.message).show()

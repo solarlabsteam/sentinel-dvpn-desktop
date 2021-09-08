@@ -90,6 +90,11 @@ class SubscriptionService {
     })
   }
 
+  async querySubscriptionForAddress (address, node) {
+    const subscriptions = await this.querySubscriptionsForAddress(address)
+    return subscriptions.find(s => s.node === node)
+  }
+
   async subscribeToNode (to, deposit) {
     const key = await this.accountService.queryKeyByName(DVPN_KEY_NAME)
     const coin = new Coin([deposit.denom, deposit.amount])
