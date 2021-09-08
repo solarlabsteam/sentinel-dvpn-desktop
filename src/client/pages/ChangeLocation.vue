@@ -2,33 +2,66 @@
   <div class="change-location mb-4">
     <page-header />
 
-    <div v-if="isNodesLoading" class="text-center mb-3">
-      <slr-loader :size="25"/>
-    </div>
+    <slr-tabs>
+      <slr-tab title="Subscribed">
+        <div v-if="isSubscribedNodesLoading" class="text-center mb-3">
+          <slr-loader :size="20"/>
+        </div>
 
-    <ul>
-      <li
-        v-for="node in nodes"
-        class="change-location__node"
-        :class="{'change-location__node--selected': node.address === selectedNode?.address}"
-        :key="node.address"
-        @click="() => select(node)"
-      >
-        <node-preview
-          :title="node.location.country"
-          :number="node.address.slice(-6)"
-          :size="25"
-          :country="node.location.country"
-          :subtitle="node.moniker"
-        />
+        <ul>
+          <li
+            v-for="node in subscribedNodes"
+            class="change-location__node"
+            :class="{'change-location__node--selected': node.address === selectedNode?.address}"
+            :key="node.address"
+            @click="() => select(node)"
+          >
+            <node-preview
+              :title="node.location.country"
+              :number="node.address.slice(-6)"
+              :size="25"
+              :country="node.location.country"
+              :subtitle="node.moniker"
+            />
 
-        <slr-icon
-          :icon="'arrow-top-right'"
-          :size="14"
-          :rounded="true"
-        />
-      </li>
-    </ul>
+            <slr-icon
+              :icon="'arrow-top-right'"
+              :size="14"
+              :rounded="true"
+            />
+          </li>
+        </ul>
+      </slr-tab>
+      <slr-tab title="Available nodes">
+        <div v-if="isNodesLoading" class="text-center mb-3">
+          <slr-loader :size="20"/>
+        </div>
+
+        <ul>
+          <li
+            v-for="node in nodes"
+            class="change-location__node"
+            :class="{'change-location__node--selected': node.address === selectedNode?.address}"
+            :key="node.address"
+            @click="() => select(node)"
+          >
+            <node-preview
+              :title="node.location.country"
+              :number="node.address.slice(-6)"
+              :size="25"
+              :country="node.location.country"
+              :subtitle="node.moniker"
+            />
+
+            <slr-icon
+              :icon="'arrow-top-right'"
+              :size="14"
+              :rounded="true"
+            />
+          </li>
+        </ul>
+      </slr-tab>
+    </slr-tabs>
   </div>
 </template>
 
@@ -49,11 +82,14 @@ export default {
 
     onMounted(() => {
       store.dispatch('fetchNodes')
+      store.dispatch('fetchSubscribedNodes')
     })
 
     return {
       nodes: computed(() => store.getters.nodes),
       isNodesLoading: computed(() => store.getters.isNodesLoading),
+      subscribedNodes: computed(() => store.getters.subscribedNodes),
+      isSubscribedNodesLoading: computed(() => store.getters.isSubscribedNodesLoading),
       selectedNode: computed(() => store.getters.selectedNode)
     }
   },
@@ -84,6 +120,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 10px;
     padding: 6px 35px 6px 30px;
     cursor: pointer;
 

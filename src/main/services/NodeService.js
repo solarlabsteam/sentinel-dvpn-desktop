@@ -60,10 +60,9 @@ class NodeService {
     })
   }
 
-  async queryActiveNodeInfos (offset, limit) {
-    const nodes = await this.queryActiveNodes(offset, limit)
-    const result = await Promise.allSettled(nodes.map(node => {
-      return this.queryNodeInfo(node.address)
+  async queryNodeInfos (addresses) {
+    const result = await Promise.allSettled(addresses.map(a => {
+      return this.queryNodeInfo(a)
     }))
 
     return result

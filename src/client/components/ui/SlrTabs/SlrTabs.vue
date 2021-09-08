@@ -1,0 +1,57 @@
+<template>
+<div class="slr-tabs">
+  <ul class="slr-tabs__nav">
+    <li
+      class="slr-tabs__nav-item"
+      v-for="(tab, i) in tabs"
+      :key="tab.props.title"
+      :class="{'slr-tabs__nav-item--active': selectedIndex === i}"
+      @click="selectTab(i)"
+    >
+      {{ tab.props.title }}
+    </li>
+  </ul>
+  <div class="slr-tabs__content">
+    <slot></slot>
+  </div>
+</div>
+</template>
+
+<script>
+import { reactive, provide, toRefs, onBeforeMount, onBeforeUpdate, onMounted } from 'vue'
+
+export default {
+  name: 'SlrTabs',
+
+  setup (props, { slots }) {
+    const state = reactive({
+      selectedIndex: 0,
+      tabs: [],
+      count: 0
+    })
+
+    provide('TabsProvider', state)
+
+    const selectTab = (i) => {
+      state.selectedIndex = i
+    }
+
+    const update = () => {
+      if (slots.default) {
+        state.tabs = slots.default().filter((child) => child.type.name === 'SlrTab')
+      }
+    }
+
+    onBeforeMount(() => update())
+    onBeforeUpdate(() => update())
+    onMounted(() => selectTab(0))
+
+    return { ...toRefs(state), selectTab }
+  }
+}
+</script>
+
+<style
+  lang="scss"
+  src="./SlrTabs.scss"
+/>

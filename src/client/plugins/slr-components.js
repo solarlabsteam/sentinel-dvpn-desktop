@@ -4,6 +4,8 @@ import SlrLogo from '@/client/components/ui/SlrLogo'
 import SlrProgress from '@/client/components/ui/SlrProgress'
 import SlrIcon from '@/client/components/ui/SlrIcon'
 import SlrTimer from '@/client/components/ui/SlrTimer'
+import SlrTabs from '@/client/components/ui/SlrTabs/SlrTabs'
+import SlrTab from '@/client/components/ui/SlrTabs/SlrTab/SlrTab'
 
 export default function registerSlrComponents (app) {
   app.component('slr-button', SlrButton)
@@ -12,4 +14,6 @@ export default function registerSlrComponents (app) {
   app.component('slr-progress', SlrProgress)
   app.component('slr-icon', SlrIcon)
   app.component('slr-timer', SlrTimer)
+  app.component('slr-tabs', SlrTabs)
+  app.component('slr-tab', SlrTab)
 }

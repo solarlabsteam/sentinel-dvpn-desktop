@@ -1,0 +1,28 @@
+.slr-tabs {
+
+  &__nav {
+    display: flex;
+    margin-bottom: 26px;
+    box-shadow: 0px 10px 10px 0px rgb(2 3 3 / 50%);
+  }
+
+  &__nav-item {
+    transition: color .2s;
+    padding: 6px 12px 12px;
+    background-position: center;
+    background-size: 40% 100%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    color: rgba(255, 255,255, .4);
+    @extend .m-s12-lh15;
+
+    &:hover:not(&--active) {
+      color: rgba(255, 255,255, .6);
+    }
+
+    &--active {
+      background-image: linear-gradient(to top, $slr__clr-white 0, $slr__clr-white 2px, transparent 2px, transparent 100%);
+      color: $slr__clr-white;
+    }
+  }
+}
