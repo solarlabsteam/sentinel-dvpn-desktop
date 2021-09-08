@@ -36,6 +36,7 @@
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { tokensPerDvpn } from '@/shared/constants'
 
 export default {
   name: 'Plan',
@@ -55,7 +56,7 @@ export default {
 
     return {
       selectedNode: computed(() => store.getters.selectedNode),
-      coinsAmount: computed(() => (store.getters.selectedNode.priceList[0].amount * props.plan.amountGbs).toLocaleString('en')),
+      coinsAmount: computed(() => (store.getters.selectedNode.priceList[0].amount * props.plan.amountGbs / tokensPerDvpn).toLocaleString('en')),
       t
     }
   }
