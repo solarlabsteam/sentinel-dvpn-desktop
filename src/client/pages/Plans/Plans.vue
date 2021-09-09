@@ -15,7 +15,7 @@
           :country="selectedNode.location.country"
         />
         <plan-parameter
-          :title="selectedCrypto"
+          :title="denomNames[selectedCrypto]"
           :parameter="t('plan.parameter.crypto.title')"
           :currency="selectedCrypto"
         />
@@ -47,6 +47,7 @@ import plans from '@/client/constants/plans'
 import checkBalance from '@/client/pages/BalanceCheckout/checkBalance'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import denomNames from '@/client/constants/denomNames'
 
 export default {
   name: 'Plans',
@@ -101,7 +102,7 @@ export default {
       }
     }
 
-    return { plans, selectedNode, isPaymentLoading, selectedCrypto, selectedPlan, price, buy, t }
+    return { plans, selectedNode, isPaymentLoading, selectedCrypto, selectedPlan, price, buy, t, denomNames }
   }
 }
 </script>

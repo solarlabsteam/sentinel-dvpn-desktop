@@ -1,6 +1,6 @@
 import axios from 'axios'
 import store, { getters } from '@/main/store/store'
-import { DVPN_KEY_NAME } from '@/main/common/constants'
+import { DVPN_KEY_NAME } from '@/shared/constants'
 
 const bech32 = require('bech32')
 

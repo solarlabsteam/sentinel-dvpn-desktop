@@ -1,10 +1,9 @@
-import { chainId, DVPN_KEY_NAME, DENOM } from '@/main/common/constants'
+import { chainId, DVPN_KEY_NAME, DENOM, transactionFee } from '@/shared/constants'
 import { TxBody, Fee, SignerInfo, ModeInfo, AuthInfo, SignDoc, TxRaw } from '@/main/proto/cosmos/tx/v1beta1/tx_pb.js'
 import { Coin } from '@/main/proto/cosmos/base/v1beta1/coin_pb.js'
 import { SignMode } from '@/main/proto/cosmos/tx/signing/v1beta1/signing_pb.js'
 import AccountService from '@/main/services/AccountService'
 import KeyApi from '@/main/api/rest/KeyApi'
-import { transactionFee } from '@/shared/constants'
 
 class SignService {
   constructor () {

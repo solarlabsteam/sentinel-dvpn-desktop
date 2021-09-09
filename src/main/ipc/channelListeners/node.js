@@ -3,7 +3,7 @@ import { generateError } from '@/main/utils/errorHandler'
 import Notifications from '@/main/common/Notifications'
 import NodeService from '@/main/services/NodeService'
 import SubscriptionService from '@/main/services/SubscriptionService'
-import { DVPN_KEY_NAME } from '@/main/common/constants'
+import { DVPN_KEY_NAME } from '@/shared/constants'
 import AccountService from '@/main/services/AccountService'
 
 const nodeService = new NodeService()

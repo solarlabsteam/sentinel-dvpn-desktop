@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { DVPN_KEY_NAME } from '@/main/common/constants'
+import { DVPN_KEY_NAME } from '@/shared/constants'
 import store, { getters } from '@/main/store/store'
 
 class DvpnApi {

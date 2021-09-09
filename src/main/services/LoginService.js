@@ -1,4 +1,4 @@
-import { DVPN_KEY_NAME } from '@/main/common/constants'
+import { DVPN_KEY_NAME } from '@/shared/constants'
 import AccountService from '@/main/services/AccountService'
 import * as bip39 from 'bip39'
 import KeyApi from '@/main/api/rest/KeyApi'

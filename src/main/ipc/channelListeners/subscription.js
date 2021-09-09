@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron'
-import { DVPN_KEY_NAME } from '@/main/common/constants'
+import { DVPN_KEY_NAME } from '@/shared/constants'
 import { generateError } from '@/main/utils/errorHandler'
 import Notifications from '@/main/common/Notifications'
 import SubscriptionService from '@/main/services/SubscriptionService'

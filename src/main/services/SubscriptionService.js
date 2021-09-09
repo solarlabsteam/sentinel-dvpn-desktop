@@ -2,7 +2,7 @@ import { QueryQuotaRequest, QuerySubscriptionRequest, QuerySubscriptionsForNodeR
 import { QueryServiceClient as SubscriptionQueryServiceClient } from '@/main/proto/sentinel/subscription/v1/querier_grpc_pb'
 import QueryService from '@/main/services/QueryService'
 import { Status } from '@/main/proto/sentinel/types/v1/status_pb'
-import { DVPN_KEY_NAME } from '@/main/common/constants'
+import { DVPN_KEY_NAME } from '@/shared/constants'
 import { MsgSubscribeToNodeRequest } from '@/main/proto/sentinel/subscription/v1/msg_pb.js'
 import AccountService from '@/main/services/AccountService'
 import { Coin } from '@/main/proto/cosmos/base/v1beta1/coin_pb.js'
