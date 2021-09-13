@@ -12,8 +12,8 @@ export default {
     checkout: {
       title: 'Checkout'
     },
-    defaultDns: {
-      title: 'Default DNS Server'
+    settings: {
+      title: 'Default DNS'
     }
   },
 
@@ -35,7 +35,8 @@ export default {
   account: {
     createNewAccount: 'Create a new account',
     restoreAccount: 'I have a mnemonic',
-    inputMnemonicLabel: 'Input your mnemonic'
+    inputMnemonicLabel: 'Input your mnemonic',
+    balance: 'You have: {amount}'
   },
 
   connection: {
@@ -119,5 +120,10 @@ export default {
     check: {
       hash: 'Ref No: {hash}'
     }
+  },
+
+  action: {
+    copy: 'Copy',
+    copied: 'Copied!'
   }
 }

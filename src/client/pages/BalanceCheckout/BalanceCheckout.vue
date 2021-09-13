@@ -10,7 +10,7 @@
         :country="selectedNode.location.country"
       />
       <plan-parameter
-        :title="`${selectedCrypto} ${selectedAmount}`"
+        :title="`${selectedCryptoName} ${selectedAmount}`"
         :parameter="t('plan.parameter.crypto.title')"
         :currency="selectedCrypto"
       />
@@ -23,23 +23,16 @@
       :size="164"
     />
 
-    <div class="balance-checkout__info-message">
-      Send only <span class="text-capitalize">{{ selectedCrypto }}</span> to this address. <br>
+    <div class="balance-checkout__message">
+      Send only <span class="text-uppercase">{{ selectedCryptoName }}</span> to this address. <br>
       Sending any other coins may result in permanent loss.
     </div>
 
     <div class="balance-checkout__padding-wrapper mb-3">
-      <slr-button
-        class="balance-checkout__copy-button"
-        v-clipboard:copy="user.addressBech32"
-        :block="true"
-      >
-        {{ user.addressBech32 }}
-        <slr-icon :width="13" :height="15" :icon="'copy'"/>
-      </slr-button>
+      <wallet-address />
     </div>
 
-    <div class="balance-checkout__info-message">
+    <div class="balance-checkout__message">
       {{ t('checkout.message.timer') }}
     </div>
 
@@ -55,12 +48,15 @@
 import PageHeader from '@/client/components/app/PageHeader'
 import PlanParameter from '@/client/pages/Plans/PlanParameter'
 import QrCode from '@/client/components/app/QrCode'
+import WalletAddress from '@/client/components/app/WalletAddress'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import getUnixTime from 'date-fns/getUnixTime'
-import checkBalance from './checkBalance'
 import { useI18n } from 'vue-i18n'
+import denomNames from '@/client/constants/denomNames'
+import { tokensPerDvpn } from '@/shared/constants'
+import useBalance from '@/client/hooks/useBalance'
 
 export default {
   name: 'BalanceCheckout',
@@ -68,13 +64,15 @@ export default {
   components: {
     PageHeader,
     PlanParameter,
-    QrCode
+    QrCode,
+    WalletAddress
   },
 
   setup () {
     const store = useStore()
     const router = useRouter()
     const { t } = useI18n()
+    const { isBalanceEnough } = useBalance()
     let isSubscriptionLoadingOnce = false
 
     const setFailedResult = async () => {
@@ -91,7 +89,7 @@ export default {
         return
       }
 
-      const isEnough = await checkBalance(Number(store.getters.selectedPlan.deposit.amount))
+      const isEnough = await isBalanceEnough(Number(store.getters.selectedPlan.deposit.amount))
 
       if (isEnough) {
         isSubscriptionLoadingOnce = true
@@ -102,7 +100,7 @@ export default {
           })
           router.push({ name: 'payment-result' })
         } catch (e) {
-          console.log(e)
+          console.error(e)
           router.push({ name: 'payment-result' })
         }
       }
@@ -116,8 +114,9 @@ export default {
     return {
       selectedNode: computed(() => store.getters.selectedNode),
       selectedCrypto: computed(() => store.getters.selectedCrypto),
+      selectedCryptoName: computed(() => denomNames[store.getters.selectedCrypto]),
       selectedPlan: computed(() => store.getters.selectedPlan),
-      selectedAmount: computed(() => Number(store.getters.selectedPlan.deposit.amount).toLocaleString()),
+      selectedAmount: computed(() => Number(store.getters.selectedPlan.deposit.amount / tokensPerDvpn).toLocaleString('en')),
       user: computed(() => store.getters.user),
       handleTick,
       t
@@ -150,19 +149,10 @@ export default {
     border-radius: 15px;
   }
 
-  &__info-message {
+  &__message {
     opacity: 0.4;
     margin-bottom: 10px;
     text-align: center;
-    @extend .m-s10-lh12
-  }
-
-  &__copy-button.slr-button {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 13px 16px;
-    background-image: linear-gradient(210.55deg, #1F3A64 -49.23%, #031734 111.47%);
     @extend .m-s10-lh12
   }
 }

@@ -77,7 +77,7 @@ const routes = [
     name: 'settings',
     component: Settings,
     meta: {
-      title: i18n.global.t('route.defaultDns.title'),
+      title: i18n.global.t('route.settings.title'),
       hasStepBackButton: true
     }
   }

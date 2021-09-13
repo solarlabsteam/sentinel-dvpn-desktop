@@ -44,10 +44,10 @@ import PlanList from './PlanList'
 import Plan from './Plan'
 import getUnixTime from 'date-fns/getUnixTime'
 import plans from '@/client/constants/plans'
-import checkBalance from '@/client/pages/BalanceCheckout/checkBalance'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import denomNames from '@/client/constants/denomNames'
+import useBalance from '@/client/hooks/useBalance'
 
 export default {
   name: 'Plans',
@@ -63,6 +63,7 @@ export default {
     const store = useStore()
     const router = useRouter()
     const { t } = useI18n()
+    const { isBalanceEnough } = useBalance()
     const selectedCrypto = computed(() => store.getters.selectedCrypto)
     const selectedNode = computed(() => store.getters.selectedNode)
     const price = computed(() => selectedNode.value.priceList.find(price => price.denom === selectedCrypto.value))
@@ -85,16 +86,17 @@ export default {
       })
 
       try {
-        const isEnough = await checkBalance(amount)
+        const isEnough = await isBalanceEnough(amount)
+        console.log(isEnough)
 
-        if (!isEnough) {
-          router.push({ name: 'balance-checkout' })
-          return
-        }
-        await store.dispatch('subscribeToNode', {
-          deposit: selectedPlan.value.deposit,
-          node: selectedPlan.value.node
-        })
+        // if (!isEnough) {
+        //   router.push({ name: 'balance-checkout' })
+        //   return
+        // }
+        // await store.dispatch('subscribeToNode', {
+        //   deposit: selectedPlan.value.deposit,
+        //   node: selectedPlan.value.node
+        // })
         router.push({ name: 'payment-result' })
       } catch (e) {
         console.error(e)
