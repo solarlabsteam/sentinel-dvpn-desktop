@@ -1,7 +1,14 @@
 <template>
   <div class="login">
-    <slr-button @click="addAccount()" class="mr-3">{{ t('account.createNewAccount') }}</slr-button>
-    <slr-button @click="askMnemonic()">{{ t('account.restoreAccount') }}</slr-button>
+    <slr-button
+      class="mr-3"
+      @click="addAccount()"
+    >
+      {{ t('account.createNewAccount') }}
+    </slr-button>
+    <slr-button @click="askMnemonic()">
+      {{ t('account.restoreAccount') }}
+    </slr-button>
   </div>
 </template>
 

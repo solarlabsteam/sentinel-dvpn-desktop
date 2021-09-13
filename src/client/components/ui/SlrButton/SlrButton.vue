@@ -1,7 +1,14 @@
 <template>
-  <button class="slr-button" @click="onClick" :class="classes">
-    <slot v-if="$slots['icon']" name="icon"></slot>
-    <slot></slot>
+  <button
+    class="slr-button"
+    :class="classes"
+    @click="onClick"
+  >
+    <slot
+      v-if="$slots['icon']"
+      name="icon"
+    />
+    <slot />
   </button>
 </template>
 

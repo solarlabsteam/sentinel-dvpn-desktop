@@ -4,16 +4,19 @@
 
     <slr-tabs>
       <slr-tab title="Subscribed">
-        <div v-if="isSubscribedNodesLoading" class="text-center mb-3">
-          <slr-loader :size="20"/>
+        <div
+          v-if="isSubscribedNodesLoading"
+          class="text-center mb-3"
+        >
+          <slr-loader :size="20" />
         </div>
 
         <ul>
           <li
             v-for="node in subscribedNodes"
+            :key="node.address"
             class="change-location__node"
             :class="{'change-location__node--selected': node.address === selectedNode?.address}"
-            :key="node.address"
             @click="() => select(node)"
           >
             <node-preview
@@ -33,16 +36,19 @@
         </ul>
       </slr-tab>
       <slr-tab title="Available nodes">
-        <div v-if="isNodesLoading" class="text-center mb-3">
-          <slr-loader :size="20"/>
+        <div
+          v-if="isNodesLoading"
+          class="text-center mb-3"
+        >
+          <slr-loader :size="20" />
         </div>
 
         <ul>
           <li
             v-for="node in nodes"
+            :key="node.address"
             class="change-location__node"
             :class="{'change-location__node--selected': node.address === selectedNode?.address}"
-            :key="node.address"
             @click="() => select(node)"
           >
             <node-preview

@@ -1,6 +1,9 @@
 <template>
   <div class="current-plan">
-    <div class="text-center" v-if="isSubscriptionLoading || isQuotaLoading">
+    <div
+      v-if="isSubscriptionLoading || isQuotaLoading"
+      class="text-center"
+    >
       <slr-loader :size="25" />
     </div>
 

@@ -1,20 +1,20 @@
 <template>
-<div class="slr-tabs">
-  <ul class="slr-tabs__nav">
-    <li
-      class="slr-tabs__nav-item"
-      v-for="(tab, i) in tabs"
-      :key="tab.props.title"
-      :class="{'slr-tabs__nav-item--active': selectedIndex === i}"
-      @click="selectTab(i)"
-    >
-      {{ tab.props.title }}
-    </li>
-  </ul>
-  <div class="slr-tabs__content">
-    <slot></slot>
+  <div class="slr-tabs">
+    <ul class="slr-tabs__nav">
+      <li
+        v-for="(tab, i) in tabs"
+        :key="tab.props.title"
+        class="slr-tabs__nav-item"
+        :class="{'slr-tabs__nav-item--active': selectedIndex === i}"
+        @click="selectTab(i)"
+      >
+        {{ tab.props.title }}
+      </li>
+    </ul>
+    <div class="slr-tabs__content">
+      <slot />
+    </div>
   </div>
-</div>
 </template>
 
 <script>

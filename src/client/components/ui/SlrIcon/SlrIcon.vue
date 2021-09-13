@@ -1,13 +1,13 @@
 <template>
-<div
-  class="slr-icon"
-  :class="classes"
-  :style="{
-    backgroundImage: `url('/assets/icons/${icon}.svg')`,
-    width: widthPx,
-    height: heightPx
-  }"
-/>
+  <div
+    class="slr-icon"
+    :class="classes"
+    :style="{
+      backgroundImage: `url('/assets/icons/${icon}.svg')`,
+      width: widthPx,
+      height: heightPx
+    }"
+  />
 </template>
 
 <script>

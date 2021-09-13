@@ -14,7 +14,7 @@
     </slr-button>
   </page-header>
   <div>
-    <current-plan/>
+    <current-plan />
     <!--favourites-->
   </div>
 </template>

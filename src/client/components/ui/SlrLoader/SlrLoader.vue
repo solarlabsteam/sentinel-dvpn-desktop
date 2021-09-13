@@ -1,10 +1,13 @@
 <template>
-<div
-  class="slr-loader"
-  :style="{width: `${size}px`, height: `${size}px`}"
->
-  <div class="slr-loader__lines" :style="{ width: linesSize, height: linesSize, borderWidth : linesBorder }"></div>
-</div>
+  <div
+    class="slr-loader"
+    :style="{width: `${size}px`, height: `${size}px`}"
+  >
+    <div
+      class="slr-loader__lines"
+      :style="{ width: linesSize, height: linesSize, borderWidth : linesBorder }"
+    />
+  </div>
 </template>
 
 <script>

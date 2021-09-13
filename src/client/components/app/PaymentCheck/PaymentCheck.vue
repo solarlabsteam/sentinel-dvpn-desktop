@@ -1,28 +1,41 @@
 <template>
-<div class="payment-check">
-  <div class="payment-check__date">{{ date }}</div>
-  <div v-if="txHash" class="payment-check__txhash">{{ t('payment.check.hash', {hash: croppedHash}) }}</div>
+  <div class="payment-check">
+    <div class="payment-check__date">
+      {{ date }}
+    </div>
+    <div
+      v-if="txHash"
+      class="payment-check__txhash"
+    >
+      {{ t('payment.check.hash', {hash: croppedHash}) }}
+    </div>
 
-  <hr class="payment-check__divider">
+    <hr class="payment-check__divider">
 
-  <div class="p-relative">
-    <slr-icon
-      class="payment-check__crypto-icon"
-      :rounded="true"
-      :size="53"
-      :icon="crypto"
-    />
-    <slr-icon
-      class="payment-check__status-icon"
-      :icon="success ? 'success' : 'failed'"
-      :rounded="true"
-    />
+    <div class="p-relative">
+      <slr-icon
+        class="payment-check__crypto-icon"
+        :rounded="true"
+        :size="53"
+        :icon="crypto"
+      />
+      <slr-icon
+        class="payment-check__status-icon"
+        :icon="success ? 'success' : 'failed'"
+        :rounded="true"
+      />
+    </div>
+
+    <div class="payment-check__crypto">
+      {{ crypto }}
+    </div>
+    <div class="payment-check__amount">
+      {{ coinsAmount }}
+    </div>
+    <div class="payment-check__description">
+      {{ description }}
+    </div>
   </div>
-
-  <div class="payment-check__crypto">{{ crypto }}</div>
-  <div class="payment-check__amount">{{ coinsAmount }}</div>
-  <div class="payment-check__description">{{ description }}</div>
-</div>
 </template>
 
 <script>

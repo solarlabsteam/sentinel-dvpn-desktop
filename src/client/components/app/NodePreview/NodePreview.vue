@@ -15,7 +15,12 @@
         <span class="mr-3">{{ title }}</span>
         <span class="node-preview__number">{{ number }}</span>
       </div>
-      <div v-if="subtitle" class="node-preview__subtitle">{{ subtitle }}</div>
+      <div
+        v-if="subtitle"
+        class="node-preview__subtitle"
+      >
+        {{ subtitle }}
+      </div>
     </div>
   </div>
 </template>

@@ -1,35 +1,35 @@
 <template>
-<div class="payment-result">
-  <payment-check
-    class="payment-result__check"
-    :success="paymentResult?.success"
-    :tx-hash="paymentResult?.response.txhash"
-    :timestamp="paymentResult?.response.timestamp"
-    :crypto="selectedPlan?.deposit.denom"
-    :amount="selectedPlan?.deposit.amount"
-    :description="checkDescription"
-  />
-  <div class="s-s30-lh33 text-center mb-4">
-    <span>Payment</span><br>
-    <span>{{ paymentResult?.success ?  t('payment.result.status.success') : t('payment.result.status.failed') }}</span>
-  </div>
-  <slr-button
-    v-if="paymentResult?.success"
-    @click="leavePage({name: 'home'})"
-  >
-    {{ t('payment.result.action.goHome') }}
-  </slr-button>
-  <slr-button
-    v-else
-    @click="leavePage({name: 'plans'})"
-  >
-    {{ t('payment.result.action.checkPlans') }}
-  </slr-button>
+  <div class="payment-result">
+    <payment-check
+      class="payment-result__check"
+      :success="paymentResult?.success"
+      :tx-hash="paymentResult?.response.txhash"
+      :timestamp="paymentResult?.response.timestamp"
+      :crypto="selectedPlan?.deposit.denom"
+      :amount="selectedPlan?.deposit.amount"
+      :description="checkDescription"
+    />
+    <div class="s-s30-lh33 text-center mb-4">
+      <span>Payment</span><br>
+      <span>{{ paymentResult?.success ? t('payment.result.status.success') : t('payment.result.status.failed') }}</span>
+    </div>
+    <slr-button
+      v-if="paymentResult?.success"
+      @click="leavePage({name: 'home'})"
+    >
+      {{ t('payment.result.action.goHome') }}
+    </slr-button>
+    <slr-button
+      v-else
+      @click="leavePage({name: 'plans'})"
+    >
+      {{ t('payment.result.action.checkPlans') }}
+    </slr-button>
 
-  <div class="payment-result__background-circle payment-result__background-circle-1" />
-  <div class="payment-result__background-circle payment-result__background-circle-2" />
-  <div class="payment-result__background-circle payment-result__background-circle-3" />
-</div>
+    <div class="payment-result__background-circle payment-result__background-circle-1" />
+    <div class="payment-result__background-circle payment-result__background-circle-2" />
+    <div class="payment-result__background-circle payment-result__background-circle-3" />
+  </div>
 </template>
 
 <script>

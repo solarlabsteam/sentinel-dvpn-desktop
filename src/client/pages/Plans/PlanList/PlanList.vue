@@ -1,7 +1,7 @@
 <template>
-<ul class="plans-list">
-  <slot></slot>
-</ul>
+  <ul class="plans-list">
+    <slot />
+  </ul>
 </template>
 
 <script>

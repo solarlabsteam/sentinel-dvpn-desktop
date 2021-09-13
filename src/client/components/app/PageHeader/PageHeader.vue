@@ -17,7 +17,7 @@
     <span class="m-s16-lh19">{{ title }}</span>
 
     <slot name="default">
-      <div/>
+      <div />
     </slot>
   </div>
 </template>

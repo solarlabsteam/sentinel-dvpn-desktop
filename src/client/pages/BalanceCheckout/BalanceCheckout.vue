@@ -1,6 +1,6 @@
 <template>
   <div class="balance-checkout">
-    <page-header></page-header>
+    <page-header />
 
     <div class="balance-checkout__parameters balance-checkout__padding-wrapper">
       <plan-parameter
@@ -16,7 +16,9 @@
       />
     </div>
 
-    <div class="text-center r-s10-lh12 mb-3">{{ t('checkout.scanQr') }}</div>
+    <div class="text-center r-s10-lh12 mb-3">
+      {{ t('checkout.scanQr') }}
+    </div>
     <qr-code
       class="mb-4"
       :value="user.addressBech32"

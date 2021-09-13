@@ -1,10 +1,10 @@
 <template>
-<div
-  class="slr-tab"
-  v-show="isActive"
->
-  <slot />
-</div>
+  <div
+    v-show="isActive"
+    class="slr-tab"
+  >
+    <slot />
+  </div>
 </template>
 
 <script>

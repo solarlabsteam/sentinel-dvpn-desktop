@@ -1,21 +1,25 @@
 <template>
-<slr-popper
-  :content="t('action.copied')"
-  :show="isPopperShown"
-  :offset-distance="'6'"
->
-  <slr-button
-    :text="true"
-    :tiny="true"
-    v-clipboard:copy="value"
-    v-clipboard:success="onCopy"
-    v-clipboard:error="onError"
+  <slr-popper
+    :content="t('action.copied')"
+    :show="isPopperShown"
+    :offset-distance="'6'"
   >
-    <template #icon>
-      <slr-icon :width="13" :height="15" :icon="'copy'" />
-    </template>
-  </slr-button>
-</slr-popper>
+    <slr-button
+      v-clipboard:copy="value"
+      v-clipboard:success="onCopy"
+      v-clipboard:error="onError"
+      :text="true"
+      :tiny="true"
+    >
+      <template #icon>
+        <slr-icon
+          :width="13"
+          :height="15"
+          :icon="'copy'"
+        />
+      </template>
+    </slr-button>
+  </slr-popper>
 </template>
 
 <script>

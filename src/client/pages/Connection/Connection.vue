@@ -4,11 +4,13 @@
     :class="classes"
   >
     <div class="connection-screen__logo-wrapper">
-      <router-link :to="{name: 'home'}"><slr-logo /></router-link>
+      <router-link :to="{name: 'home'}">
+        <slr-logo />
+      </router-link>
     </div>
 
     <div class="connection-screen__content-wrapper">
-      <div class="connection-screen__content-gap"/>
+      <div class="connection-screen__content-gap" />
       <node-preview
         :title="displayedNode?.location.country"
         :number="nodeNumber"
@@ -23,8 +25,14 @@
           <span>{{ currentIp }}</span>
           &nbsp;—&nbsp;
           <span>
-            <span v-if="isConnected" class="text-green">{{ t('connection.securedIp') }}</span>
-            <span v-else class="text-red">{{ t('connection.exposedIp') }}</span>
+            <span
+              v-if="isConnected"
+              class="text-green"
+            >{{ t('connection.securedIp') }}</span>
+            <span
+              v-else
+              class="text-red"
+            >{{ t('connection.exposedIp') }}</span>
           </span>
         </span>
 
@@ -38,9 +46,12 @@
         :class="{'connection-screen__toggle-wrapper--connected': isConnected}"
       >
         <connection-toggle v-if="isServiceServerAvailable" />
-        <div class="text-center" v-else>
+        <div
+          v-else
+          class="text-center"
+        >
           <div>
-            <slr-loader class="mb-3"/>
+            <slr-loader class="mb-3" />
           </div>
           <span class="r-s10-lh12">{{ t('connection.checkingConnection') }}</span>
         </div>

@@ -1,7 +1,16 @@
 <template>
-  <popper v-bind="$attrs" class="slr-popper">
-    <template v-for="(_, slot) of $slots" v-slot:[slot]="scope">
-      <slot :name="slot" v-bind="scope" />
+  <popper
+    v-bind="$attrs"
+    class="slr-popper"
+  >
+    <template
+      v-for="(_, slot) of $slots"
+      #[slot]="scope"
+    >
+      <slot
+        :name="slot"
+        v-bind="scope"
+      />
     </template>
   </popper>
 </template>

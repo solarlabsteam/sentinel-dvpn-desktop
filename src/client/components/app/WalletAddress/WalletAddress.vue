@@ -3,7 +3,7 @@
     class="wallet-address"
   >
     {{ user?.addressBech32 }}
-    <slr-copy-button :value="user?.addressBech32"/>
+    <slr-copy-button :value="user?.addressBech32" />
   </div>
 </template>
 

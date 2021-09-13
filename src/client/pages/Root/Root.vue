@@ -1,9 +1,12 @@
 <template>
-  <slr-logo class="logo" v-if="isUserLoading"/>
+  <slr-logo
+    v-if="isUserLoading"
+    class="logo"
+  />
 
   <template v-else>
     <onboarding v-if="!user" />
-    <slot v-else></slot>
+    <slot v-else />
   </template>
 </template>
 

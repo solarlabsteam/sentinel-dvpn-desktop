@@ -1,7 +1,10 @@
 <template>
-<div class="qr-code">
-  <canvas ref="qr" id="qr"></canvas>
-</div>
+  <div class="qr-code">
+    <canvas
+      id="qr"
+      ref="qr"
+    />
+  </div>
 </template>
 
 <script>

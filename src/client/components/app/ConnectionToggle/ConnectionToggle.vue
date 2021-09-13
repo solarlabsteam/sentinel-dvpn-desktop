@@ -1,41 +1,53 @@
 <template>
-<div
-  class="connection-toggle"
-  @click="toggleConnect"
->
   <div
-    class="connection-toggle__background"
-    :class="{'connection-toggle__background--on' : isConnected}"
+    class="connection-toggle"
+    @click="toggleConnect"
   >
-    <div class="connection-toggle__layout">
-      <slr-loader v-if="isConnectionLoading" :size="20"/>
-      <span class="text-uppercase" v-else>{{ t('connection.toggle.off') }}</span>
+    <div
+      class="connection-toggle__background"
+      :class="{'connection-toggle__background--on' : isConnected}"
+    >
+      <div class="connection-toggle__layout">
+        <slr-loader
+          v-if="isConnectionLoading"
+          :size="20"
+        />
+        <span
+          v-else
+          class="text-uppercase"
+        >{{ t('connection.toggle.off') }}</span>
 
-      <div
-        class="connection-toggle__control-background"
-        :class="{'connection-toggle__control-background--on' : isConnected}"
-      >
-        <div class="connection-toggle__control">
-          <div
-            class="connection-toggle__control-indicator connection-toggle__control-indicator-connect"
-            :class="{'connection-toggle__control-indicator-connect--on': isConnected}"
-          />
-          <div>
-            <div class="connection-toggle__control-strip" />
-            <div class="connection-toggle__control-strip" />
+        <div
+          class="connection-toggle__control-background"
+          :class="{'connection-toggle__control-background--on' : isConnected}"
+        >
+          <div class="connection-toggle__control">
+            <div
+              class="connection-toggle__control-indicator connection-toggle__control-indicator-connect"
+              :class="{'connection-toggle__control-indicator-connect--on': isConnected}"
+            />
+            <div>
+              <div class="connection-toggle__control-strip" />
+              <div class="connection-toggle__control-strip" />
+            </div>
+            <div
+              class="connection-toggle__control-indicator connection-toggle__control-indicator-disconnect"
+              :class="{'connection-toggle__control-indicator-disconnect--on': !isConnected}"
+            />
           </div>
-          <div
-            class="connection-toggle__control-indicator connection-toggle__control-indicator-disconnect"
-            :class="{'connection-toggle__control-indicator-disconnect--on': !isConnected}"
-          />
         </div>
-      </div>
 
-      <slr-loader v-if="isConnectionLoading" :size="20" />
-      <span class="text-uppercase" v-else>{{ t('connection.toggle.on') }}</span>
+        <slr-loader
+          v-if="isConnectionLoading"
+          :size="20"
+        />
+        <span
+          v-else
+          class="text-uppercase"
+        >{{ t('connection.toggle.on') }}</span>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>

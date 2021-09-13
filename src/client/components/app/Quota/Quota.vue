@@ -19,7 +19,9 @@
         :rounded="true"
       />
     </div>
-    <div class="quota__description">{{ description }}</div>
+    <div class="quota__description">
+      {{ description }}
+    </div>
 
     <slr-progress
       :from="Number(total) - Number(count)"

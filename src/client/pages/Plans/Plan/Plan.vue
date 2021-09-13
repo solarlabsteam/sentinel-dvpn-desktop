@@ -1,35 +1,39 @@
 <template>
-<li class="plan">
-  <div
-    class="plan__feature"
-    :class="{[`plan__feature--${plan.feature}`]: !!plan.feature}"
-  >
-    {{ plan.feature }}
-  </div>
-
-  <div class="plan__description">
-    <div class="plan__tariff">
-      <span class="plan__type">{{ t('plan.type.unlimited.title') }}</span>
-
-      <div class="plan__size">
-        <span class="plan__amount-gb">{{ plan.amountGbs }}</span>
-        <span class="plan__unit">{{ t('plan.unit.gb.title') }}</span>
-      </div>
-    </div>
-
-    <div class="plan__price">
-      <div class="plan__denom">{{ denomNames[selectedNode.priceList[0].denom] }}</div>
-      <div class="plan__amount-coin">{{ coinsAmount }}</div>
-    </div>
-
-    <slr-button
-      @click="$emit('buy', plan.amountGbs)"
-      class="plan__button-buy"
+  <li class="plan">
+    <div
+      class="plan__feature"
+      :class="{[`plan__feature--${plan.feature}`]: !!plan.feature}"
     >
-      {{ t('plan.action.buy') }}
-    </slr-button>
-  </div>
-</li>
+      {{ plan.feature }}
+    </div>
+
+    <div class="plan__description">
+      <div class="plan__tariff">
+        <span class="plan__type">{{ t('plan.type.unlimited.title') }}</span>
+
+        <div class="plan__size">
+          <span class="plan__amount-gb">{{ plan.amountGbs }}</span>
+          <span class="plan__unit">{{ t('plan.unit.gb.title') }}</span>
+        </div>
+      </div>
+
+      <div class="plan__price">
+        <div class="plan__denom">
+          {{ denomNames[selectedNode.priceList[0].denom] }}
+        </div>
+        <div class="plan__amount-coin">
+          {{ coinsAmount }}
+        </div>
+      </div>
+
+      <slr-button
+        class="plan__button-buy"
+        @click="$emit('buy', plan.amountGbs)"
+      >
+        {{ t('plan.action.buy') }}
+      </slr-button>
+    </div>
+  </li>
 </template>
 
 <script>

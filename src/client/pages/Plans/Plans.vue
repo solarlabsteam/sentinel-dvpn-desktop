@@ -1,10 +1,13 @@
 <template>
   <div class="plans">
-    <div v-if="isPaymentLoading" class="plans__loader-wrapper">
+    <div
+      v-if="isPaymentLoading"
+      class="plans__loader-wrapper"
+    >
       <slr-loader :size="25" />
     </div>
     <template v-else>
-      <page-header :to="{name: 'home'}"/>
+      <page-header :to="{name: 'home'}" />
 
       <div class="plans__parameters">
         <plan-parameter
@@ -30,7 +33,9 @@
         />
       </plan-list>
 
-      <div class="plans__info-message px-5">{{ t('plan.warning.lessBytes') }}</div>
+      <div class="plans__info-message px-5">
+        {{ t('plan.warning.lessBytes') }}
+      </div>
     </template>
   </div>
 </template>

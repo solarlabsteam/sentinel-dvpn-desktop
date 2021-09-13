@@ -11,15 +11,15 @@ import SlrPopper from '@/client/components/ui/SlrPopper'
 import SlrCopyButton from '@/client/components/ui/SlrCopyButton'
 
 export default function registerSlrComponents (app) {
-  app.component('slr-button', SlrButton)
-  app.component('slr-loader', SlrLoader)
-  app.component('slr-logo', SlrLogo)
-  app.component('slr-progress', SlrProgress)
-  app.component('slr-icon', SlrIcon)
-  app.component('slr-timer', SlrTimer)
-  app.component('slr-tabs', SlrTabs)
-  app.component('slr-tab', SlrTab)
-  app.component('slr-checkbox', SlrCheckbox)
-  app.component('slr-popper', SlrPopper)
-  app.component('slr-copy-button', SlrCopyButton)
+  app.component('SlrButton', SlrButton)
+  app.component('SlrLoader', SlrLoader)
+  app.component('SlrLogo', SlrLogo)
+  app.component('SlrProgress', SlrProgress)
+  app.component('SlrIcon', SlrIcon)
+  app.component('SlrTimer', SlrTimer)
+  app.component('SlrTabs', SlrTabs)
+  app.component('SlrTab', SlrTab)
+  app.component('SlrCheckbox', SlrCheckbox)
+  app.component('SlrPopper', SlrPopper)
+  app.component('SlrCopyButton', SlrCopyButton)
 }

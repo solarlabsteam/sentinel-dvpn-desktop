@@ -1,9 +1,9 @@
 <template>
   <div class="onboarding">
-    <br />
+    <br>
 
     <div class="onboarding__main">
-      <br />
+      <br>
       <img
         class="onboarding__image"
         width="276"
@@ -13,8 +13,12 @@
       >
 
       <div class="onboarding__article">
-        <div class="onboarding__title">{{ currentSlide.title }}</div>
-        <div class="onboarding__description">{{ currentSlide.description }}</div>
+        <div class="onboarding__title">
+          {{ currentSlide.title }}
+        </div>
+        <div class="onboarding__description">
+          {{ currentSlide.description }}
+        </div>
 
         <div class="onboarding__slide-pointer-group">
           <div
@@ -25,7 +29,7 @@
           />
         </div>
       </div>
-      <br />
+      <br>
     </div>
 
     <div class="onboarding__buttons">
@@ -43,7 +47,7 @@
         </template>
       </slr-button>
 
-      <login v-else/>
+      <login v-else />
     </div>
   </div>
 </template>
