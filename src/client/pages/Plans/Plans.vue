@@ -92,16 +92,15 @@ export default {
 
       try {
         const isEnough = await isBalanceEnough(amount)
-        console.log(isEnough)
 
-        // if (!isEnough) {
-        //   router.push({ name: 'balance-checkout' })
-        //   return
-        // }
-        // await store.dispatch('subscribeToNode', {
-        //   deposit: selectedPlan.value.deposit,
-        //   node: selectedPlan.value.node
-        // })
+        if (!isEnough) {
+          router.push({ name: 'balance-checkout' })
+          return
+        }
+        await store.dispatch('subscribeToNode', {
+          deposit: selectedPlan.value.deposit,
+          node: selectedPlan.value.node
+        })
         router.push({ name: 'payment-result' })
       } catch (e) {
         console.error(e)
