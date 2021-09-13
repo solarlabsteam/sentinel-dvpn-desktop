@@ -46,11 +46,11 @@
 
 <script>
 import { useStore } from 'vuex'
-import Quota from '@/client/components/app/Quota'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import Quota from '@/client/components/app/Quota'
 import SlrLoader from '@/client/components/ui/SlrLoader'
 import NodePreview from '@/client/components/app/NodePreview'
-import { useI18n } from 'vue-i18n'
 
 export default {
   name: 'Plan',

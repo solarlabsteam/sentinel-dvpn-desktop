@@ -68,11 +68,11 @@
 </template>
 
 <script>
-import PageHeader from '@/client/components/app/PageHeader'
 import { useStore } from 'vuex'
 import { computed, onMounted } from 'vue'
-import servers from '@/client/constants/dns'
 import { useI18n } from 'vue-i18n'
+import servers from '@/client/constants/dns'
+import PageHeader from '@/client/components/app/PageHeader'
 import WalletAddress from '@/client/components/app/WalletAddress'
 import QrCode from '@/client/components/app/QrCode'
 import { DENOM } from '@/shared/constants'

@@ -33,11 +33,11 @@
 </template>
 
 <script>
-import PaymentCheck from '@/client/components/app/PaymentCheck'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import PaymentCheck from '@/client/components/app/PaymentCheck'
 
 export default {
   name: 'PaymentResult',

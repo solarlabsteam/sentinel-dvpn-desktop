@@ -53,10 +53,10 @@
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { computed, onMounted, onUnmounted, watchEffect } from 'vue'
 import statuses from '@/client/constants/statuses'
 import NodePreview from '@/client/components/app/NodePreview'
 import ConnectionToggle from '@/client/components/app/ConnectionToggle'
-import { computed, onMounted, onUnmounted, watchEffect } from 'vue'
 
 export default {
   name: 'Connection',

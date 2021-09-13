@@ -12,7 +12,8 @@ module.exports = {
     parser: 'babel-eslint'
   },
   rules: {
-    "no-empty": ["error", { "allowEmptyCatch": true }]
+    "no-empty": ["error", { "allowEmptyCatch": true }],
+    "import/order": ["error", {"groups": ["builtin", "external", "parent", "sibling", "index"]}]
   },
   overrides: [
     {

@@ -38,14 +38,14 @@
 <script>
 import { useStore } from 'vuex'
 import { computed, onMounted } from 'vue'
-import PageHeader from '@/client/components/app/PageHeader'
+import getUnixTime from 'date-fns/getUnixTime'
+import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import PlanParameter from './PlanParameter'
 import PlanList from './PlanList'
 import Plan from './Plan'
-import getUnixTime from 'date-fns/getUnixTime'
 import plans from '@/client/constants/plans'
-import { useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
+import PageHeader from '@/client/components/app/PageHeader'
 import denomNames from '@/client/constants/denomNames'
 import useBalance from '@/client/hooks/useBalance'
 

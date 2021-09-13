@@ -1,7 +1,7 @@
+import { exec } from 'child_process'
 import Sudoer from 'electron-sudo'
 import portastic from 'portastic'
 import store from '@/main/store/store'
-import { exec } from 'child_process'
 
 export async function launchDvpnRestServer () {
   const isLaunched = await isDvpnRestServerLaunched()

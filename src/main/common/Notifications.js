@@ -1,5 +1,5 @@
-import { Notification } from 'electron'
 import path from 'path'
+import { Notification } from 'electron'
 
 class Notifications {
   static create (options) {

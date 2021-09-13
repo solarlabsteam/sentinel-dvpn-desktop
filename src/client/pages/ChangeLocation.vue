@@ -67,10 +67,10 @@
 
 <script>
 import { mapActions, useStore } from 'vuex'
+import { computed, onMounted } from 'vue'
 import NodePreview from '@/client/components/app/NodePreview'
 import PageHeader from '@/client/components/app/PageHeader'
 import { syncStoreValue } from '@/client/store/plugins/syncStore'
-import { computed, onMounted } from 'vue'
 
 export default {
   components: {

@@ -49,8 +49,8 @@
 </template>
 
 <script>
-import featureSlides from '@/client/constants/featureSlides'
 import { computed, ref } from 'vue'
+import featureSlides from '@/client/constants/featureSlides'
 import Login from '@/client/pages/Root/Login'
 
 export default {

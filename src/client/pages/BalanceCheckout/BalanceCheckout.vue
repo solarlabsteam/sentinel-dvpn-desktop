@@ -45,15 +45,15 @@
 </template>
 
 <script>
-import PageHeader from '@/client/components/app/PageHeader'
-import PlanParameter from '@/client/pages/Plans/PlanParameter'
-import QrCode from '@/client/components/app/QrCode'
-import WalletAddress from '@/client/components/app/WalletAddress'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import getUnixTime from 'date-fns/getUnixTime'
 import { useI18n } from 'vue-i18n'
+import WalletAddress from '@/client/components/app/WalletAddress'
+import QrCode from '@/client/components/app/QrCode'
+import PlanParameter from '@/client/pages/Plans/PlanParameter'
+import PageHeader from '@/client/components/app/PageHeader'
 import denomNames from '@/client/constants/denomNames'
 import { tokensPerDvpn } from '@/shared/constants'
 import useBalance from '@/client/hooks/useBalance'

@@ -1,8 +1,8 @@
+import getUnixTime from 'date-fns/getUnixTime'
 import SignService from '@/main/services/SignService'
 import QueryService from '@/main/services/QueryService'
 import { BroadcastTxRequest } from '@/main/proto/cosmos/tx/v1beta1/service_pb'
 import { ServiceClient as TxServiceClient } from '@/main/proto/cosmos/tx/v1beta1/service_grpc_pb'
-import getUnixTime from 'date-fns/getUnixTime'
 
 class TransactionService {
   constructor () {

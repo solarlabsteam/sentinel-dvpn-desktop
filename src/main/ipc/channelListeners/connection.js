@@ -1,4 +1,5 @@
 import { ipcMain } from 'electron'
+import i18next from 'i18next'
 import { DVPN_KEY_NAME } from '@/shared/constants'
 import Notifications from '@/main/common/Notifications'
 import { generateError } from '@/main/utils/errorHandler'
@@ -6,7 +7,6 @@ import ConnectionService from '@/main/services/СonnectionService'
 import AccountService from '@/main/services/AccountService'
 import NodeService from '@/main/services/NodeService'
 import SessionService from '@/main/services/SessionService'
-import i18next from 'i18next'
 
 const accountService = new AccountService()
 const nodeService = new NodeService()

@@ -1,6 +1,6 @@
 import uint64be from 'uint64be'
-import SignService from '@/main/services/SignService'
 import { Wg } from 'wireguard-wrapper'
+import SignService from '@/main/services/SignService'
 import DvpnApi from '@/main/api/rest/DvpnApi'
 import RemoteNodeApi from '@/main/api/RemoteNodeApi'
 

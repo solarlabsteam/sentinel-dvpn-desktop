@@ -1,8 +1,8 @@
+import axios from 'axios'
 import {
   CLEAR_CURRENT_IP,
   SET_CONNECTION_LOADING_STATE, SET_CONNECTION_STATE, SET_CURRENT_IP, SET_SERVICE_SERVER_STATE
 } from '@/client/store/mutation-types'
-import axios from 'axios'
 
 const getDefaultState = () => ({
   isConnectionLoading: false,
