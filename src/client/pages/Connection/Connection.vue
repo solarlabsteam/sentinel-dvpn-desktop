@@ -21,7 +21,11 @@
 
       <span class="m-s18-lh22 mb-3">{{ isConnected ? t('connection.connectedStatus') : t('connection.disconnectedStatus') }}</span>
       <div class="connection-screen__ip-info">
-        <span v-if="currentIp">
+        <span v-if="isCurrentIpLoading">
+          {{ t('connection.obtainingIp') }}
+        </span>
+
+        <span v-else-if="currentIp">
           <span>{{ currentIp }}</span>
           &nbsp;—&nbsp;
           <span>
@@ -64,10 +68,12 @@
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { computed, onMounted, onUnmounted, watchEffect } from 'vue'
+import { computed, onMounted, onUnmounted, watch } from 'vue'
 import statuses from '@/client/constants/statuses'
 import NodePreview from '@/client/components/app/NodePreview'
 import ConnectionToggle from '@/client/components/app/ConnectionToggle'
+import useStatusPolling from '@/client/hooks/useStatusPolling'
+import useIpPolling from '@/client/hooks/useIpPolling'
 
 export default {
   name: 'Connection',
@@ -81,34 +87,23 @@ export default {
     const store = useStore()
     const route = useRoute()
     const { t } = useI18n()
-    let statusFetcher = null
+    const { startPolling: startStatusPolling, stopPolling: stopStatusPolling } = useStatusPolling()
+    const { startPolling: startIpPolling, stopPolling: stopIpPolling } = useIpPolling()
 
     onMounted(() => {
-      statusFetcher = setInterval(() => {
-        store.dispatch('fetchServiceServiceAvailability')
-      }, 1000)
-      store.dispatch('fetchCurrentIp')
+      startStatusPolling()
+      startIpPolling()
     })
 
     onUnmounted(() => {
-      if (!statusFetcher) {
-        return
-      }
-      clearInterval(statusFetcher)
+      stopStatusPolling()
+      stopIpPolling()
     })
 
-    const unwatch = watchEffect(() => {
-      const serviceServiceAvailable = store.getters.isServiceServerAvailable
-
-      if (!serviceServiceAvailable) {
-        return
-      }
-
-      store.dispatch('fetchConnectionStatus')
-      clearInterval(statusFetcher)
-      statusFetcher = null
-      unwatch()
-    })
+    watch(
+      () => store.getters.isConnected,
+      () => startIpPolling()
+    )
 
     const isNodeAvailable = computed(() => store.getters.selectedNode?.status === statuses.STATUS_ACTIVE)
     const isSubscriptionAvailable = computed(() => store.getters.currentSubscription?.status === statuses.STATUS_ACTIVE)
@@ -121,6 +116,7 @@ export default {
       isConnected: computed(() => store.getters.isConnected),
       displayedNode: computed(() => store.getters.connectedNode || store.getters.selectedNode),
       currentIp: computed(() => store.getters.currentIp),
+      isCurrentIpLoading: computed(() => store.getters.isCurrentIpLoading),
       isServiceServerAvailable: computed(() => store.getters.isServiceServerAvailable),
       classes: computed(() => ({ 'connection-screen--blur': route.meta.blurConnectionScreen })),
       isNodeAvailable,

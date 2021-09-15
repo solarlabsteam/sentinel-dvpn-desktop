@@ -1,13 +1,17 @@
-import axios from 'axios'
 import {
   CLEAR_CURRENT_IP,
-  SET_CONNECTION_LOADING_STATE, SET_CONNECTION_STATE, SET_CURRENT_IP, SET_SERVICE_SERVER_STATE
+  SET_CONNECTION_LOADING_STATE,
+  SET_CONNECTION_STATE,
+  SET_CURRENT_IP,
+  SET_CURRENT_IP_LOADING_STATE,
+  SET_SERVICE_SERVER_STATE
 } from '@/client/store/mutation-types'
 
 const getDefaultState = () => ({
   isConnectionLoading: false,
   isConnected: false,
   currentIp: '',
+  isCurrentIpLoading: false,
   isServiceServerAvailable: false
 })
 
@@ -18,6 +22,7 @@ export default {
     isConnectionLoading: state => state.isConnectionLoading,
     isConnected: state => state.isConnected,
     currentIp: state => state.currentIp,
+    isCurrentIpLoading: state => state.isCurrentIpLoading,
     isServiceServerAvailable: state => state.isServiceServerAvailable
   },
 
@@ -43,9 +48,6 @@ export default {
               resolvers: getters.selectedDns.value.split(', ')
             }))
           })
-        })
-        .then(() => {
-          return dispatch('fetchCurrentIp')
         })
         .then(() => {
           dispatch('setConnectedNode', getters.selectedNode)
@@ -76,9 +78,6 @@ export default {
           })
         })
         .then(() => {
-          return dispatch('fetchCurrentIp')
-        })
-        .then(() => {
           dispatch('clearConnectedNode')
           commit(SET_CONNECTION_STATE, false)
         })
@@ -107,19 +106,7 @@ export default {
       })
     },
 
-    async fetchCurrentIp ({ commit }) {
-      try {
-        const { data } = await axios.get('https://api.ipify.org/', {
-          timeout: 5000
-        })
-        commit(SET_CURRENT_IP, data)
-      } catch (e) {
-        commit(CLEAR_CURRENT_IP)
-        console.error(e)
-      }
-    },
-
-    async fetchServiceServiceAvailability ({ commit }) {
+    async fetchConnectionServerAvailability ({ commit }) {
       return new Promise((resolve, reject) => {
         window.ipc.once('QUERY_SERVICE_SERVER', (payload) => {
           if (payload.error) {
@@ -148,6 +135,9 @@ export default {
     },
     [CLEAR_CURRENT_IP] (state) {
       state.currentIp = null
+    },
+    [SET_CURRENT_IP_LOADING_STATE] (state, value) {
+      state.isCurrentIpLoading = value
     },
     [SET_SERVICE_SERVER_STATE] (state, value) {
       state.isServiceServerAvailable = value

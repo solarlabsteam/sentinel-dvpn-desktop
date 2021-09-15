@@ -45,6 +45,7 @@ export default {
     securedIp: 'Secured',
     exposedIp: 'IP Address is Exposed',
     unknownIp: 'Unknown IP',
+    obtainingIp: 'Obtaining an IP address...',
     checkingConnection: 'Checking the connection to the server',
     toggle: {
       on: 'on',
