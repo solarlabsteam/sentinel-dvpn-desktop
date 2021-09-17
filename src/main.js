@@ -1,7 +1,7 @@
 'use strict'
 
 import path from 'path'
-import { app, protocol, BrowserWindow, Menu, nativeImage } from 'electron'
+import { app, protocol, BrowserWindow, Menu, nativeImage, Tray } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import { launchKeyringRestServer } from '@/main/rest/keyring'
@@ -11,6 +11,8 @@ import initI18n from '@/main/i18n'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
+let win
+
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
@@ -18,7 +20,7 @@ protocol.registerSchemesAsPrivileged([
 
 async function createWindow () {
   // Create the browser window.
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 1200,
     height: 800,
     icon: nativeImage.createFromPath(path.resolve(__static, 'assets/images/logo.png')),
@@ -42,12 +44,39 @@ async function createWindow () {
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
   }
+
+  win.on('close', e => {
+    e.preventDefault()
+    win.hide()
+  })
 }
 
-// Quit when all windows are closed.
+function createTray () {
+  const icon = nativeImage.createFromPath(path.resolve(__static, 'assets/images/small-logo.png'))
+  const tray = new Tray(icon)
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      role: 'quit'
+      // click: function () {
+      //   win.show()
+      // }
+    }
+    // {
+    //   label: 'Exit',
+    //   click: function () {
+    //     app.quit()
+    //   }
+    // }
+  ])
+
+  tray.on('double-click', () => {
+    win.show()
+  })
+  tray.setContextMenu(contextMenu)
+  return tray
+}
+
 app.on('window-all-closed', () => {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit()
   }
@@ -81,6 +110,7 @@ app.on('ready', async () => {
     }
     await import('./main/ipc')
     createWindow()
+    createTray()
 
     if (!isDevelopment) {
       const menu = Menu.buildFromTemplate([{
