@@ -5099,7 +5099,7 @@ electron-store@^8.0.0:
 
 "electron-sudo@https://github.com/solarlabsteam/electron-sudo.git":
   version "4.0.12"
-  resolved "https://github.com/solarlabsteam/electron-sudo.git#7d19b7540be901942817e43e2a90c24fa058bfd6"
+  resolved "https://github.com/solarlabsteam/electron-sudo.git#76067225ed917b02f158541b26d0a580b6837b54"
   dependencies:
     babel-runtime "^6.18.0"
     bluebird "^3.4.6"
