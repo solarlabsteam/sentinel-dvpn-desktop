@@ -7,6 +7,33 @@ export default {
         noSession: 'Cannot create a session. $t(connection.error.common)',
         noBalance: 'Not enough tokens to broadcast - you\'ll need at least 0.01 DVPN on your account. Please, check your balance and try again later'
       }
+    },
+
+    menu: {
+      file: {
+        label: 'File',
+        submenu: {
+          close: {
+            label: 'Close'
+          },
+          exit: {
+            label: 'Exit'
+          }
+        }
+      },
+
+      view: {
+        label: 'View'
+      },
+
+      tray: {
+        open: {
+          label: 'Open'
+        },
+        exit: {
+          label: 'Exit'
+        }
+      }
     }
   }
 }

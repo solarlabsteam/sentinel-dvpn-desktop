@@ -4,6 +4,7 @@ import path from 'path'
 import { app, protocol, BrowserWindow, Menu, nativeImage, Tray } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
+import i18next from 'i18next'
 import { launchKeyringRestServer } from '@/main/rest/keyring'
 import Notifications from '@/main/common/Notifications'
 import { launchDvpnRestServer } from '@/main/rest/dvpn'
@@ -11,12 +12,84 @@ import initI18n from '@/main/i18n'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
-let win
+let win, tray
+
+const gotTheLock = app.requestSingleInstanceLock()
+
+if (!gotTheLock) {
+  app.quit()
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (win) {
+      if (win.isMinimized()) win.restore()
+      win.focus()
+    }
+  })
+
+  // This method will be called when Electron has finished
+  // initialization and is ready to create browser windows.
+  // Some APIs can only be used after this event occurs.
+  app.on('ready', async () => {
+    try {
+      await initI18n()
+    } catch (e) {
+      console.trace('Cannot load locales')
+    }
+
+    try {
+      await Promise.all([launchKeyringRestServer(), launchDvpnRestServer()])
+      if (isDevelopment && !process.env.IS_TEST) {
+        // Install Vue Devtools
+        try {
+          await installExtension(VUEJS3_DEVTOOLS)
+        } catch (e) {
+          console.error('Vue Devtools failed to install:', e.toString())
+        }
+      }
+      await import('./main/ipc')
+      await createWindow()
+      tray = createTray()
+      createMenu()
+    } catch (e) {
+      Notifications.createCritical(e)
+    }
+  })
+}
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
+
+app.on('quit', () => {
+  if (tray instanceof Tray) {
+    tray.destroy()
+  }
+})
+
+app.on('activate', () => {
+  // On macOS it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (BrowserWindow.getAllWindows().length === 0) createWindow()
+})
+
+// Exit cleanly on request from parent process in development mode.
+if (isDevelopment) {
+  if (process.platform === 'win32') {
+    process.on('message', (data) => {
+      if (data === 'graceful-exit') {
+        app.isQuitting = true
+        app.quit()
+      }
+    })
+  } else {
+    process.on('SIGTERM', () => {
+      app.isQuitting = true
+      app.quit()
+    })
+  }
+}
 
 async function createWindow () {
   // Create the browser window.
@@ -46,6 +119,10 @@ async function createWindow () {
   }
 
   win.on('close', e => {
+    if (app.isQuitting) {
+      return false
+    }
+
     e.preventDefault()
     win.hide()
   })
@@ -56,17 +133,18 @@ function createTray () {
   const tray = new Tray(icon)
   const contextMenu = Menu.buildFromTemplate([
     {
-      role: 'quit'
-      // click: function () {
-      //   win.show()
-      // }
+      label: i18next.t('menu.tray.open.label'),
+      click: function () {
+        win.show()
+      }
+    },
+    {
+      label: i18next.t('menu.tray.exit.label'),
+      click: function () {
+        app.isQuitting = true
+        app.quit()
+      }
     }
-    // {
-    //   label: 'Exit',
-    //   click: function () {
-    //     app.quit()
-    //   }
-    // }
   ])
 
   tray.on('double-click', () => {
@@ -76,64 +154,22 @@ function createTray () {
   return tray
 }
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
-
-app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (BrowserWindow.getAllWindows().length === 0) createWindow()
-})
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', async () => {
-  try {
-    await initI18n()
-  } catch (e) {
-    console.trace('Cannot load locales')
-  }
-
-  try {
-    await Promise.all([launchKeyringRestServer(), launchDvpnRestServer()])
-    if (isDevelopment && !process.env.IS_TEST) {
-      // Install Vue Devtools
-      try {
-        await installExtension(VUEJS3_DEVTOOLS)
-      } catch (e) {
-        console.error('Vue Devtools failed to install:', e.toString())
-      }
-    }
-    await import('./main/ipc')
-    createWindow()
-    createTray()
-
-    if (!isDevelopment) {
-      const menu = Menu.buildFromTemplate([{
-        role: 'fileMenu'
-      }])
-      Menu.setApplicationMenu(menu)
-    }
-  } catch (e) {
-    Notifications.createCritical(e)
-  }
-})
-
-// Exit cleanly on request from parent process in development mode.
-if (isDevelopment) {
-  if (process.platform === 'win32') {
-    process.on('message', (data) => {
-      if (data === 'graceful-exit') {
+function createMenu () {
+  const menu = Menu.buildFromTemplate([{
+    label: i18next.t('menu.file.label'),
+    submenu: [{
+      role: 'close'
+    },
+    {
+      label: i18next.t('menu.file.submenu.exit.label'),
+      click: function () {
+        app.isQuitting = true
         app.quit()
       }
-    })
-  } else {
-    process.on('SIGTERM', () => {
-      app.quit()
-    })
-  }
+    }]
+  }, {
+    role: 'viewMenu'
+  }])
+
+  Menu.setApplicationMenu(menu)
 }
