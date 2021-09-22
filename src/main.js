@@ -5,6 +5,7 @@ import { app, protocol, BrowserWindow, Menu, nativeImage, Tray } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import i18next from 'i18next'
+import logger from 'electron-log'
 import { launchKeyringRestServer } from '@/main/rest/keyring'
 import Notifications from '@/main/common/Notifications'
 import { launchDvpnRestServer } from '@/main/rest/dvpn'
@@ -52,6 +53,7 @@ if (!gotTheLock) {
       tray = createTray()
       createMenu()
     } catch (e) {
+      logger.error(e)
       Notifications.createCritical(e)
     }
   })

@@ -1,6 +1,7 @@
 import { exec } from 'child_process'
 import Sudoer from 'electron-sudo'
 import portastic from 'portastic'
+import logger from 'electron-log'
 import store from '@/main/store/store'
 
 export async function launchDvpnRestServer () {
@@ -29,7 +30,8 @@ function isDvpnRestServerLaunched () {
   return new Promise((resolve) => {
     exec('ps -ef | grep sentinelcli', (error, stdout) => {
       if (error) {
-        console.trace(error)
+        logger.error(error)
+        logger.error(stdout)
       }
       resolve(stdout.indexOf('--with-service') !== -1)
     })
