@@ -19,7 +19,7 @@ export async function launchDvpnRestServer () {
 
   const sudoer = new Sudoer({ name: 'Sentinel DVPN Desktop' })
   await sudoer.spawn(
-    'sentinelcli',
+    '/usr/local/bin/sentinelcli',
     ['start', '--home', '/tmp', '--listen', `127.0.0.1:${port}`, '--tty', '--with-service'],
     { detached: true, stdio: 'ignore' }
   )
