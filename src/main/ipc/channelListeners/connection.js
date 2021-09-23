@@ -1,5 +1,6 @@
 import { ipcMain } from 'electron'
 import i18next from 'i18next'
+import logger from 'electron-log'
 import { DVPN_KEY_NAME } from '@/shared/constants'
 import Notifications from '@/main/common/Notifications'
 import { generateError } from '@/main/utils/errorHandler'
@@ -52,6 +53,7 @@ function initConnectionListeners () {
 
       event.reply('CONNECT_TO_NODE', { data: result })
     } catch (e) {
+      logger.error(e)
       const error = generateError(e)
       Notifications.createCritical(i18next.t('connection.error.common')).show()
       event.reply('CONNECT_TO_NODE', { error })
