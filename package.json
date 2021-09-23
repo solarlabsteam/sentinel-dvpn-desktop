@@ -26,6 +26,7 @@
     "electron-log": "^4.4.1",
     "electron-store": "^8.0.0",
     "electron-sudo": "https://github.com/solarlabsteam/electron-sudo.git",
+    "fix-path": "^3.0.0",
     "flagpack": "^1.0.5",
     "google-protobuf": "^3.17.3",
     "grpc-web": "^1.2.1",

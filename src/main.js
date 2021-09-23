@@ -6,16 +6,19 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import i18next from 'i18next'
 import logger from 'electron-log'
+import fixPath from 'fix-path'
 import { launchKeyringRestServer } from '@/main/rest/keyring'
 import Notifications from '@/main/common/Notifications'
 import { launchDvpnRestServer } from '@/main/rest/dvpn'
 import initI18n from '@/main/i18n'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
-
+const gotTheLock = app.requestSingleInstanceLock()
 let win, tray
 
-const gotTheLock = app.requestSingleInstanceLock()
+logger.log(process.env.PATH)
+fixPath()
+logger.log(process.env.PATH)
 
 if (!gotTheLock) {
   app.quit()
