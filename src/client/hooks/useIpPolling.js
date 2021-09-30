@@ -8,6 +8,10 @@ export default function useIpPolling () {
   let polling
 
   const startPolling = () => {
+    if (polling) {
+      startPolling()
+    }
+
     fetchCurrentIp()
     polling = setInterval(() => {
       cancelFetch()
@@ -18,6 +22,7 @@ export default function useIpPolling () {
   const stopPolling = () => {
     cancelFetch()
     clearInterval(polling)
+    polling = null
   }
 
   const fetchCurrentIp = async () => {
