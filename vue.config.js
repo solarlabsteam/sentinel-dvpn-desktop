@@ -1,4 +1,6 @@
+const os = require('os').platform()
 const StyleLintPlugin = require('stylelint-webpack-plugin')
+
 process.env.VUE_APP_VERSION = require('./package.json').version
 
 module.exports = {
@@ -8,7 +10,25 @@ module.exports = {
       preload: 'src/main/preload.js',
       mainProcessWatch: ['src/main/**'],
       mainProcessFile: 'src/main.js',
-      rendererProcessFile: 'src/client.js'
+      rendererProcessFile: 'src/client.js',
+      builderOptions: {
+        linux: {
+          target: 'deb',
+          category: 'Utility'
+          // icon: 'icons/icon.png'
+        },
+        deb: {
+          afterInstall: 'scripts/linux/after-install.sh',
+          afterRemove: 'scripts/linux/after-uninstall.sh'
+        },
+        extraFiles: [{
+          from: `scripts/${os}/`,
+          to: `scripts/${os}/`
+        }, {
+          from: `bin/${os}`,
+          to: `bin/${os}`
+        }]
+      }
     }
   },
   configureWebpack: {
