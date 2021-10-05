@@ -7,10 +7,9 @@ import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import i18next from 'i18next'
 import { launchKeyringRestServer } from '@/main/rest/keyring'
 import Notifications from '@/main/common/Notifications'
-import { launchDvpnRestServer } from '@/main/rest/dvpn'
 import initI18n from '@/main/i18n'
 
-const isDevelopment = process.env.NODE_ENV !== 'production'
+const isDevelopment = process.env.NODE_ENV === 'development'
 
 let win, tray
 
@@ -38,7 +37,7 @@ if (!gotTheLock) {
     }
 
     try {
-      await Promise.all([launchKeyringRestServer(), launchDvpnRestServer()])
+      await launchKeyringRestServer()
       if (isDevelopment && !process.env.IS_TEST) {
         // Install Vue Devtools
         try {
