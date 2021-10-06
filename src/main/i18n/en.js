@@ -24,15 +24,15 @@ export default {
 
       view: {
         label: 'View'
-      },
+      }
+    },
 
-      tray: {
-        open: {
-          label: 'Open'
-        },
-        exit: {
-          label: 'Exit'
-        }
+    tray: {
+      open: {
+        label: 'Open'
+      },
+      exit: {
+        label: 'Exit'
       }
     }
   }
