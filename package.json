@@ -8,8 +8,10 @@
     "email": "partners@solarlabs.ee"
   },
   "repository": {
+    "type": "git",
     "url": "https://github.com/solarlabsteam/sentinel-dvpn-desktop"
   },
+  "homepage": "https://github.com/solarlabsteam/sentinel-dvpn-desktop",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -95,5 +97,5 @@
       "git add"
     ]
   },
-  "readme": "ERROR: No README data found!"
+  "readme": "README.md"
 }
