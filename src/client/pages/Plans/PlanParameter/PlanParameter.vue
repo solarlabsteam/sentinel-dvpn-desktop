@@ -81,4 +81,5 @@ export default {
 <style
   lang="scss"
   src="./PlanParameter.scss"
+  scoped
 />

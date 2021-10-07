@@ -72,4 +72,5 @@ export default {
 <style
   lang="scss"
   src="./Plan.scss"
+  scoped
 />

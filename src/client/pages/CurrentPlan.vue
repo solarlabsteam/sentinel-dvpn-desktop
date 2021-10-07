@@ -99,7 +99,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .current-plan {
 
   &__quotas {
@@ -109,7 +109,7 @@ export default {
     padding: 0 30px;
   }
 
-  &__change-button.slr-button {
+  :deep(.slr-button) {
     display: flex;
     justify-content: space-between;
     align-items: center;

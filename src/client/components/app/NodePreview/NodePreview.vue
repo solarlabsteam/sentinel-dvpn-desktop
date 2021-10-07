@@ -66,4 +66,5 @@ export default {
 <style
   lang="scss"
   src="./NodePreview.scss"
+  scoped
 />

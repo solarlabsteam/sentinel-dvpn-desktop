@@ -20,7 +20,7 @@
       />
 
       <span class="m-s18-lh22 mb-3">{{ isConnected ? t('connection.connectedStatus') : t('connection.disconnectedStatus') }}</span>
-      <div class="connection-screen__ip-info">
+      <div class="connection-screen__ip-info r-s10-lh12">
         <span v-if="isCurrentIpLoading">
           {{ t('connection.obtainingIp') }}
         </span>
@@ -131,4 +131,5 @@ export default {
 <style
   lang="scss"
   src="./Connection.scss"
+  scoped
 />

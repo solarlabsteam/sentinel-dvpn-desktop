@@ -80,4 +80,5 @@ export default {
 <style
   lang="scss"
   src="./Onboarding.scss"
+  scoped
 />

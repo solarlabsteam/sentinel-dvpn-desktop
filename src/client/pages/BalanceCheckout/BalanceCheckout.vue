@@ -128,34 +128,7 @@ export default {
 </script>
 
 <style
+  src="./BalanceCheckout.scss"
   lang="scss"
->
-.balance-checkout {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  &__padding-wrapper {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 0 30px;
-  }
-
-  &__parameters {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 34px;
-  }
-
-  &__qr-wrapper {
-    border-radius: 15px;
-  }
-
-  &__message {
-    opacity: 0.4;
-    margin-bottom: 10px;
-    text-align: center;
-    @extend .m-s10-lh12
-  }
-}
-</style>
+  scoped
+/>

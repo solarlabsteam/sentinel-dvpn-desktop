@@ -53,7 +53,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .slr-icon {
   display: inline-block;
   background-position: center center;

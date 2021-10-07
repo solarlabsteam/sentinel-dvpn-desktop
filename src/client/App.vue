@@ -20,6 +20,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/client/styles/index.scss";
+
 body {
   margin: 0;
 }
@@ -31,7 +33,7 @@ body {
   background-color: $slr__clr-dark-blue;
   font-family: 'Inter', sans-serif;
   color: $slr__clr-white;
-  @extend .r-s12-lh15
+  @include font-template(12px, 15px);
 }
 
 .page {

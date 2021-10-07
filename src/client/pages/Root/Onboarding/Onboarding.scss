@@ -19,7 +19,7 @@
 
   &__title {
     margin-bottom: 20px;
-    @extend .b-s22-lh27
+    @include font-template(22px, 27px, 700);
   }
 
   &__description {
@@ -27,7 +27,7 @@
     color: rgba(255, 255, 255, 0.5)
   }
 
-  &__next-button.slr-button {
+  :deep(.slr-button) {
     padding: 11px 13px 12px 13px;
   }
 

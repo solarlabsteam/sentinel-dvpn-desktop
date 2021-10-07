@@ -6,19 +6,19 @@
 
   &__count {
     margin-bottom: 5px;
-    @extend .b-s18-lh22
+    @include font-template(18px, 22px, 700);
   }
 
   &__units {
     margin-left: 5px;
     text-transform: uppercase;
     color: $slr__clr-blue-1;
-    @extend .s-s9-lh11
+    @include font-template(9px, 11px, 600);
   }
 
   &__description {
     margin-bottom: 10px;
-    @extend .m-s9-lh11
+    @include font-template(9px, 11px, 500);
   }
 
   &__header {

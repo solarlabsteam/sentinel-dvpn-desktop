@@ -40,4 +40,5 @@ export default {
 <style
   lang="scss"
   src="./SlrCheckbox.scss"
+  scoped
 />

@@ -8,7 +8,7 @@
 
     .content-area {
       color: $slr__clr-white;
-      @extend .b-s13-lh16;
+      @include font-template(13px, 16px, 700);
 
       input {
         margin-top: 4px;

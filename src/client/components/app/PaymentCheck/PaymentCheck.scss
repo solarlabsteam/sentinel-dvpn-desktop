@@ -35,12 +35,12 @@
 
   &__date {
     margin-bottom: 6px;
-    @extend .s-s8-lh10;
+    @include font-template(8px, 10px, 600);
   }
 
   &__txhash {
     opacity: .4;
-    @extend .m-s9-lh10
+    @include font-template(9px, 10px, 500)
   }
 
   &__divider {
@@ -52,16 +52,16 @@
 
   &__crypto {
     text-transform: uppercase;
-    @extend .b-s18-lh22;
+    @include font-template(18px, 22px, 700);
   }
 
   &__amount {
     margin-bottom: 7px;
-    @extend .b-s16-lh19;
+    @include font-template(16px, 19px, 700);
   }
 
   &__description {
-    @extend .s-s10-lh15
+    @include font-template(10px, 15px, 600);
   }
 
   &__crypto-icon {
