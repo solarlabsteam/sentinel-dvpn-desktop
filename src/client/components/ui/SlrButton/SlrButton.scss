@@ -10,7 +10,6 @@
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   color: $slr__clr-white;
-  @extend .slr-hoverable;
 
   &--block {
     display: flex;

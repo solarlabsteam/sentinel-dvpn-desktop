@@ -29,4 +29,5 @@ export default {
 <style
   lang="scss"
   src="./SlrPopper.scss"
+  scoped
 />

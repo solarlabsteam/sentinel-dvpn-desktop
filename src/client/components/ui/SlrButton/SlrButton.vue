@@ -1,6 +1,6 @@
 <template>
   <button
-    class="slr-button"
+    class="slr-button slr-hoverable"
     :class="classes"
     @click="onClick"
   >
@@ -64,4 +64,4 @@ export default {
 }
 </script>
 
-<style lang="scss" src="./SlrButton.scss" />
+<style lang="scss" src="./SlrButton.scss" scoped/>

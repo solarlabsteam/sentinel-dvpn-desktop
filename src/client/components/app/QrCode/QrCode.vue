@@ -46,6 +46,7 @@ export default {
 
 <style
   lang="scss"
+  scoped
 >
 .qr-code {
   display: inline-flex;

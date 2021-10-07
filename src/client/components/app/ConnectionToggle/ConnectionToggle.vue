@@ -91,4 +91,5 @@ export default {
 <style
   lang="scss"
   src="./ConnectionToggle.scss"
+  scoped
 />

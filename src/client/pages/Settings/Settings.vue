@@ -113,6 +113,7 @@ export default {
 
 <style
   lang="scss"
+  scoped
 >
 .settings {
   display: flex;
@@ -138,7 +139,7 @@ export default {
 
   &__about-text {
     opacity: .4;
-    @extend .m-s9-lh11
+    @include font-template(9px, 11px, 500);
   }
 }
 </style>

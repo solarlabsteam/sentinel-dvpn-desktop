@@ -52,4 +52,5 @@ export default {
 <style
   lang="scss"
   src="./SlrProgress.scss"
+  scoped
 />

@@ -115,6 +115,7 @@ export default {
 
 <style
   lang="scss"
+  scoped
 >
 .plans {
 
@@ -136,7 +137,7 @@ export default {
     opacity: 0.4;
     margin-bottom: 10px;
     text-align: center;
-    @extend .m-s10-lh12
+    @include font-template(10px, 12px, 500);
   }
 }
 </style>

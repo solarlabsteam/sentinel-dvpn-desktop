@@ -32,4 +32,4 @@ export default {
 }
 </script>
 
-<style lang="scss" src="./SlrLoader.scss" />
+<style lang="scss" src="./SlrLoader.scss" scoped />

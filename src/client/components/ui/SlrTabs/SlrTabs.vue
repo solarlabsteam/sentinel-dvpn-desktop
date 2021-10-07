@@ -54,4 +54,5 @@ export default {
 <style
   lang="scss"
   src="./SlrTabs.scss"
+  scoped
 />
