@@ -9,7 +9,7 @@ export default function useIpPolling () {
 
   const startPolling = () => {
     if (polling) {
-      startPolling()
+      stopPolling()
     }
 
     fetchCurrentIp()
