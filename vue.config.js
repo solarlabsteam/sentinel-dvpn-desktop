@@ -19,6 +19,10 @@ module.exports = {
           target: 'deb',
           category: 'Utility'
         },
+        mac: {
+          target: 'pkg',
+          category: 'public.app-category.utilities'
+        },
         deb: {
           afterInstall: 'scripts/linux/after-install.sh',
           afterRemove: 'scripts/linux/after-uninstall.sh'
@@ -31,7 +35,10 @@ module.exports = {
             from: `bin/${os}`,
             to: `bin/${os}`
           }
-        ]
+        ],
+        pkg: {
+          // scripts: 'scripts/mac'
+        }
       }
     },
     'style-resources-loader': {
