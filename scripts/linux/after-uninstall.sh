@@ -1,9 +1,12 @@
 #!/bin/bash
 
-echo 'Remove sentinelcli'
+echo 'Removing configs'
+rm -rf ~/.config/sentinel-dvpn-desktop
+
+echo 'Removing sentinelcli'
 rm -rf /usr/local/bin/sentinelcli
 
-echo 'Remove the daemon'
+echo 'Removing the daemon'
 systemctl stop sentinelcli-vpn.service
 systemctl disable sentinelcli-vpn.service
 rm /etc/systemd/system/sentinelcli-vpn.service
