@@ -78,7 +78,7 @@ app.on('activate', () => {
 app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
+  if (app.isQuitting || process.platform !== 'darwin') {
     app.quit()
   }
 })
@@ -151,7 +151,7 @@ function createTray () {
       label: i18next.t('tray.exit.label'),
       click: function () {
         app.isQuitting = true
-        win.close()
+        app.quit()
       }
     }
   ])
@@ -173,7 +173,7 @@ function createMenu () {
       label: i18next.t('menu.file.submenu.exit.label'),
       click: function () {
         app.isQuitting = true
-        win.close()
+        app.quit()
       }
     }]
   }, {
