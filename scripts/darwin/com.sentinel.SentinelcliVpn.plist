@@ -17,5 +17,11 @@
         </array>
         <key>KeepAlive</key>
         <true/>
+        <key>StandardOutPath</key>
+        <string>/Users/admin/Library/Logs/sentinel-dvpn-desktop/daemon-service-out.log</string>
+        <key>StandardErrorPath</key>
+        <string>/Users/admin/Library/Logs/sentinel-dvpn-desktop/daemon-service-error.log</string>
+        <key>Debug</key>
+        <true/>
     </dict>
 </plist>

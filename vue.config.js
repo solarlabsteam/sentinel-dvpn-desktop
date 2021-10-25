@@ -37,7 +37,7 @@ module.exports = {
           }
         ],
         pkg: {
-          scripts: 'scripts/mac'
+          scripts: 'scripts/darwin'
         }
       }
     },

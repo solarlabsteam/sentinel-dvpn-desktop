@@ -1,0 +1,37 @@
+#!/bin/bash
+
+exec 3>&1 4>&2
+trap 'exec 2>&4 1>&3' 0 1 2 3
+exec 1>/Users/admin/Work/sentinel-dvpn-desktop/log.out 2>&1
+
+set -e
+
+export PATH=/usr/local/bin:$PATH
+
+LOGS_DIR="~/Library/Logs/sentinel-dvpn-desktop"
+if [ ! -d "$LOGS_DIR" ]; then
+  mkdir -p "$LOGS_DIR"
+fi
+
+echo 'Installing wireguard-go'
+mkdir $INSTALLER_TEMP/wireguard-go
+tar -xvf $2/sentinel-dvpn-desktop.app/Contents/bin/darwin/port/wireguard-go-0.0.20210424_0.darwin_20.x86_64.tbz2 -C $INSTALLER_TEMP/wireguard-go
+#find $INSTALLER_TEMP/wireguard-go/opt -type f -exec chmod +x {} \;
+cp -R $INSTALLER_TEMP/wireguard-go/opt /
+
+echo 'Installing wireguard-tools'
+mkdir $INSTALLER_TEMP/wireguard-tools
+tar -xvf $2/sentinel-dvpn-desktop.app/Contents/bin/darwin/port/wireguard-tools-1.0.20210914_0.darwin_20.x86_64.tbz2 -C $INSTALLER_TEMP/wireguard-tools
+#find $INSTALLER_TEMP/wireguard-tools/opt -type f -exec chmod +x {} \;
+cp -R $INSTALLER_TEMP/wireguard-tools/opt /
+
+echo 'Installing sentinelcli'
+chmod +x $2/sentinel-dvpn-desktop.app/Contents/bin/darwin/sentinelcli
+cp $2/sentinel-dvpn-desktop.app/Contents/bin/darwin/sentinelcli /usr/local/bin/sentinelcli
+
+echo 'Creating the daemon'
+cp $2/sentinel-dvpn-desktop.app/Contents/scripts/darwin/com.sentinel.SentinelcliVpn.plist /Library/LaunchDaemons
+launchctl load -w /Library/LaunchDaemons/com.sentinel.SentinelcliVpn.plist
+launchctl start com.sentinel.SentinelcliVpn
+
+exit 0
