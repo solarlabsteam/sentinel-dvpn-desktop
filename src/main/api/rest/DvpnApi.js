@@ -13,7 +13,7 @@ class DvpnApi {
     this.provider.interceptors.request.use(config => {
       config.data = {
         password: key && key.password,
-        backend: 'file',
+        backend: 'test',
         ...config.data
       }
 
