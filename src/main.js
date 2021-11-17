@@ -5,7 +5,8 @@ import { app, protocol, BrowserWindow, Menu, nativeImage, Tray } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import i18next from 'i18next'
-import { launchKeyringRestServer } from '@/main/rest/keyring'
+import launchKeyringRestServer from '@/main/rest/keyring'
+import launchDvpnRestServer from '@/main/rest/dvpn'
 import Notifications from '@/main/common/Notifications'
 import initI18n from '@/main/i18n'
 
@@ -38,6 +39,7 @@ if (!gotTheLock) {
 
     try {
       await launchKeyringRestServer()
+      await launchDvpnRestServer()
       if (isDevelopment && !process.env.IS_TEST) {
         // Install Vue Devtools
         try {

@@ -3,7 +3,7 @@ import ps from 'ps-node'
 import portastic from 'portastic'
 import store from '@/main/store/store'
 
-export async function launchKeyringRestServer () {
+export default async function launchKeyringRestServer () {
   const isLaunched = await isKeyringRestServerLaunched()
 
   if (isLaunched) {
