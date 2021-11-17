@@ -1,9 +1,9 @@
 #!/bin/bash
 
-set -e
+#set -e
 
 echo 'Installing wireguard-tools'
-apt-get update && apt-get install openresolv wireguard-tools
+#apt-get update && apt-get install openresolv wireguard-tools
 
 echo 'Copying sentinelcli'
 cp /opt/sentinel-dvpn-desktop/bin/linux/sentinelcli /usr/local/bin/sentinelcli
