@@ -16,7 +16,7 @@ module.exports = {
       rendererProcessFile: 'src/client.js',
       builderOptions: {
         linux: {
-          target: 'deb',
+          target: ['deb', 'AppImage'],
           category: 'Utility'
         },
         deb: {
