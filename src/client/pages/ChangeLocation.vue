@@ -3,7 +3,7 @@
     <page-header />
 
     <slr-tabs>
-      <slr-tab title="Subscribed">
+      <slr-tab :title="t('route.changeLocation.tab.subscriptions.title')">
         <div
           v-if="isSubscribedNodesLoading"
           class="text-center mb-3"
@@ -11,7 +11,7 @@
           <slr-loader :size="20" />
         </div>
 
-        <ul>
+        <ul v-if="subscribedNodes.length">
           <li
             v-for="node in subscribedNodes"
             :key="node.address"
@@ -34,8 +34,15 @@
             />
           </li>
         </ul>
+
+        <p
+          v-else-if="!isSubscribedNodesLoading"
+          class="m-s10- lh12 opacity-4 text-center"
+        >
+          {{ t('subscription.list.noData') }}
+        </p>
       </slr-tab>
-      <slr-tab title="Available nodes">
+      <slr-tab :title="t('route.changeLocation.tab.nodes.title')">
         <div
           v-if="isNodesLoading"
           class="text-center mb-3"
@@ -43,7 +50,7 @@
           <slr-loader :size="20" />
         </div>
 
-        <ul>
+        <ul v-if="nodes.length">
           <li
             v-for="node in nodes"
             :key="node.address"
@@ -66,6 +73,13 @@
             />
           </li>
         </ul>
+
+        <p
+          v-else-if="!isNodesLoading"
+          class="m-s10-lh12 opacity-4 text-center"
+        >
+          {{ t('node.list.noData') }}
+        </p>
       </slr-tab>
     </slr-tabs>
   </div>
@@ -74,6 +88,7 @@
 <script>
 import { mapActions, useStore } from 'vuex'
 import { computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import NodePreview from '@/client/components/app/NodePreview'
 import PageHeader from '@/client/components/app/PageHeader'
 import { syncStoreValue } from '@/client/store/plugins/syncStore'
@@ -85,6 +100,7 @@ export default {
   },
   setup () {
     const store = useStore()
+    const { t } = useI18n()
 
     onMounted(() => {
       store.dispatch('fetchNodes')
@@ -96,7 +112,8 @@ export default {
       isNodesLoading: computed(() => store.getters.isNodesLoading),
       subscribedNodes: computed(() => store.getters.subscribedNodes),
       isSubscribedNodesLoading: computed(() => store.getters.isSubscribedNodesLoading),
-      selectedNode: computed(() => store.getters.selectedNode)
+      selectedNode: computed(() => store.getters.selectedNode),
+      t
     }
   },
 
