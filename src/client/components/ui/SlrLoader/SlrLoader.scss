@@ -1,0 +1,27 @@
+.slr-loader {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+
+  &__lines {
+    content: " ";
+    animation: slr-loader 1.2s linear infinite;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #3da0ec transparent #3da0ec transparent;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@keyframes slr-loader {
+
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

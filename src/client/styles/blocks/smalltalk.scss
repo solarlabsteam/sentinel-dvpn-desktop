@@ -1,0 +1,42 @@
+.smalltalk {
+  background-color: rgba(255,255,255, 0.03);
+
+  .page {
+    border: 0;
+    height: auto;
+    @extend .slr-card;
+
+    .content-area {
+      color: $slr__clr-white;
+      @include font-template(13px, 16px, 700);
+
+      input {
+        margin-top: 4px;
+      }
+    }
+
+    .action-area {
+
+      .button-strip {
+
+        button {
+          box-shadow: none;
+          border: none;
+          border-radius: 6px;
+          padding: 10px 20px;
+          background-color: $slr__clr-blue;
+          background-image: none;
+          cursor: pointer;
+          font-size: 10px;
+          letter-spacing: 0.118421px;
+          line-height: 12px;
+          font-family: 'Inter', sans-serif;
+          font-weight: 600;
+          text-shadow: none;
+          color: $slr__clr-white;
+          @extend .slr-hoverable
+        }
+      }
+    }
+  }
+}

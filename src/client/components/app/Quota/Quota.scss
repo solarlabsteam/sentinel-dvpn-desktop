@@ -1,0 +1,29 @@
+.quota {
+  box-sizing: border-box;
+  width: 160px;
+  height: 70px;
+  padding: 10px;
+
+  &__count {
+    margin-bottom: 5px;
+    @include font-template(18px, 22px, 700);
+  }
+
+  &__units {
+    margin-left: 5px;
+    text-transform: uppercase;
+    color: $slr__clr-blue-1;
+    @include font-template(9px, 11px, 600);
+  }
+
+  &__description {
+    margin-bottom: 10px;
+    @include font-template(9px, 11px, 500);
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

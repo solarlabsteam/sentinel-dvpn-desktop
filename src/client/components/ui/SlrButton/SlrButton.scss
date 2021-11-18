@@ -1,0 +1,30 @@
+.slr-button {
+  position: relative;
+  border: none;
+  border-radius: 6px;
+  padding: 14px 36px;
+  background-color: $slr__clr-blue;
+  font-size: 10px;
+  letter-spacing: 0.118421px;
+  line-height: 12px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: $slr__clr-white;
+
+  &--block {
+    display: flex;
+    width: 100%;
+  }
+
+  &--text {
+    background-color: transparent;
+
+    &::before {
+      background-color: transparent;
+    }
+  }
+
+  &--tiny {
+    padding: 2px 4px;
+  }
+}

@@ -1,0 +1,26 @@
+@import '~flagpack/dist/flagpack.css';
+
+.node-preview {
+  display: flex;
+  align-items: center;
+
+  &__flag {
+    margin-right: 10px;
+    border-radius: 50%;
+  }
+
+  &__title {
+    margin-right: 8px;
+    @include font-template(12px, 15px, 500);
+  }
+
+  &__number {
+    text-transform: uppercase;
+    color: $slr__clr-blue-1;
+  }
+
+  &__subtitle {
+    margin-top: 3px;
+    @include font-template(8px, 10px);
+  }
+}

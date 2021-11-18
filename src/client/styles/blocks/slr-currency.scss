@@ -1,0 +1,7 @@
+$slr-currencies: "udvpn";
+
+@each $currency in $slr-currencies {
+  .slr-currency.#{$currency} {
+    background-image: url("/assets/icons/#{$currency}.svg");
+  }
+}

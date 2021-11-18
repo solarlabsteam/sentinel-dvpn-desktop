@@ -1,0 +1,18 @@
+.slr-progress {
+  border-radius: 6px;
+  height: 4px;
+  background-color: $slr__clr-blue-1;
+
+  &__passed {
+    border-radius: inherit;
+    height: 100%;
+
+    &--green {
+      background-color: $slr__clr-green;
+    }
+
+    &--blue {
+      background-color: $slr__clr-light-blue;
+    }
+  }
+}

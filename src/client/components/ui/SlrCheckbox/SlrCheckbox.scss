@@ -1,0 +1,29 @@
+.slr-checkbox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  padding: 5px 30px;
+  cursor: pointer;
+
+  &--active,
+  &:hover {
+    background-color: $slr__clr-dark-blue-2;
+  }
+
+  &__name {
+    display: flex;
+    align-items: center;
+  }
+
+  &__button {
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.1);
+
+    &--active {
+      background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 35%, rgba(255, 255, 255, 0.1) 35%, rgba(255, 255, 255, 0.1) 100%);
+    }
+  }
+}
