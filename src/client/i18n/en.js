@@ -4,7 +4,15 @@ export default {
       title: 'Current Plan'
     },
     changeLocation: {
-      title: 'Change Location'
+      title: 'Change Location',
+      tab: {
+        subscriptions: {
+          title: 'Subscribed'
+        },
+        nodes: {
+          title: 'Available nodes'
+        }
+      }
     },
     plans: {
       title: 'Plans'
@@ -69,6 +77,15 @@ export default {
   node: {
     selected: {
       change: 'change'
+    },
+    list: {
+      noData: 'No available nodes found'
+    }
+  },
+
+  subscription: {
+    list: {
+      noData: 'No subscriptions found'
     }
   },
 
