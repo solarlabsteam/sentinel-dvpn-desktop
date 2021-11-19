@@ -33,6 +33,9 @@ export default {
       await store.dispatch('fetchUser')
 
       if (user.value) {
+        store.dispatch('fetchNodes')
+        store.dispatch('fetchSubscribedNodes')
+
         router.push({ name: 'home' })
       }
     })
