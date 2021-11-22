@@ -1,20 +1,61 @@
 <template>
-  <root>
+  <slr-logo
+    v-if="isAppDataLoading"
+    class="logo"
+  />
+
+  <onboarding v-else-if="!user" />
+
+  <template v-else>
     <connection />
     <div class="page">
       <router-view />
     </div>
-  </root>
+  </template>
 </template>
 
 <script>
+import { computed, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import Onboarding from '@/client/pages/Login/Onboarding'
 import Connection from '@/client/pages/Connection'
-import Root from '@/client/pages/Root'
 
 export default {
+  name: 'App',
+
   components: {
-    Connection,
-    Root
+    Onboarding,
+    Connection
+  },
+
+  setup () {
+    const router = useRouter()
+    const store = useStore()
+    const user = computed(() => store.getters.user)
+    const isUserLoading = computed(() => store.getters.isUserLoading)
+    const isSubscribedNodesLoading = computed(() => store.getters.isSubscribedNodesLoading)
+    const isNodesLoading = computed(() => store.getters.isNodesLoading)
+    const isAppDataLoading = computed(() => isUserLoading.value || isSubscribedNodesLoading.value || isNodesLoading.value)
+    const selectedNode = computed(() => store.getters.selectedNode)
+
+    store.dispatch('fetchUser')
+
+    watch(
+      () => store.getters.user,
+      async user => {
+        if (user) {
+          if (!selectedNode.value) {
+            await store.dispatch('selectDefaultNode')
+          }
+          router.push({ name: 'home' })
+        } else {
+          router.push({ path: '/' })
+        }
+      }
+    )
+
+    return { isAppDataLoading, user }
   }
 }
 </script>
@@ -42,5 +83,10 @@ body {
   border-left: 1px solid rgba(255, 255, 255, 0.1);
   width: 400px;
   height: 100%;
+}
+
+.logo {
+  align-self: center;
+  margin: auto;
 }
 </style>

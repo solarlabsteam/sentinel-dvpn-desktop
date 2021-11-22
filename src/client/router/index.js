@@ -5,15 +5,9 @@ import ChangeLocation from '@/client/pages/ChangeLocation'
 import PaymentResult from '@/client/pages/PaymentResult'
 import BalanceCheckout from '@/client/pages/BalanceCheckout'
 import Settings from '@/client/pages/Settings'
-import Root from '@/client/pages/Root'
 import i18n from '@/client/plugins/i18n'
 
 const routes = [
-  {
-    path: '/',
-    name: 'root',
-    component: Root
-  },
   {
     path: '/home',
     component: Home,

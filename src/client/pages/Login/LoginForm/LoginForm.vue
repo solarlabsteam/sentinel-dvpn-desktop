@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="login-form">
     <slr-button
       class="mr-3"
       @click="addAccount()"
@@ -18,7 +18,7 @@ import smalltalk from 'smalltalk'
 import { useI18n } from 'vue-i18n'
 
 export default {
-  name: 'Login',
+  name: 'LoginForm',
 
   setup () {
     const store = useStore()
