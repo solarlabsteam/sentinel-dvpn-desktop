@@ -110,7 +110,7 @@ export default {
     return {
       nodes: computed(() => store.getters.nodes),
       isNodesLoading: computed(() => store.getters.isNodesLoading),
-      subscribedNodes: computed(() => []),
+      subscribedNodes: computed(() => store.getters.subscribedNodes),
       isSubscribedNodesLoading: computed(() => store.getters.isSubscribedNodesLoading),
       selectedNode: computed(() => store.getters.selectedNode),
       t
@@ -122,7 +122,7 @@ export default {
       await this.clearPreviousNodeState()
       await this.selectNode(node)
       await syncStoreValue('selectedNode', node)
-      this.$router.back()
+      this.$router.push({ path: window.history.state.back })
     },
 
     async clearPreviousNodeState () {

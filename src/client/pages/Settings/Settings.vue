@@ -1,6 +1,6 @@
 <template>
   <div class="settings">
-    <page-header />
+    <page-header :to="{name: 'home'}" />
 
     <div class="mb-5">
       <slr-checkbox

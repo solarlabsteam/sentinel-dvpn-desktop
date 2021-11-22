@@ -43,14 +43,7 @@ export default {
           dispatch('fetchNodes')
         ])
 
-        let node
-
-        if (getters.selectedNode) {
-          node = getters.subscribedNodes.find(n => n.address === getters.selectedNode.address) ||
-            getters.nodes.find(n => n.address === getters.selectedNode.address)
-        } else {
-          node = getters.subscribedNodes[0] || getters.nodes[0]
-        }
+        const node = getters.subscribedNodes[0] || getters.nodes[0]
 
         await Promise.allSettled([
           dispatch('selectNode', node),

@@ -16,7 +16,6 @@
 
 <script>
 import { computed, watch } from 'vue'
-import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import Onboarding from '@/client/pages/Login/Onboarding'
 import Connection from '@/client/pages/Connection'
@@ -30,22 +29,20 @@ export default {
   },
 
   setup () {
-    const router = useRouter()
     const store = useStore()
     const user = computed(() => store.getters.user)
     const isUserLoading = computed(() => store.getters.isUserLoading)
     const isDefaultNodeLoading = computed(() => store.getters.isDefaultNodeLoading)
     const isAppDataLoading = computed(() => isUserLoading.value || isDefaultNodeLoading.value)
+    const selectedNode = computed(() => store.getters.selectedNode)
 
     store.dispatch('fetchUser')
 
     watch(
       () => store.getters.user,
       user => {
-        if (user) {
+        if (user && !selectedNode.value) {
           store.dispatch('selectDefaultNode')
-        } else {
-          router.push({ path: '/login' })
         }
       }
     )

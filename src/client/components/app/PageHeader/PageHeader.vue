@@ -43,7 +43,7 @@ export default {
       if (props.to) {
         router.push(props.to)
       } else {
-        router.back()
+        router.push({ path: window.history.state.back })
       }
     }
 
