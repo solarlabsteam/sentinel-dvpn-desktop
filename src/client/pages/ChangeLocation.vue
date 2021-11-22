@@ -2,7 +2,7 @@
   <div class="change-location mb-4">
     <page-header />
 
-    <slr-tabs>
+    <slr-tabs :default-active-tab="subscribedNodes.length > 0 ? 0 : 1">
       <slr-tab :title="t('route.changeLocation.tab.subscriptions.title')">
         <div
           v-if="isSubscribedNodesLoading"
@@ -110,7 +110,7 @@ export default {
     return {
       nodes: computed(() => store.getters.nodes),
       isNodesLoading: computed(() => store.getters.isNodesLoading),
-      subscribedNodes: computed(() => store.getters.subscribedNodes),
+      subscribedNodes: computed(() => []),
       isSubscribedNodesLoading: computed(() => store.getters.isSubscribedNodesLoading),
       selectedNode: computed(() => store.getters.selectedNode),
       t

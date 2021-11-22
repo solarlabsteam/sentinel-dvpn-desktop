@@ -34,23 +34,18 @@ export default {
     const store = useStore()
     const user = computed(() => store.getters.user)
     const isUserLoading = computed(() => store.getters.isUserLoading)
-    const isSubscribedNodesLoading = computed(() => store.getters.isSubscribedNodesLoading)
-    const isNodesLoading = computed(() => store.getters.isNodesLoading)
-    const isAppDataLoading = computed(() => isUserLoading.value || isSubscribedNodesLoading.value || isNodesLoading.value)
-    const selectedNode = computed(() => store.getters.selectedNode)
+    const isDefaultNodeLoading = computed(() => store.getters.isDefaultNodeLoading)
+    const isAppDataLoading = computed(() => isUserLoading.value || isDefaultNodeLoading.value)
 
     store.dispatch('fetchUser')
 
     watch(
       () => store.getters.user,
-      async user => {
+      user => {
         if (user) {
-          if (!selectedNode.value) {
-            await store.dispatch('selectDefaultNode')
-          }
-          router.push({ name: 'home' })
+          store.dispatch('selectDefaultNode')
         } else {
-          router.push({ path: '/' })
+          router.push({ path: '/login' })
         }
       }
     )
