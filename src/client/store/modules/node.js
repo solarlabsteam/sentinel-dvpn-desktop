@@ -1,3 +1,4 @@
+import { syncStoreValue } from '@/client/store/plugins/syncStore'
 import {
   CLEAR_SELECTED_NODE,
   SET_SELECTED_NODE,
@@ -30,6 +31,23 @@ export default {
     },
     clearConnectedNode ({ commit }) {
       commit(CLEAR_CONNECTED_NODE)
+    },
+    async selectDefaultNode ({ dispatch }) {
+      const result = await Promise.allSettled([
+        dispatch('fetchSubscribedNodes'),
+        dispatch('fetchNodes')
+      ])
+
+      const nodes = result
+        .filter(r => r.status === 'fulfilled')
+        .find(r => Array.isArray(r.value) && r.value.length > 0)
+
+      if (Array.isArray(nodes.value)) {
+        await Promise.allSettled([
+          dispatch('selectNode', nodes.value[0]),
+          syncStoreValue('selectedNode', nodes.value[0])
+        ])
+      }
     }
   },
 

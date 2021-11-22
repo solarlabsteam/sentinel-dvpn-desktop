@@ -36,7 +36,7 @@ export default {
 
           commit(SET_NODES, payload.data)
           commit(SET_NODES_LOADING_STATE, false)
-          resolve()
+          resolve(payload.data)
         })
 
         window.ipc.send('QUERY_NODE_LIST')
@@ -56,7 +56,7 @@ export default {
 
           commit(SET_SUBSCRIBED_NODES, payload.data)
           commit(SET_SUBSCRIBED_NODES_LOADING_STATE, false)
-          resolve()
+          resolve(payload.data)
         })
 
         window.ipc.send('QUERY_SUBSCRIBED_NODE_LIST')
