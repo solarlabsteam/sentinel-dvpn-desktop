@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { safeStorage } from 'electron'
 import { DVPN_KEY_NAME } from '@/shared/constants'
 import store, { getters } from '@/main/store/store'
 
@@ -12,7 +13,7 @@ class DvpnApi {
     const key = getters.getKeyByName(DVPN_KEY_NAME)
     this.provider.interceptors.request.use(config => {
       config.data = {
-        password: key && key.password,
+        password: key && safeStorage.decryptString(Buffer.from(key.password, 'base64')),
         backend: 'test',
         ...config.data
       }
