@@ -49,7 +49,6 @@ class KeyApi {
           this.addAccountBech32(data)
           data.result = {
             ...data.result,
-            mnemonic: requestData.mnemonic,
             password: safeStorage.encryptString(requestData.password).toString('base64')
           }
         } catch (e) {
