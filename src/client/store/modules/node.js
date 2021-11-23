@@ -18,7 +18,8 @@ export default {
 
   getters: {
     selectedNode: state => state.selectedNode,
-    connectedNode: state => state.connectedNode
+    connectedNode: state => state.connectedNode,
+    isDefaultNodeLoading: state => state.isDefaultNodeLoading
   },
 
   actions: {
@@ -71,6 +72,7 @@ export default {
       state.connectedNode = getDefaultState().connectedNode
     },
     [SET_DEFAULT_NODE_LOADING_STATE] (state, value) {
+      console.log(value)
       state.isDefaultNodeLoading = value
     }
   }

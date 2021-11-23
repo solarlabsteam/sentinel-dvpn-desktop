@@ -47,7 +47,7 @@ export default {
       }
     )
 
-    return { isAppDataLoading, user }
+    return { isAppDataLoading, user, isDefaultNodeLoading }
   }
 }
 </script>
