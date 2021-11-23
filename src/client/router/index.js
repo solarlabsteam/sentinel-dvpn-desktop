@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory, RouterView } from 'vue-router'
+import Onboarding from '@/client/pages/Login/Onboarding'
 import Home from '@/client/pages/Home'
 import Plans from '@/client/pages/Plans'
 import ChangeLocation from '@/client/pages/ChangeLocation'
@@ -9,13 +10,17 @@ import i18n from '@/client/plugins/i18n'
 
 const routes = [
   {
-    path: '/home',
+    path: '/',
     component: Home,
     name: 'home',
     meta: {
-      title: i18n.global.t('route.home.title'),
-      hasStepBackButton: false
+      title: i18n.global.t('route.home.title')
     }
+  },
+  {
+    path: '/login',
+    component: Onboarding,
+    name: 'login'
   },
   {
     path: '/change-location',

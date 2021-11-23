@@ -3,12 +3,14 @@ import {
   CLEAR_SELECTED_NODE,
   SET_SELECTED_NODE,
   SET_CONNECTED_NODE,
-  CLEAR_CONNECTED_NODE
+  CLEAR_CONNECTED_NODE,
+  SET_DEFAULT_NODE_LOADING_STATE
 } from '@/client/store/mutation-types'
 
 const getDefaultState = () => ({
   selectedNode: null,
-  connectedNode: null
+  connectedNode: null,
+  isDefaultNodeLoading: false
 })
 
 export default {
@@ -16,7 +18,8 @@ export default {
 
   getters: {
     selectedNode: state => state.selectedNode,
-    connectedNode: state => state.connectedNode
+    connectedNode: state => state.connectedNode,
+    isDefaultNodeLoading: state => state.isDefaultNodeLoading
   },
 
   actions: {
@@ -32,21 +35,25 @@ export default {
     clearConnectedNode ({ commit }) {
       commit(CLEAR_CONNECTED_NODE)
     },
-    async selectDefaultNode ({ dispatch }) {
-      const result = await Promise.allSettled([
-        dispatch('fetchSubscribedNodes'),
-        dispatch('fetchNodes')
-      ])
+    async selectDefaultNode ({ dispatch, commit, getters }) {
+      try {
+        commit(SET_DEFAULT_NODE_LOADING_STATE, true)
 
-      const nodes = result
-        .filter(r => r.status === 'fulfilled')
-        .find(r => Array.isArray(r.value) && r.value.length > 0)
-
-      if (Array.isArray(nodes.value)) {
         await Promise.allSettled([
-          dispatch('selectNode', nodes.value[0]),
-          syncStoreValue('selectedNode', nodes.value[0])
+          dispatch('fetchSubscribedNodes'),
+          dispatch('fetchNodes')
         ])
+
+        const node = getters.subscribedNodes[0] || getters.nodes[0]
+
+        await Promise.allSettled([
+          dispatch('selectNode', node),
+          syncStoreValue('selectedNode', node)
+        ])
+      } catch (e) {
+        console.error(e)
+      } finally {
+        commit(SET_DEFAULT_NODE_LOADING_STATE, false)
       }
     }
   },
@@ -63,6 +70,10 @@ export default {
     },
     [CLEAR_CONNECTED_NODE] (state) {
       state.connectedNode = getDefaultState().connectedNode
+    },
+    [SET_DEFAULT_NODE_LOADING_STATE] (state, value) {
+      console.log(value)
+      state.isDefaultNodeLoading = value
     }
   }
 }

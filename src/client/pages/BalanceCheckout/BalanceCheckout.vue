@@ -1,6 +1,6 @@
 <template>
   <div class="balance-checkout">
-    <page-header />
+    <page-header :to="{name: 'plans'}" />
 
     <div class="balance-checkout__parameters balance-checkout__padding-wrapper">
       <plan-parameter

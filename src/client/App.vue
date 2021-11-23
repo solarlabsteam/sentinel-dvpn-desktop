@@ -16,7 +16,6 @@
 
 <script>
 import { computed, watch } from 'vue'
-import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import Onboarding from '@/client/pages/Login/Onboarding'
 import Connection from '@/client/pages/Connection'
@@ -30,32 +29,25 @@ export default {
   },
 
   setup () {
-    const router = useRouter()
     const store = useStore()
     const user = computed(() => store.getters.user)
     const isUserLoading = computed(() => store.getters.isUserLoading)
-    const isSubscribedNodesLoading = computed(() => store.getters.isSubscribedNodesLoading)
-    const isNodesLoading = computed(() => store.getters.isNodesLoading)
-    const isAppDataLoading = computed(() => isUserLoading.value || isSubscribedNodesLoading.value || isNodesLoading.value)
+    const isDefaultNodeLoading = computed(() => store.getters.isDefaultNodeLoading)
+    const isAppDataLoading = computed(() => isUserLoading.value || isDefaultNodeLoading.value)
     const selectedNode = computed(() => store.getters.selectedNode)
 
     store.dispatch('fetchUser')
 
     watch(
       () => store.getters.user,
-      async user => {
-        if (user) {
-          if (!selectedNode.value) {
-            await store.dispatch('selectDefaultNode')
-          }
-          router.push({ name: 'home' })
-        } else {
-          router.push({ path: '/' })
+      user => {
+        if (user && !selectedNode.value) {
+          store.dispatch('selectDefaultNode')
         }
       }
     )
 
-    return { isAppDataLoading, user }
+    return { isAppDataLoading, user, isDefaultNodeLoading }
   }
 }
 </script>

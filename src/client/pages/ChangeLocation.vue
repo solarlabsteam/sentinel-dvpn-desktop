@@ -2,7 +2,7 @@
   <div class="change-location mb-4">
     <page-header />
 
-    <slr-tabs>
+    <slr-tabs :default-active-tab="subscribedNodes.length > 0 ? 0 : 1">
       <slr-tab :title="t('route.changeLocation.tab.subscriptions.title')">
         <div
           v-if="isSubscribedNodesLoading"
@@ -122,7 +122,7 @@ export default {
       await this.clearPreviousNodeState()
       await this.selectNode(node)
       await syncStoreValue('selectedNode', node)
-      this.$router.back()
+      this.$router.push({ path: window.history.state.back })
     },
 
     async clearPreviousNodeState () {
