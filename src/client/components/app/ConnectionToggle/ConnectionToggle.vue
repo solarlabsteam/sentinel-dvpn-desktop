@@ -54,6 +54,7 @@
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'ConnectionToggle',
@@ -61,14 +62,25 @@ export default {
   setup () {
     const store = useStore()
     const { t } = useI18n()
+    const router = useRouter()
 
     const selectedNode = computed(() => store.getters.selectedNode)
     const currentSubscription = computed(() => store.getters.currentSubscription)
     const quota = computed(() => store.getters.quota)
+    const isConnectionLoading = computed(() => store.getters.isConnectionLoading)
 
     const toggleConnect = () => {
+      if (isConnectionLoading.value) {
+        return
+      }
+
       if (store.getters.isConnected) {
         store.dispatch('disconnectFromNode')
+        return
+      }
+
+      if (!currentSubscription.value) {
+        router.push({ name: 'plans' })
         return
       }
 
