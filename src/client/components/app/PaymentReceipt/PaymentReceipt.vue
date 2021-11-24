@@ -17,7 +17,7 @@
         class="payment-receipt__crypto-icon"
         :rounded="true"
         :size="53"
-        :icon="crypto"
+        :icon="cryptoIcon"
       />
       <slr-icon
         class="payment-receipt__status-icon"
@@ -27,7 +27,7 @@
     </div>
 
     <div class="payment-receipt__crypto">
-      {{ crypto }}
+      {{ cryptoName }}
     </div>
     <div class="payment-receipt__amount">
       {{ coinsAmount }}
@@ -42,6 +42,7 @@
 import { computed } from 'vue'
 import format from 'date-fns/format'
 import { useI18n } from 'vue-i18n'
+import denomNames from '@/client/constants/denomNames'
 
 export default {
   name: 'PaymentReceipt',
@@ -85,6 +86,8 @@ export default {
       date: computed(() => format(props.timestamp * 1000, 'dd LLL uuuu p')),
       coinsAmount: computed(() => Number(props.amount).toLocaleString('en')),
       croppedHash: computed(() => props.txHash.slice(0, 12)),
+      cryptoName: computed(() => denomNames[props.crypto]?.name),
+      cryptoIcon: computed(() => denomNames[props.crypto]?.icon),
       t
     }
   }

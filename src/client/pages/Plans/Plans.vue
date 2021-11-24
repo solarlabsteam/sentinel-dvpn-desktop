@@ -20,7 +20,7 @@
         <plan-parameter
           :title="denomNames[selectedCrypto]?.name"
           :parameter="t('plan.parameter.crypto.title')"
-          :currency="denomNames[selectedCrypto]?.name"
+          :currency="selectedCrypto"
         />
       </div>
 

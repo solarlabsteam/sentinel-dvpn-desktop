@@ -5,7 +5,7 @@
       :success="paymentResult?.success"
       :tx-hash="paymentResult?.response.txhash"
       :timestamp="paymentResult?.response.timestamp"
-      :crypto="denomNames[selectedPlan?.deposit.denom]?.name"
+      :crypto="selectedPlan?.deposit.denom"
       :amount="amount"
       :description="checkDescription"
     />
