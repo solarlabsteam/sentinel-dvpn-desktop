@@ -17,13 +17,13 @@
             :icon="option.name.toLowerCase()"
           />
 
-          <span class="m-s12-lh15">{{ option.name }}</span>
+          <span class="m-s14-lh17">{{ option.name }}</span>
         </template>
       </slr-checkbox>
     </div>
 
     <div class="text-center mb-3">
-      <div class="text-center r-s10-lh12 mb-3">
+      <div class="text-center r-s12-lh15 mb-3">
         {{ t('checkout.scanQr') }}
       </div>
 
@@ -33,7 +33,7 @@
         :size="164"
       />
 
-      <div class="m-s10-lh12 text-center mb-3 opacity-4">
+      <div class="m-s12-lh15 text-center mb-3 opacity-4">
         Send only <span class="text-uppercase">{{ denom }}</span> to this address. <br>
         Sending any other coins may result in permanent loss.
       </div>
@@ -41,12 +41,12 @@
       <wallet-address class="mx-5" />
     </div>
 
-    <div class="px-5 m-s12-lh15 mb-3">
+    <div class="px-5 m-s14-lh17 mb-3">
       <span>{{ t('account.balance') }}</span>
     &nbsp;
-      <span class="m-s16-lh19">{{ balance }}</span>
+      <span class="m-s18-lh22">{{ balance }}</span>
     &nbsp;
-      <span class="m-s16-lh19 text-uppercase">{{ denom }}</span>
+      <span class="m-s18-lh22 text-uppercase">{{ denom }}</span>
     </div>
 
     <div class="flex-1" />
@@ -139,7 +139,7 @@ export default {
 
   &__about-text {
     opacity: .4;
-    @include font-template(9px, 11px, 500);
+    @include font-template(11px, 13px, 500);
   }
 }
 </style>

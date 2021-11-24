@@ -19,8 +19,8 @@
         class="connection-screen__node"
       />
 
-      <span class="m-s18-lh22 mb-3">{{ isConnected ? t('connection.connectedStatus') : t('connection.disconnectedStatus') }}</span>
-      <div class="connection-screen__ip-info r-s10-lh12">
+      <span class="m-s20-lh24 mb-3">{{ isConnected ? t('connection.connectedStatus') : t('connection.disconnectedStatus') }}</span>
+      <div class="connection-screen__ip-info r-s12-lh15">
         <span v-if="isCurrentIpLoading">
           {{ t('connection.obtainingIp') }}
         </span>
@@ -57,7 +57,7 @@
           <div>
             <slr-loader class="mb-3" />
           </div>
-          <span class="r-s10-lh12">{{ t('connection.checkingConnection') }}</span>
+          <span class="r-s12-lh15">{{ t('connection.checkingConnection') }}</span>
         </div>
       </div>
     </div>

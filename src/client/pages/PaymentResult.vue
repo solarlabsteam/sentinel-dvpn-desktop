@@ -9,7 +9,7 @@
       :amount="amount"
       :description="checkDescription"
     />
-    <div class="s-s30-lh33 text-center mb-4">
+    <div class="s-s32-lh35 text-center mb-4">
       <span>Payment</span><br>
       <span>{{ paymentResult?.success ? t('payment.result.status.success') : t('payment.result.status.failed') }}</span>
     </div>

@@ -14,7 +14,7 @@
         />
       </template>
     </slr-button>
-    <span class="m-s16-lh19">{{ title }}</span>
+    <span class="m-s18-lh22">{{ title }}</span>
 
     <slot name="default">
       <div />

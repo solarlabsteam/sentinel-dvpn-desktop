@@ -40,7 +40,7 @@
             :country="selectedNode?.location.country"
           />
 
-          <span class="s-s9-lh11 text-uppercase">{{ t('node.selected.change') }}</span>
+          <span class="s-s11-lh13 text-uppercase">{{ t('node.selected.change') }}</span>
         </slr-button>
       </div>
     </template>
