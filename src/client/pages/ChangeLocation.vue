@@ -76,7 +76,7 @@
 
         <p
           v-else-if="!isNodesLoading"
-          class="m-s10-lh12 opacity-4 text-center"
+          class="m-s12-lh15 opacity-4 text-center"
         >
           {{ t('node.list.noData') }}
         </p>

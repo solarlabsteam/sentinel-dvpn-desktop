@@ -17,7 +17,7 @@
     padding: 2px;
     text-transform: capitalize;
     writing-mode: vertical-lr;
-    @include font-template(7px, 8px);
+    @include font-template(9px, 11px);
 
     &--popular {
       background-color: $slr__clr-purple
@@ -50,7 +50,7 @@
   &__denom {
     opacity: 0.4;
     text-transform: uppercase;
-    @include font-template(9px, 11px, 500);
+    @include font-template(11px, 13px, 500);
   }
 
   &__size,
@@ -61,11 +61,11 @@
 
   &__amount-gb {
     margin-right: 2px;
-    @include font-template(18px, 22px, 700);
+    @include font-template(20px, 24px, 700);
   }
 
   &__amount-coin {
-    @include font-template(13px, 20px, 700);
+    @include font-template(15px, 22px, 700);
   }
 
   :deep(.slr-button) {

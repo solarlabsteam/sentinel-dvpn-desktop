@@ -16,7 +16,7 @@
       />
     </div>
 
-    <div class="text-center r-s10-lh12 mb-3">
+    <div class="text-center r-s12-lh15 mb-3">
       {{ t('checkout.scanQr') }}
     </div>
     <qr-code
@@ -39,7 +39,7 @@
     </div>
 
     <slr-timer
-      class="b-s15-lh18"
+      class="b-s17-lh20"
       :time="selectedPlan.payBefore"
       @tick="handleTick"
     />

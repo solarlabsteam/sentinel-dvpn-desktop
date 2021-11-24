@@ -33,6 +33,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 13px 16px;
-  @include font-template(10px, 12px, 500);
+  @include font-template(12px, 15px, 500);
 }
 </style>

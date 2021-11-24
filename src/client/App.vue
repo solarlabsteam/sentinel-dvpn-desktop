@@ -66,7 +66,7 @@ body {
   background-color: $slr__clr-dark-blue;
   font-family: 'Inter', sans-serif;
   color: $slr__clr-white;
-  @include font-template(12px, 15px);
+  @include font-template(14px, 17px);
 }
 
 .page {

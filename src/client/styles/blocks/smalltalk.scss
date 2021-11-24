@@ -8,7 +8,7 @@
 
     .content-area {
       color: $slr__clr-white;
-      @include font-template(13px, 16px, 700);
+      @include font-template(15px, 18px, 700);
 
       input {
         margin-top: 4px;
@@ -27,9 +27,9 @@
           background-color: $slr__clr-blue;
           background-image: none;
           cursor: pointer;
-          font-size: 10px;
+          font-size: 12px;
           letter-spacing: 0.118421px;
-          line-height: 12px;
+          line-height: 15px;
           font-family: 'Inter', sans-serif;
           font-weight: 600;
           text-shadow: none;

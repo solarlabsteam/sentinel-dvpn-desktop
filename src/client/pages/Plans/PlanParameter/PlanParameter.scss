@@ -24,7 +24,7 @@
   &__parameter,
   &__second-title {
     opacity: .4;
-    @include font-template(9px, 11px, 500);
+    @include font-template(11px, 13px, 500);
   }
 
   &__footer {
@@ -36,6 +36,6 @@
   &__title {
     margin-right: 4px;
     text-transform: capitalize;
-    @include font-template(13px, 16px, 700);
+    @include font-template(15px, 18px, 700);
   }
 }
