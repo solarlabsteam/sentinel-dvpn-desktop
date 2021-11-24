@@ -1,6 +1,6 @@
 <template>
   <div class="payment-result">
-    <payment-check
+    <payment-receipt
       class="payment-result__check"
       :success="paymentResult?.success"
       :tx-hash="paymentResult?.response.txhash"
@@ -37,14 +37,14 @@ import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import PaymentCheck from '@/client/components/app/PaymentCheck'
+import PaymentReceipt from '@/client/components/app/PaymentReceipt'
 import denomNames from '@/client/constants/denomNames'
 
 export default {
   name: 'PaymentResult',
 
   components: {
-    PaymentCheck
+    PaymentReceipt
   },
 
   setup () {
