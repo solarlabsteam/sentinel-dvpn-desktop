@@ -38,8 +38,4 @@
     text-transform: capitalize;
     @include font-template(13px, 16px, 700);
   }
-
-  &__second-title {
-    text-transform: uppercase;
-  }
 }
