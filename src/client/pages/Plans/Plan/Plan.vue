@@ -19,7 +19,7 @@
 
       <div class="plan__price">
         <div class="plan__denom">
-          {{ denomNames[selectedNode.priceList[0].denom] }}
+          {{ denomNames[selectedNode.priceList[0].denom]?.name }}
         </div>
         <div class="plan__amount-coin">
           {{ coinsAmount }}
@@ -40,7 +40,6 @@
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { tokensPerDvpn } from '@/shared/constants'
 import denomNames from '@/client/constants/denomNames'
 
 export default {
@@ -58,10 +57,12 @@ export default {
   setup (props) {
     const store = useStore()
     const { t } = useI18n()
+    const selectedNode = computed(() => store.getters.selectedNode)
+    const coinsAmount = computed(() => (selectedNode.value.priceList[0].amount * props.plan.amountGbs / denomNames[selectedNode.value.priceList[0].denom].perUnit).toLocaleString('en'))
 
     return {
-      selectedNode: computed(() => store.getters.selectedNode),
-      coinsAmount: computed(() => (store.getters.selectedNode.priceList[0].amount * props.plan.amountGbs / tokensPerDvpn).toLocaleString('en')),
+      selectedNode,
+      coinsAmount,
       t,
       denomNames
     }
