@@ -5,8 +5,8 @@
       :success="paymentResult?.success"
       :tx-hash="paymentResult?.response.txhash"
       :timestamp="paymentResult?.response.timestamp"
-      :crypto="selectedPlan?.deposit.denom"
-      :amount="selectedPlan?.deposit.amount"
+      :crypto="denomNames[selectedPlan?.deposit.denom]?.name"
+      :amount="amount"
       :description="checkDescription"
     />
     <div class="s-s30-lh33 text-center mb-4">
@@ -38,6 +38,7 @@ import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import PaymentCheck from '@/client/components/app/PaymentCheck'
+import denomNames from '@/client/constants/denomNames'
 
 export default {
   name: 'PaymentResult',
@@ -50,17 +51,22 @@ export default {
     const store = useStore()
     const router = useRouter()
     const { t } = useI18n()
+
+    const selectedPlan = computed(() => store.getters.selectedPlan)
+
     const leavePage = async (to) => {
       await router.push(to)
       store.dispatch('clearPaymentResult')
     }
 
     return {
-      selectedPlan: computed(() => store.getters.selectedPlan),
-      checkDescription: computed(() => store.getters.selectedPlan?.amountGbs + 'GB ' + store.getters.selectedPlan?.type),
+      checkDescription: computed(() => selectedPlan.value?.amountGbs + 'GB ' + selectedPlan.value?.type),
       paymentResult: computed(() => store.getters.paymentResult),
       leavePage,
-      t
+      t,
+      denomNames,
+      selectedPlan,
+      amount: computed(() => selectedPlan.value?.deposit.amount / denomNames[selectedPlan.value?.deposit.denom]?.perUnit)
     }
   }
 }

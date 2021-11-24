@@ -18,9 +18,9 @@
           :country="selectedNode.location.country"
         />
         <plan-parameter
-          :title="denomNames[selectedCrypto]"
+          :title="denomNames[selectedCrypto]?.name"
           :parameter="t('plan.parameter.crypto.title')"
-          :currency="selectedCrypto"
+          :currency="denomNames[selectedCrypto]?.name"
         />
       </div>
 

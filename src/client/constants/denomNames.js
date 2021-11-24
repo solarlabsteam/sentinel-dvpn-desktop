@@ -1,3 +1,6 @@
 export default {
-  udvpn: 'dvpn'
+  udvpn: {
+    name: 'dvpn',
+    perUnit: 1000000
+  }
 }

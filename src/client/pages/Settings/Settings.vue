@@ -104,7 +104,7 @@ export default {
       selectDns: (dns) => store.dispatch('selectDns', dns),
       version: process.env.VUE_APP_VERSION,
       servers,
-      denom: denomNames[DENOM],
+      denom: denomNames[DENOM]?.name,
       t
     }
   }

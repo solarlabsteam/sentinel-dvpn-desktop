@@ -57,7 +57,6 @@ import QrCode from '@/client/components/app/QrCode'
 import PlanParameter from '@/client/pages/Plans/PlanParameter'
 import PageHeader from '@/client/components/app/PageHeader'
 import denomNames from '@/client/constants/denomNames'
-import { tokensPerDvpn } from '@/shared/constants'
 import useBalance from '@/client/hooks/useBalance'
 
 export default {
@@ -116,9 +115,9 @@ export default {
     return {
       selectedNode: computed(() => store.getters.selectedNode),
       selectedCrypto: computed(() => store.getters.selectedCrypto),
-      selectedCryptoName: computed(() => denomNames[store.getters.selectedCrypto]),
+      selectedCryptoName: computed(() => denomNames[store.getters.selectedCrypto]?.name),
       selectedPlan: computed(() => store.getters.selectedPlan),
-      selectedAmount: computed(() => Number(store.getters.selectedPlan.deposit.amount / tokensPerDvpn).toLocaleString('en')),
+      selectedAmount: computed(() => Number(store.getters.selectedPlan.deposit.amount / denomNames[store.getters.selectedCrypto]?.perUnit).toLocaleString('en')),
       user: computed(() => store.getters.user),
       handleTick,
       t
