@@ -108,6 +108,7 @@ async function createWindow () {
     width: 1200,
     height: 800,
     icon: nativeImage.createFromPath(path.resolve(__static, 'assets/images/logo.png')),
+    autoHideMenuBar: true,
     webPreferences: {
 
       // Use pluginOptions.nodeIntegration, leave this alone
