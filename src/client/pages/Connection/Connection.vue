@@ -7,7 +7,6 @@
     </div>
 
     <div class="connection-screen__content-wrapper">
-      <div class="connection-screen__content-gap" />
       <node-preview
         :title="displayedNode?.location.country"
         :country="displayedNode?.location.country"

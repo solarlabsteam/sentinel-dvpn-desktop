@@ -20,10 +20,6 @@
     align-self: stretch;
   }
 
-  &__content-gap {
-    flex: 1;
-  }
-
   &__node {
     margin-bottom: 40px;
     padding: 0 30px;
@@ -34,11 +30,10 @@
   }
 
   &__toggle-wrapper {
-    flex: 3;
     display: flex;
     flex-direction: column;
     align-items: center;
     align-self: stretch;
-    padding: 50px 30px 90px;
+    padding: 50px 30px 0;
   }
 }
