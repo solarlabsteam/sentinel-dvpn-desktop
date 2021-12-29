@@ -1,0 +1,43 @@
+.node-details {
+  $border: 1px solid $slr__clr-blue-4;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  & > * {
+    border-bottom: $border;
+  }
+
+  & > *:nth-child(odd) {
+    position: relative;
+    border-right: $border;
+
+    &::after {
+      content: " ";
+      position: absolute;
+      z-index: 1;
+      right: -8px;
+      bottom: -8px;
+      border: $border;
+      border-radius: 50%;
+      box-sizing: border-box;
+      width: 16px;
+      height: 16px;
+      background-color: $slr__clr-dark-blue;
+    }
+  }
+
+  & > *:nth-last-child(1),
+  & > *:nth-last-child(2) {
+    border-bottom: none;
+
+    &::after {
+      display: none;
+    }
+  }
+
+  &--outlined {
+    border: $border;
+    border-radius: 3px;
+  }
+}

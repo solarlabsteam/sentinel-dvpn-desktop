@@ -1,112 +1,51 @@
 .connection-toggle {
   cursor: pointer;
 
-  &__background {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 60px;
-    width: 100px;
-    height: 200px;
-    background-image: linear-gradient(180deg, #0CA1EA 0%, #133350 100%);
-
-    &--on {
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        transform: matrix(1, 0, 0, -1, 0, 0);
-        border-radius: inherit;
-        background-image: linear-gradient(180deg, #194E67 0%, #3AACFF 108.1%);
-        filter: blur(12px);
-      }
-    }
-  }
-
   &__layout {
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #133350;
-    border-radius: inherit;
+    margin-bottom: 16px;
+    border-radius: 60px;
     box-sizing: border-box;
-    width: 98px;
-    height: 198px;
-    padding: 42px 0;
-    background-image: linear-gradient(210.55deg, #071932 -3.02%, #021024 93.08%);
+    width: 86px;
+    height: 137px;
+    padding: 26px 0;
+    background-color: $slr__clr-dark-blue-4;
   }
 
-  &__control-background {
+  &__control {
     position: absolute;
     z-index: 1;
     bottom: 0;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    margin: 10px;
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    background-image: linear-gradient(244.98deg, rgba(80, 89, 98, 0.4) 11.49%, rgba(0, 0, 0, 0) 53.04%, rgba(0, 0, 0, 0.4) 100%),
-    linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
+    margin: 7px;
+    border-radius: 50px;
+    box-sizing: border-box;
+    width: 76px;
+    height: 76px;
+    background-color: $slr__clr-light-blue-1;
+    background-image: url("/assets/icons/power.svg");
+    background-position: center center;
+    background-repeat: no-repeat;
 
     &--on {
       top: 0;
     }
   }
 
-  &__control {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 4px 4px #000A18, 0 4px 4px #05152C;
-    border-radius: inherit;
-    box-sizing: border-box;
-    width: 78px;
-    height: 78px;
-    padding: 10px;
-    background-image: linear-gradient(210.55deg, #425F8A -32.59%, #021024 88.34%);
-  }
+  &__disconnect-label {
+    text-align: center;
+    color: $slr__clr-grey-dark-1;
+    @include font-template(12px, 18px);
 
-  &__control-indicator {
-    border-radius: 50%;
-    width: 5px;
-    height: 5px;
-  }
-
-  &__control-indicator-connect {
-    background-color: $slr__clr-dark-blue-1;
-
-    &--on {
-      background-color: $slr__clr-green;
-    }
-  }
-
-  &__control-indicator-disconnect {
-    background-color: $slr__clr-blue-2;
-
-    &--on {
-      background-color: $slr__clr-red;
-    }
-  }
-
-  &__control-strip {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-    border-radius: 8px;
-    width: 26px;
-    height: 3px;
-    background-color: $slr__clr-blue-2;
-
-    &:first-child {
-      margin-bottom: 6px;
+    &--hidden {
+      visibility: hidden;
     }
   }
 }

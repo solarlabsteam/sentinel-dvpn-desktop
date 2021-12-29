@@ -48,17 +48,8 @@ export default {
   },
 
   connection: {
-    connectedStatus: 'Connected',
-    disconnectedStatus: 'Disconnected',
-    securedIp: 'Secured',
-    exposedIp: 'IP Address is Exposed',
-    unknownIp: 'Unknown IP',
-    obtainingIp: 'Obtaining an IP address...',
-    checkingConnection: 'Checking the connection to the server',
-    toggle: {
-      on: 'on',
-      off: 'off'
-    }
+    disconnectLabel: 'Disconnect',
+    checkingConnection: 'Checking the connection to the server'
   },
 
   quota: {

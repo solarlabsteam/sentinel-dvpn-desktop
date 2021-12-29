@@ -14,6 +14,31 @@ class NodeService {
     this.transactionService = new TransactionService()
   }
 
+  formatBandwidth (v) {
+    const downloadKb = v / 1000
+    const downloadMb = downloadKb / 1000
+    const units = {
+      mbs: 'MB/s',
+      kbs: 'KB/s'
+    }
+
+    if (downloadKb >= 1000) {
+      const value = downloadMb.toFixed(2)
+      return {
+        value,
+        units: units.mbs,
+        withUnits: `${value} ${units.mbs}`
+      }
+    } else {
+      const value = downloadKb.toFixed(2)
+      return {
+        value,
+        units: units.mbs,
+        withUnits: `${value} ${units.mbs}`
+      }
+    }
+  }
+
   async queryNode (address) {
     return new Promise((resolve, reject) => {
       const request = new QueryNodeRequest([address])
@@ -37,6 +62,11 @@ class NodeService {
   async queryNodeInfo (address) {
     const node = await this.queryNode(address)
     const { data } = await this.queryNodeStatus(node.remoteUrl)
+
+    if (data.result) {
+      data.result.bandwidth.downloadDetailed = this.formatBandwidth(data.result.bandwidth.download)
+      data.result.bandwidth.uploadDetailed = this.formatBandwidth(data.result.bandwidth.upload)
+    }
 
     return {
       ...node,

@@ -5,20 +5,12 @@
       :class="{
         [countryIso]: true
       }"
-      :style="{
-        width: `${size}px`,
-        height: `${size}px`
-      }"
     />
     <div class="node-preview__info">
       <div class="node-preview__title">
-        <span class="mr-3">{{ title }}</span>
-        <span class="node-preview__number">{{ number }}</span>
+        {{ title }}
       </div>
-      <div
-        v-if="subtitle"
-        class="node-preview__subtitle"
-      >
+      <div class="node-preview__subtitle">
         {{ subtitle }}
       </div>
     </div>
@@ -37,10 +29,6 @@ export default {
       type: String,
       default: ''
     },
-    number: {
-      type: [String, Number],
-      default: ''
-    },
     subtitle: {
       type: String,
       default: ''
@@ -48,10 +36,6 @@ export default {
     country: {
       type: String,
       default: ''
-    },
-    size: {
-      type: Number,
-      default: 25
     }
   },
 

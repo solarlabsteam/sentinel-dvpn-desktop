@@ -5,22 +5,19 @@
   align-items: center;
 
   &__flag {
-    margin-right: 10px;
-    border-radius: 50%;
+    margin-right: 14px;
+    border-radius: 4pt;
+    width: 50px;
+    height: 40px;
   }
 
   &__title {
-    margin-right: 8px;
-    @include font-template(14px, 17px, 500);
-  }
-
-  &__number {
-    text-transform: uppercase;
-    color: $slr__clr-blue-1;
+    @include font-template(16px, 19px, 500);
   }
 
   &__subtitle {
-    margin-top: 3px;
-    @include font-template(10px, 12px);
+    margin-top: 6px;
+    color: $slr__clr-grey-dark;
+    @include font-template(10px, 15px);
   }
 }
