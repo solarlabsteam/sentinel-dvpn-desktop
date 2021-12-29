@@ -6,7 +6,7 @@
       <slr-tab :title="t('route.changeLocation.tab.subscriptions.title')">
         <div
           v-if="isSubscribedNodesLoading"
-          class="text-center mb-3"
+          class="text-center my-3"
         >
           <slr-loader :size="20" />
         </div>
@@ -16,21 +16,9 @@
             v-for="node in subscribedNodes"
             :key="node.address"
             class="change-location__node"
-            :class="{'change-location__node--selected': node.address === selectedNode?.address}"
             @click="() => select(node)"
           >
-            <node-preview
-              :title="node.location.country"
-              :number="node.address.slice(-6)"
-              :country="node.location.country"
-              :subtitle="node.moniker"
-            />
-
-            <slr-icon
-              :icon="'arrow-top-right'"
-              :size="14"
-              :rounded="true"
-            />
+            <node-details :node="node" />
           </li>
         </ul>
 
@@ -44,7 +32,7 @@
       <slr-tab :title="t('route.changeLocation.tab.nodes.title')">
         <div
           v-if="isNodesLoading"
-          class="text-center mb-3"
+          class="text-center my-3"
         >
           <slr-loader :size="20" />
         </div>
@@ -87,14 +75,14 @@
 import { mapActions, useStore } from 'vuex'
 import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
-import NodePreview from '@/client/components/app/NodePreview'
+import NodeDetails from '@/client/components/app/NodeDetails'
 import PageHeader from '@/client/components/app/PageHeader'
 import { syncStoreValue } from '@/client/store/plugins/syncStore'
 
 export default {
   components: {
     PageHeader,
-    NodePreview
+    NodeDetails
   },
   setup () {
     const store = useStore()
@@ -138,17 +126,9 @@ export default {
 .change-location {
 
   &__node {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 6px 35px 6px 30px;
-    cursor: pointer;
-
-    &--selected,
-    &:hover {
-      background-color: $slr__clr-dark-blue-2;
-    }
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 36px;
+    padding-bottom: 27px;
   }
 }
 </style>

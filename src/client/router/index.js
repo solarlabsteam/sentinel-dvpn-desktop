@@ -1,6 +1,5 @@
 import { createRouter, createWebHashHistory, RouterView } from 'vue-router'
 import Onboarding from '@/client/pages/Login/Onboarding'
-import Home from '@/client/pages/Home'
 import Plans from '@/client/pages/Plans'
 import ChangeLocation from '@/client/pages/ChangeLocation'
 import PaymentResult from '@/client/pages/PaymentResult'
@@ -11,10 +10,10 @@ import i18n from '@/client/plugins/i18n'
 const routes = [
   {
     path: '/',
-    component: Home,
+    component: ChangeLocation,
     name: 'home',
     meta: {
-      title: i18n.global.t('route.home.title')
+      title: i18n.global.t('route.changeLocation.title')
     }
   },
   {
@@ -23,11 +22,10 @@ const routes = [
     name: 'login'
   },
   {
-    path: '/change-location',
-    name: 'change-location',
-    component: ChangeLocation,
+    path: '/node',
+    name: 'node',
+    component: Node,
     meta: {
-      title: i18n.global.t('route.changeLocation.title'),
       hasStepBackButton: true
     }
   },

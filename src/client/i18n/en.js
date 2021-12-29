@@ -4,7 +4,7 @@ export default {
       title: 'Current Plan'
     },
     changeLocation: {
-      title: 'Change Location',
+      title: 'Nodes',
       tab: {
         subscriptions: {
           title: 'Subscribed'
@@ -71,6 +71,11 @@ export default {
     },
     list: {
       noData: 'No available nodes found'
+    },
+    parameters: {
+      price: 'Price',
+      latency: 'Latency',
+      peers: 'Peers'
     }
   },
 

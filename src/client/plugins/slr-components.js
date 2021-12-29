@@ -9,6 +9,7 @@ import SlrTab from '@/client/components/ui/SlrTabs/SlrTab'
 import SlrCheckbox from '@/client/components/ui/SlrCheckbox'
 import SlrPopper from '@/client/components/ui/SlrPopper'
 import SlrCopyButton from '@/client/components/ui/SlrCopyButton'
+import SlrTable from '@/client/components/ui/SlrTable'
 
 export default function registerSlrComponents (app) {
   app.component('SlrButton', SlrButton)
@@ -22,4 +23,5 @@ export default function registerSlrComponents (app) {
   app.component('SlrCheckbox', SlrCheckbox)
   app.component('SlrPopper', SlrPopper)
   app.component('SlrCopyButton', SlrCopyButton)
+  app.component('SlrTable', SlrTable)
 }

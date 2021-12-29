@@ -16,9 +16,18 @@
     </slr-button>
     <span class="m-s18-lh22">{{ title }}</span>
 
-    <slot name="default">
-      <div />
-    </slot>
+    <slr-button
+      :text="true"
+      :tiny="true"
+      :to="{name: 'settings'}"
+    >
+      <template #icon>
+        <slr-icon
+          :size="24"
+          :icon="'settings'"
+        />
+      </template>
+    </slr-button>
   </div>
 </template>
 
@@ -63,6 +72,6 @@ export default {
   align-items: center;
   box-sizing: border-box;
   width: 100%;
-  padding: 35px 30px 42px;
+  padding: 10px 0;
 }
 </style>

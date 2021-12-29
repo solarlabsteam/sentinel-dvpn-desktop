@@ -33,10 +33,55 @@ class NodeService {
       const value = downloadKb.toFixed(2)
       return {
         value,
-        units: units.mbs,
-        withUnits: `${value} ${units.mbs}`
+        units: units.kbs,
+        withUnits: `${value} ${units.kbs}`
       }
     }
+  }
+
+  countSignalLevel (d, u) {
+    const averageSpeed = (d + u) / 2 / Math.pow(1000, 2)
+    const averageSpeedPercentage = Number((averageSpeed / 40).toFixed(2))
+
+    if (averageSpeedPercentage < 0.25) {
+      return 'very-low'
+    }
+    if (averageSpeedPercentage < 0.5) {
+      return 'low'
+    }
+    if (averageSpeedPercentage < 0.75) {
+      return 'normal'
+    }
+
+    return 'high'
+  }
+
+  getPercentage (v) {
+    if (v > 1) {
+      return 1
+    } else if (v < 0) {
+      return 0
+    } else {
+      return Number(v.toFixed(2))
+    }
+  }
+
+  countPricePercentage (v) {
+    const raw = parseInt(v) / 1000000
+
+    return this.getPercentage(raw)
+  }
+
+  countPeersPercentage (v, max = 100) {
+    const raw = v / max
+
+    return this.getPercentage(raw)
+  }
+
+  countLatencyPercentage (v) {
+    const raw = v / 2000
+
+    return this.getPercentage(raw)
   }
 
   async queryNode (address) {
@@ -61,11 +106,16 @@ class NodeService {
 
   async queryNodeInfo (address) {
     const node = await this.queryNode(address)
+    const startTime = new Date()
     const { data } = await this.queryNodeStatus(node.remoteUrl)
 
     if (data.result) {
       data.result.bandwidth.downloadDetailed = this.formatBandwidth(data.result.bandwidth.download)
       data.result.bandwidth.uploadDetailed = this.formatBandwidth(data.result.bandwidth.upload)
+      data.result.bandwidth.signalLevel = this.countSignalLevel(data.result.bandwidth.download, data.result.bandwidth.upload)
+      data.result.latencyPercentage = this.countLatencyPercentage(new Date() - startTime)
+      data.result.peersPercentage = this.countPeersPercentage(data.result.peers, data.result.qos && data.result.qos.maxPeers)
+      data.result.pricePercentage = this.countPricePercentage(data.result.price)
     }
 
     return {

@@ -73,8 +73,10 @@ body {
   flex: none;
   overflow-x: auto;
   border-left: 1px solid rgba(255, 255, 255, 0.1);
-  width: 400px;
+  box-sizing: border-box;
+  width: 365px;
   height: 100%;
+  padding: 20px 24px 20px 16px;
 }
 
 .logo {

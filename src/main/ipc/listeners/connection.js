@@ -7,17 +7,20 @@ import ConnectionService from '@/main/services/СonnectionService'
 import AccountService from '@/main/services/AccountService'
 import NodeService from '@/main/services/NodeService'
 import SessionService from '@/main/services/SessionService'
+import SubscriptionService from '@/main/services/SubscriptionService'
 
 const accountService = new AccountService()
 const nodeService = new NodeService()
 const sessionService = new SessionService()
 const connectionService = new ConnectionService()
+const subscriptionService = new SubscriptionService()
 
 function initConnectionListeners () {
   ipcMain.on('CONNECT_TO_NODE', async (event, payload) => {
     try {
       const key = await accountService.queryKeyByName(DVPN_KEY_NAME)
-      const { subscription, resolvers } = JSON.parse(payload)
+      const { resolvers, node } = JSON.parse(payload)
+      const subscription = await subscriptionService.querySubscriptionForAddress(key.addressBech32, node.address)
 
       if (!subscription) {
         const message = i18next.t('connection.error.noSubscription')

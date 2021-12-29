@@ -22,7 +22,7 @@
         />
       </div>
 
-      <node-details :outlined="true">
+      <slr-table :outlined="true">
         <connection-detail
           :type="'download'"
           :value="displayedNode?.bandwidth.downloadDetailed.value"
@@ -41,7 +41,7 @@
         <connection-detail
           :type="'duration'"
         />
-      </node-details>
+      </slr-table>
 
       <div class="connection-screen__toggle-wrapper">
         <connection-toggle v-if="isServiceServerAvailable" />
@@ -69,14 +69,12 @@ import NodePreview from '@/client/components/app/NodePreview'
 import ConnectionToggle from '@/client/components/app/ConnectionToggle'
 import useStatusPolling from '@/client/hooks/useStatusPolling'
 import Quota from '@/client/components/app/Quota'
-import NodeDetails from '@/client/components/app/NodeDetails'
 
 export default {
   name: 'Connection',
 
   components: {
     ConnectionDetail,
-    NodeDetails,
     Quota,
     NodePreview,
     ConnectionToggle
@@ -101,7 +99,10 @@ export default {
 
     store.watch(
       () => store.getters.selectedNode,
-      handleSelectedNode
+      node => {
+        if (!node) return
+        handleSelectedNode()
+      }
     )
 
     onMounted(() => {

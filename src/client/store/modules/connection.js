@@ -44,7 +44,7 @@ export default {
             })
 
             window.ipc.send('CONNECT_TO_NODE', JSON.stringify({
-              subscription: getters.currentSubscription,
+              node: getters.selectedNode,
               resolvers: getters.selectedDns.value.split(', ')
             }))
           })
