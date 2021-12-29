@@ -57,7 +57,7 @@ export default {
 .slr-icon {
   display: inline-block;
   background-position: center center;
-  background-size: cover;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
 
   &--rounded {

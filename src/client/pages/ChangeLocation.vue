@@ -22,7 +22,6 @@
             <node-preview
               :title="node.location.country"
               :number="node.address.slice(-6)"
-              :size="25"
               :country="node.location.country"
               :subtitle="node.moniker"
             />
@@ -61,7 +60,6 @@
             <node-preview
               :title="node.location.country"
               :number="node.address.slice(-6)"
-              :size="25"
               :country="node.location.country"
               :subtitle="node.moniker"
             />

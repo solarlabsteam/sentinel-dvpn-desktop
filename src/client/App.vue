@@ -64,8 +64,8 @@ body {
   overflow: auto;
   height: 100vh;
   background-color: $slr__clr-dark-blue;
-  font-family: 'Inter', sans-serif;
-  color: $slr__clr-white;
+  font-family: 'Poppins', sans-serif;
+  color: $slr__clr-white-1;
   @include font-template(14px, 17px);
 }
 

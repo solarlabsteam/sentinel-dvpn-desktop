@@ -40,8 +40,7 @@ const routes = [
       component: Plans,
       meta: {
         title: i18n.global.t('route.plans.title'),
-        hasStepBackButton: true,
-        blurConnectionScreen: true
+        hasStepBackButton: true
       }
     }, {
       path: 'change-location',
@@ -49,8 +48,7 @@ const routes = [
       component: ChangeLocation,
       meta: {
         title: i18n.global.t('route.changeLocation.title'),
-        hasStepBackButton: true,
-        blurConnectionScreen: true
+        hasStepBackButton: true
       }
     }, {
       path: 'balance-checkout',
@@ -58,18 +56,14 @@ const routes = [
       component: BalanceCheckout,
       meta: {
         title: i18n.global.t('route.checkout.title'),
-        hasStepBackButton: true,
-        blurConnectionScreen: true
+        hasStepBackButton: true
       }
     }]
   },
   {
     path: '/payment',
     name: 'payment-result',
-    component: PaymentResult,
-    meta: {
-      blurConnectionScreen: true
-    }
+    component: PaymentResult
   },
   {
     path: '/settings',

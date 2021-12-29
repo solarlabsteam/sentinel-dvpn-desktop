@@ -29,6 +29,10 @@
     padding: 0 30px;
   }
 
+  &__quota-wrapper {
+    margin-bottom: 50px;
+  }
+
   &__toggle-wrapper {
     flex: 3;
     display: flex;
@@ -36,15 +40,5 @@
     align-items: center;
     align-self: stretch;
     padding: 50px 30px 90px;
-
-    &--connected {
-      background-image: url('/assets/images/map.svg');
-      background-size: cover;
-      background-repeat: repeat no-repeat;
-    }
-  }
-
-  &--blur {
-    filter: blur(4px);
   }
 }
