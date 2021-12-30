@@ -46,6 +46,20 @@ function initSubscriptionListeners () {
       event.reply('QUERY_SUBSCRIPTION_FOR_NODE', { error })
     }
   })
+
+  ipcMain.on('QUERY_CHECKED_SUBSCRIPTION_FOR_NODE', async (event, payload) => {
+    try {
+      const key = await accountService.queryKeyByName(DVPN_KEY_NAME)
+      const node = JSON.parse(payload)
+      const result = await subscriptionService.querySubscriptionForAddress(key.addressBech32, node.address)
+
+      event.reply('QUERY_CHECKED_SUBSCRIPTION_FOR_NODE', { data: result })
+    } catch (e) {
+      const error = generateError(e)
+      Notifications.createCritical(error.message).show()
+      event.reply('QUERY_CHECKED_SUBSCRIPTION_FOR_NODE', { error })
+    }
+  })
 }
 
 export default initSubscriptionListeners

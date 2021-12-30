@@ -9,7 +9,7 @@
 
 <script>
 import QRious from 'qrious'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 export default {
   name: 'QrCode',
@@ -28,12 +28,22 @@ export default {
   setup (props) {
     const qr = ref(null)
 
-    onMounted(function () {
+    function draw () {
       // eslint-disable-next-line no-new
       new QRious({
-        element: document.getElementById('qr'),
+        element: qr.value,
         value: props.value,
-        size: props.size
+        size: props.size,
+        background: 'transparent',
+        foreground: '#edf4ff'
+      })
+    }
+
+    onMounted(() => {
+      if (props.value) draw()
+
+      watch(() => props.value, () => {
+        draw()
       })
     })
 
@@ -51,7 +61,5 @@ export default {
 .qr-code {
   display: inline-flex;
   border-radius: 15px;
-  padding: 18px;
-  background-color: $slr__clr-white;
 }
 </style>

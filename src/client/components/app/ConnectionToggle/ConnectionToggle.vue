@@ -46,6 +46,7 @@ import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import useConnect from '@/client/hooks/useConnect'
 
 export default {
   name: 'ConnectionToggle',
@@ -54,6 +55,7 @@ export default {
     const store = useStore()
     const { t } = useI18n()
     const router = useRouter()
+    const { connect } = useConnect()
 
     const selectedNode = computed(() => store.getters.selectedNode)
     const currentSubscription = computed(() => store.getters.currentSubscription)
@@ -75,7 +77,7 @@ export default {
         return
       }
 
-      store.dispatch('connectToNode')
+      connect()
     }
 
     return {

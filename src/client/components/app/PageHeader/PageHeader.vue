@@ -14,12 +14,12 @@
     <slr-button
       :text="true"
       :tiny="true"
-      :to="{name: 'settings'}"
+      @click="openAccountDrawer"
     >
       <template #icon>
         <slr-icon
-          :size="24"
-          :icon="'settings'"
+          :size="32"
+          :icon="'account'"
         />
       </template>
     </slr-button>
@@ -30,6 +30,7 @@
 import { useRoute, useRouter } from 'vue-router'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import useAccount from '@/client/hooks/useAccount'
 
 export default {
   name: 'PageHeader',
@@ -45,6 +46,8 @@ export default {
     const route = useRoute()
     const router = useRouter()
     const { t } = useI18n()
+    const { openAccountDrawer } = useAccount()
+
     const stepBack = () => {
       if (props.to) {
         router.push(props.to)
@@ -57,7 +60,8 @@ export default {
       title: computed(() => route.meta.title),
       hasStepBackButton: computed(() => route.meta.hasStepBackButton),
       stepBack,
-      t
+      t,
+      openAccountDrawer
     }
   }
 }
@@ -68,6 +72,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
   box-sizing: border-box;
   width: 100%;
   padding: 10px 0;

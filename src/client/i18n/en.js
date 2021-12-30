@@ -44,7 +44,7 @@ export default {
     createNewAccount: 'Create a new account',
     restoreAccount: 'I have a mnemonic',
     inputMnemonicLabel: 'Input your mnemonic',
-    balance: 'You have: {amount}'
+    balance: 'Account balance'
   },
 
   connection: {
@@ -123,7 +123,7 @@ export default {
   },
 
   checkout: {
-    scanQr: 'Scan the QR Code',
+    scanQr: 'Scan QR code to receive',
     message: {
       timer: 'Your transaction should be processed within'
     }
@@ -149,6 +149,12 @@ export default {
   action: {
     copy: 'Copy',
     copied: 'Copied!',
-    back: 'Back'
+    back: 'Back',
+    subscribe: 'Subscribe',
+    topUp: 'Top-up with Solar Pay'
+  },
+
+  subscriptionModal: {
+    header: 'How much DVPN do you want to spent?'
   }
 }

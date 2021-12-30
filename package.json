@@ -44,6 +44,7 @@
     "stylelint": "^13.13.1",
     "stylelint-order": "^4.1.0",
     "stylelint-webpack-plugin": "^3.0.1",
+    "tiny-emitter": "^2.1.0",
     "tiny-timer": "^1.6.0",
     "uint64be": "^3.0.0",
     "vue": "^3.0.0",

@@ -10,6 +10,7 @@
     <connection />
     <div class="page">
       <router-view />
+      <account-drawer />
     </div>
   </template>
 </template>
@@ -19,13 +20,15 @@ import { computed, watch } from 'vue'
 import { useStore } from 'vuex'
 import Onboarding from '@/client/pages/Login/Onboarding'
 import Connection from '@/client/pages/Connection'
+import AccountDrawer from '@/client/components/app/AccountDrawer'
 
 export default {
   name: 'App',
 
   components: {
     Onboarding,
-    Connection
+    Connection,
+    AccountDrawer
   },
 
   setup () {

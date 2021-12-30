@@ -1,5 +1,5 @@
 import {
-  CLEAR_CURRENT_SUBSCRIPTION, CLEAR_PAYMENT_RESULT,
+  CLEAR_CURRENT_SUBSCRIPTION, CLEAR_PAYMENT_RESULT, SET_CHECKED_SUBSCRIPTION, SET_CHECKED_SUBSCRIPTION_LOADING_STATE,
   SET_CURRENT_SUBSCRIPTION,
   SET_CURRENT_SUBSCRIPTION_LOADING_STATE, SET_PAYMENT_LOADING_STATE, SET_PAYMENT_RESULT
 } from '@/client/store/mutation-types'
@@ -9,7 +9,9 @@ const getDefaultState = () => ({
   currentSubscription: null,
   isSubscriptionLoading: false,
   isPaymentLoading: false,
-  paymentResult: null
+  paymentResult: null,
+  checkedSubscription: null,
+  isCheckedSubscriptionLoading: false
 })
 
 export default {
@@ -19,6 +21,8 @@ export default {
     currentSubscription: state => state.currentSubscription,
     isSubscriptionLoading: state => state.isSubscriptionLoading,
     isPaymentLoading: state => state.isPaymentLoading,
+    checkedSubscription: state => state.checkedSubscription,
+    isCheckedSubscriptionLoading: state => state.isCheckedSubscriptionLoading,
     paymentResult: state => state.paymentResult
   },
 
@@ -42,6 +46,25 @@ export default {
         window.ipc.send('QUERY_SUBSCRIPTION_FOR_NODE', JSON.stringify(getters.selectedNode))
       })
     },
+    fetchCheckedSubscriptionForNode ({ commit, getters }, node) {
+      commit(SET_CHECKED_SUBSCRIPTION_LOADING_STATE, true)
+
+      return new Promise((resolve, reject) => {
+        window.ipc.once('QUERY_CHECKED_SUBSCRIPTION_FOR_NODE', (payload) => {
+          if (payload.error) {
+            commit(SET_CURRENT_SUBSCRIPTION_LOADING_STATE, false)
+            reject(payload.error)
+            return
+          }
+
+          commit(SET_CHECKED_SUBSCRIPTION, payload.data)
+          commit(SET_CHECKED_SUBSCRIPTION_LOADING_STATE, false)
+          resolve()
+        })
+
+        window.ipc.send('QUERY_CHECKED_SUBSCRIPTION_FOR_NODE', JSON.stringify(node))
+      })
+    },
     subscribeToNode ({ commit, dispatch }, paymentInfo) {
       commit(SET_PAYMENT_LOADING_STATE, true)
 
@@ -63,6 +86,7 @@ export default {
             success: true,
             response: payload.data
           }
+
           await dispatch('setPaymentResult', result)
           commit(SET_PAYMENT_LOADING_STATE, false)
           resolve()
@@ -89,6 +113,12 @@ export default {
     },
     [SET_CURRENT_SUBSCRIPTION_LOADING_STATE] (state, value) {
       state.isSubscriptionLoading = value
+    },
+    [SET_CHECKED_SUBSCRIPTION] (state, payload) {
+      state.checkedSubscription = payload
+    },
+    [SET_CHECKED_SUBSCRIPTION_LOADING_STATE] (state, value) {
+      state.isCheckedSubscriptionLoading = value
     },
     [CLEAR_CURRENT_SUBSCRIPTION] (state) {
       state.currentSubscription = getDefaultState().currentSubscription

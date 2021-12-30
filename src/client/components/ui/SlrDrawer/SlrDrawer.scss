@@ -1,0 +1,21 @@
+.slr-drawer {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  box-sizing: border-box;
+  width: 365px;
+  padding: 20px 16px 20px 16px;
+  background-color: $slr__clr-dark-blue;
+
+  &__header {
+    padding: 10px 0;
+  }
+
+  &__close-button {
+    color: $slr__clr-white;
+    @include font-template(30px, 37px, 400);
+  }
+}

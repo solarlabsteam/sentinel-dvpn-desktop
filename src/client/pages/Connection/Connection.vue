@@ -16,7 +16,7 @@
 
       <div class="connection-screen__quota-wrapper">
         <quota
-          :amount="quota?.balanceGb"
+          :amount="quota?.consumedGb"
           :unit="t('quota.unit.gb.title')"
           :bright="isConnected"
         />
@@ -56,6 +56,10 @@
         </div>
       </div>
     </div>
+
+    <transition name="modal">
+      <subscription-modal />
+    </transition>
   </div>
 </template>
 
@@ -69,6 +73,7 @@ import NodePreview from '@/client/components/app/NodePreview'
 import ConnectionToggle from '@/client/components/app/ConnectionToggle'
 import useStatusPolling from '@/client/hooks/useStatusPolling'
 import Quota from '@/client/components/app/Quota'
+import SubscriptionModal from '@/client/components/app/SubscriptionModal'
 
 export default {
   name: 'Connection',
@@ -77,7 +82,8 @@ export default {
     ConnectionDetail,
     Quota,
     NodePreview,
-    ConnectionToggle
+    ConnectionToggle,
+    SubscriptionModal
   },
 
   setup () {

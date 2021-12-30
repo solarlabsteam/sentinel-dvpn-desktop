@@ -1,6 +1,6 @@
 <template>
   <div
-    class="wallet-address slr-card"
+    class="wallet-address"
   >
     {{ user?.addressBech32 }}
     <slr-copy-button :value="user?.addressBech32" />
@@ -32,7 +32,9 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border: 1px solid $slr__clr-blue-4;
+  border-radius: 4px;
   padding: 13px 16px;
-  @include font-template(12px, 15px, 500);
+  @include font-template(12px, 14px, 400);
 }
 </style>

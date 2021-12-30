@@ -1,0 +1,28 @@
+.account-drawer {
+
+  &__body {
+    padding: 111px 0;
+    text-align: center;
+  }
+
+  &__title {
+    text-transform: capitalize;
+    color: $slr__clr-grey-dark-1;
+    @include font-template(12px, 18px);
+  }
+
+  &__balance {
+    margin-bottom: 50px;
+    @include font-template(22px, 33px)
+  }
+
+  &__scan-tip {
+    margin-bottom: 15px;
+    color: $slr__clr-grey-dark-1;
+    @include font-template(12px, 18px);
+  }
+
+  &__address {
+    margin-bottom: 46px;
+  }
+}

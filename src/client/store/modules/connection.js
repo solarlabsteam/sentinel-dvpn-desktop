@@ -120,6 +120,10 @@ export default {
 
         window.ipc.send('QUERY_SERVICE_SERVER')
       })
+    },
+
+    setConnectionLoadingState ({ commit }, value) {
+      commit(SET_CONNECTION_LOADING_STATE, value)
     }
   },
 
