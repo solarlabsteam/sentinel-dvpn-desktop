@@ -42,21 +42,9 @@
             v-for="node in nodes"
             :key="node.address"
             class="change-location__node"
-            :class="{'change-location__node--selected': node.address === selectedNode?.address}"
             @click="() => openNode(node)"
           >
-            <node-preview
-              :title="node.location.country"
-              :number="node.address.slice(-6)"
-              :country="node.location.country"
-              :subtitle="node.moniker"
-            />
-
-            <slr-icon
-              :icon="'arrow-top-right'"
-              :size="14"
-              :rounded="true"
-            />
+            <node-details :node="node" />
           </li>
         </ul>
 
@@ -120,6 +108,10 @@ export default {
     padding-top: 36px;
     padding-bottom: 27px;
     cursor: pointer;
+
+    &:last-child {
+      border-bottom: none;
+    }
   }
 }
 </style>
