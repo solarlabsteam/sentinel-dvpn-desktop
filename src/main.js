@@ -1,7 +1,7 @@
 'use strict'
 
 import path from 'path'
-import { app, protocol, BrowserWindow, Menu, nativeImage, Tray } from 'electron'
+import { app, protocol, BrowserWindow, Menu, nativeImage, Tray, globalShortcut } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import i18next from 'i18next'
@@ -83,6 +83,23 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+})
+
+app.on('browser-window-focus', function () {
+  if (isDevelopment) return
+
+  globalShortcut.register('CommandOrControl+R', () => {
+    console.log('CommandOrControl+R is pressed: Shortcut Disabled')
+  })
+  globalShortcut.register('F5', () => {
+    console.log('F5 is pressed: Shortcut Disabled')
+  })
+})
+
+app.on('browser-window-blur', function () {
+  if (isDevelopment) return
+  globalShortcut.unregister('CommandOrControl+R')
+  globalShortcut.unregister('F5')
 })
 
 // Exit cleanly on request from parent process in development mode.

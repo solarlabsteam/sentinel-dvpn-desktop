@@ -49,7 +49,8 @@ export default {
 
   connection: {
     disconnectLabel: 'Disconnect',
-    checkingConnection: 'Checking the connection to the server'
+    checkingConnection: 'Checking the connection to the server',
+    connectNowButton: 'Connect Now'
   },
 
   quota: {
@@ -75,7 +76,16 @@ export default {
     parameters: {
       price: 'Price',
       latency: 'Latency',
-      peers: 'Peers'
+      peers: 'Peers',
+      address: 'Node Address',
+      connectedPeers: 'Connected peers count',
+      uploadSpeed: 'Upload speed',
+      provider: 'Node provider',
+      downloadSpeed: 'Download speed',
+      version: 'Version',
+      type: 'Type of node',
+      country: 'Country',
+      city: 'City'
     }
   },
 
@@ -138,6 +148,7 @@ export default {
 
   action: {
     copy: 'Copy',
-    copied: 'Copied!'
+    copied: 'Copied!',
+    back: 'Back'
   }
 }

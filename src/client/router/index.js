@@ -6,6 +6,7 @@ import PaymentResult from '@/client/pages/PaymentResult'
 import BalanceCheckout from '@/client/pages/BalanceCheckout'
 import Settings from '@/client/pages/Settings'
 import i18n from '@/client/plugins/i18n'
+import Node from '@/client/pages/Node'
 
 const routes = [
   {

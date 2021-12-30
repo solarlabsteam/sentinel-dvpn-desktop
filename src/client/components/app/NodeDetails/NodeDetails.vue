@@ -29,7 +29,7 @@
 
       <slr-button
         class="node-details__connect-button"
-        @click.stop="connect"
+        @click.stop="() => connect(node)"
       >
         <slr-icon
           :width="17"
@@ -43,10 +43,9 @@
 
 <script>
 import { useI18n } from 'vue-i18n'
-import { useStore } from 'vuex'
 import ParameterScale from '@/client/components/app/ParameterScale'
 import NodePreview from '@/client/components/app/NodePreview'
-import { syncStoreValue } from '@/client/store/plugins/syncStore'
+import useConnect from '@/client/hooks/useConnect'
 
 export default {
   name: 'NodeDetails',
@@ -63,22 +62,9 @@ export default {
     }
   },
 
-  setup (props) {
+  setup () {
     const { t } = useI18n()
-    const store = useStore()
-
-    const clearPreviousNodeState = async () => {
-      await store.dispatch('clearSelectedNode')
-      await store.dispatch('clearSubscriptionForNode')
-      await store.dispatch('clearQuota')
-    }
-
-    const connect = async () => {
-      await clearPreviousNodeState()
-      await store.dispatch('selectNode', props.node)
-      await syncStoreValue('selectedNode', props.node)
-      await store.dispatch('connectToNode')
-    }
+    const { connect } = useConnect()
 
     return {
       t,

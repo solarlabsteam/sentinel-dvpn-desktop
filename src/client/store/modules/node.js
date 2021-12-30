@@ -4,13 +4,16 @@ import {
   SET_SELECTED_NODE,
   SET_CONNECTED_NODE,
   CLEAR_CONNECTED_NODE,
-  SET_DEFAULT_NODE_LOADING_STATE
+  SET_DEFAULT_NODE_LOADING_STATE,
+  SET_DETAILED_NODE,
+  CLEAR_DETAILED_NODE
 } from '@/client/store/mutation-types'
 
 const getDefaultState = () => ({
   selectedNode: null,
   connectedNode: null,
-  isDefaultNodeLoading: false
+  isDefaultNodeLoading: false,
+  detailedNode: null
 })
 
 export default {
@@ -19,6 +22,7 @@ export default {
   getters: {
     selectedNode: state => state.selectedNode,
     connectedNode: state => state.connectedNode,
+    detailedNode: state => state.detailedNode,
     isDefaultNodeLoading: state => state.isDefaultNodeLoading
   },
 
@@ -34,6 +38,12 @@ export default {
     },
     clearConnectedNode ({ commit }) {
       commit(CLEAR_CONNECTED_NODE)
+    },
+    setDetailedNode ({ commit }, node) {
+      commit(SET_DETAILED_NODE, node)
+    },
+    clearDetailedNode ({ commit }) {
+      commit(CLEAR_DETAILED_NODE)
     },
     async selectDefaultNode ({ dispatch, commit, getters }) {
       try {
@@ -70,6 +80,9 @@ export default {
     },
     [CLEAR_CONNECTED_NODE] (state) {
       state.connectedNode = getDefaultState().connectedNode
+    },
+    [SET_DETAILED_NODE] (state, payload) {
+      state.detailedNode = payload
     },
     [SET_DEFAULT_NODE_LOADING_STATE] (state, value) {
       console.log(value)

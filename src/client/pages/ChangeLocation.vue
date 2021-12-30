@@ -16,7 +16,7 @@
             v-for="node in subscribedNodes"
             :key="node.address"
             class="change-location__node"
-            @click="() => select(node)"
+            @click="() => openNode(node)"
           >
             <node-details :node="node" />
           </li>
@@ -43,7 +43,7 @@
             :key="node.address"
             class="change-location__node"
             :class="{'change-location__node--selected': node.address === selectedNode?.address}"
-            @click="() => select(node)"
+            @click="() => openNode(node)"
           >
             <node-preview
               :title="node.location.country"
@@ -72,12 +72,12 @@
 </template>
 
 <script>
-import { mapActions, useStore } from 'vuex'
+import { useStore } from 'vuex'
 import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 import NodeDetails from '@/client/components/app/NodeDetails'
 import PageHeader from '@/client/components/app/PageHeader'
-import { syncStoreValue } from '@/client/store/plugins/syncStore'
 
 export default {
   components: {
@@ -87,6 +87,12 @@ export default {
   setup () {
     const store = useStore()
     const { t } = useI18n()
+    const router = useRouter()
+
+    const openNode = async node => {
+      await store.dispatch('setDetailedNode', node)
+      router.push({ name: 'node' })
+    }
 
     onMounted(() => {
       store.dispatch('fetchNodes')
@@ -99,25 +105,9 @@ export default {
       subscribedNodes: computed(() => store.getters.subscribedNodes),
       isSubscribedNodesLoading: computed(() => store.getters.isSubscribedNodesLoading),
       selectedNode: computed(() => store.getters.selectedNode),
-      t
+      t,
+      openNode
     }
-  },
-
-  methods: {
-    async select (node) {
-      await this.clearPreviousNodeState()
-      await this.selectNode(node)
-      await syncStoreValue('selectedNode', node)
-      this.$router.push({ path: window.history.state.back })
-    },
-
-    async clearPreviousNodeState () {
-      await this.clearSelectedNode()
-      await this.clearSubscriptionForNode()
-      await this.clearQuota()
-    },
-
-    ...mapActions(['selectNode', 'clearSubscriptionForNode', 'clearQuota', 'clearSelectedNode'])
   }
 }
 </script>
@@ -129,6 +119,7 @@ export default {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 36px;
     padding-bottom: 27px;
+    cursor: pointer;
   }
 }
 </style>

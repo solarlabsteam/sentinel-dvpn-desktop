@@ -38,6 +38,14 @@ export default {
     icon: {
       type: String,
       default: ''
+    },
+    rounded: {
+      type: Boolean,
+      default: false
+    },
+    large: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -53,7 +61,9 @@ export default {
     const classes = {
       'slr-button--block': props.block,
       'slr-button--text': props.text,
-      'slr-button--tiny': props.tiny
+      'slr-button--tiny': props.tiny,
+      'slr-button--rounded': props.rounded,
+      'slr-button--large': props.rounded
     }
 
     return {

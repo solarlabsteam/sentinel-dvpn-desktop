@@ -1,0 +1,20 @@
+.node-detail {
+  padding: 14px 20px 20px;
+  text-align: center;
+
+  &__icon {
+    margin-bottom: 5px;
+  }
+
+  &__value {
+    @include font-template(12px, 14px, 500);
+  }
+
+  &__type {
+    margin-bottom: 2px;
+    text-transform: capitalize;
+    color: $slr__clr-grey-dark-1;
+
+    @include font-template(10px, 15px, 400);
+  }
+}
