@@ -6,7 +6,7 @@ import {
 } from '@/client/store/mutation-types'
 
 const getDefaultState = () => ({
-  nodes: [],
+  nodes: {},
   isNodesLoading: false,
   subscribedNodes: [],
   isSubscribedNodesLoading: false
@@ -16,7 +16,14 @@ export default {
   state: getDefaultState(),
 
   getters: {
-    nodes: state => state.nodes,
+    nodes: state => {
+      Object.defineProperty(state.nodes, 'length', {
+        enumerable: false,
+        value: Object.keys(state.nodes).length
+      })
+
+      return state.nodes
+    },
     isNodesLoading: state => state.isNodesLoading,
     subscribedNodes: state => state.subscribedNodes,
     isSubscribedNodesLoading: state => state.isSubscribedNodesLoading

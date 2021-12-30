@@ -89,6 +89,12 @@ export default {
     }
   },
 
+  continent: {
+    parameters: {
+      availableNode: '{count} available nodes'
+    }
+  },
+
   subscription: {
     list: {
       noData: 'No subscriptions found'

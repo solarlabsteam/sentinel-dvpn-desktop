@@ -123,7 +123,8 @@ async function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({
     width: 1200,
-    height: 850,
+    minHeight: 860,
+    height: 900,
     icon: nativeImage.createFromPath(path.resolve(__static, 'assets/images/logo.png')),
     autoHideMenuBar: true,
     webPreferences: {

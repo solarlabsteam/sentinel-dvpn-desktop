@@ -35,6 +35,7 @@
     "google-protobuf": "^3.17.3",
     "grpc-web": "^1.2.1",
     "i18next": "^20.6.0",
+    "param-case": "^3.0.4",
     "portastic": "^1.0.1",
     "ps-node": "^0.1.6",
     "qrious": "^4.0.2",

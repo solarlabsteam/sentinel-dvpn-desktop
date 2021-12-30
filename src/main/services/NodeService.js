@@ -6,6 +6,7 @@ import QueryService from '@/main/services/QueryService'
 import TransactionService from '@/main/services/TransactionService'
 import DvpnApi from '@/main/api/rest/DvpnApi'
 import RemoteNodeApi from '@/main/api/RemoteNodeApi'
+import continents from '@/main/data/continents'
 
 class NodeService {
   constructor () {
@@ -148,6 +149,25 @@ class NodeService {
     return result
       .filter(r => r.status === 'fulfilled')
       .map(r => r.value)
+  }
+
+  async queryContinentInfos (addresses) {
+    const result = {}
+    const nodeInfos = await this.queryNodeInfos(addresses)
+
+    nodeInfos.forEach(n => {
+      const continent = continents[n.location.country]
+
+      if (!continent) return
+
+      if (!result[continent]) {
+        result[continent] = []
+      }
+
+      result[continent].push(n)
+    })
+
+    return result
   }
 }
 
