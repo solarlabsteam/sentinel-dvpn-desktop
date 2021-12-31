@@ -46,9 +46,9 @@
 import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
+import useConnection from '@/client/hooks/useConnection'
 import ParameterScale from '@/client/components/app/ParameterScale'
 import NodePreview from '@/client/components/app/NodePreview'
-import useConnect from '@/client/hooks/useConnect'
 
 export default {
   name: 'NodeDetails',
@@ -67,7 +67,7 @@ export default {
 
   setup () {
     const { t } = useI18n()
-    const { connect } = useConnect()
+    const { connect } = useConnection()
     const store = useStore()
     const isConnectionLoading = computed(() => store.getters.isConnectionLoading)
 

@@ -49,11 +49,11 @@
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
+import useConnection from '@/client/hooks/useConnection'
 import useGlobalEmitter from '@/client/hooks/useGlobalEmitter'
 import Quota from '@/client/components/app/Quota'
 import GbsInput from '@/client/components/app/GbsInput'
 import useBalance from '@/client/hooks/useBalance'
-import useConnect from '@/client/hooks/useConnect'
 import useAccount from '@/client/hooks/useAccount'
 
 export default {
@@ -68,7 +68,7 @@ export default {
     const { t } = useI18n()
     const emitter = useGlobalEmitter()
     const { isBalanceEnough } = useBalance()
-    const { connect } = useConnect()
+    const { connect } = useConnection()
     const { openAccountDrawer } = useAccount()
     const store = useStore()
     const isOpen = ref(false)

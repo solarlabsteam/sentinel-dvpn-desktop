@@ -77,9 +77,9 @@ import { computed, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import NodeDetail from './NodeDetail'
+import useConnection from '@/client/hooks/useConnection'
 import NodePreview from '@/client/components/app/NodePreview'
 import PageHeader from '@/client/components/app/PageHeader'
-import useConnect from '@/client/hooks/useConnect'
 
 export default {
   name: 'Node',
@@ -94,7 +94,7 @@ export default {
     const store = useStore()
     const router = useRouter()
     const { t } = useI18n()
-    const { connect } = useConnect()
+    const { connect } = useConnection()
 
     const node = computed(() => store.getters.detailedNode)
     const domain = computed(() => new URL(node.value?.remoteUrl).hostname)

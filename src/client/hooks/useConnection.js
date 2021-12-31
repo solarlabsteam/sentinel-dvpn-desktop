@@ -2,7 +2,7 @@ import { useStore } from 'vuex'
 import { syncStoreValue } from '@/client/store/plugins/syncStore'
 import useSubscription from '@/client/hooks/useSubscription'
 
-export default function useConnect () {
+export default function useConnection () {
   const store = useStore()
   const { checkSubscriptionActivity, promptSubscription } = useSubscription()
 
@@ -10,6 +10,10 @@ export default function useConnect () {
     await store.dispatch('clearSelectedNode')
     await store.dispatch('clearSubscriptionForNode')
     await store.dispatch('clearQuota')
+  }
+
+  const disconnect = async () => {
+    await store.dispatch('disconnectFromNode')
   }
 
   const connect = async (node) => {
@@ -26,6 +30,7 @@ export default function useConnect () {
         return
       }
 
+      if (store.getters.isConnected) await disconnect()
       await clearPreviousNodeState()
       await store.dispatch('selectNode', node)
       await syncStoreValue('selectedNode', node)
@@ -35,5 +40,5 @@ export default function useConnect () {
     }
   }
 
-  return { connect }
+  return { connect, disconnect }
 }
