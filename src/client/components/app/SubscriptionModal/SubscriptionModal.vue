@@ -2,6 +2,7 @@
   <slr-modal
     class="subscription-modal"
     :open="isOpen"
+    :loading="isConnectionLoading"
     @close="close"
   >
     <template #header>
@@ -26,10 +27,16 @@
     </template>
 
     <template #footer>
+      <slr-loader
+        v-if="isConnectionLoading"
+        :size="30"
+      />
       <slr-button
+        v-else
         :large="true"
         :block="true"
         :rounded="true"
+        :disabled="isConnectionLoading"
         @click="subscribeAndConnect"
       >
         {{ t('action.subscribe') }}
@@ -39,7 +46,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
 import useGlobalEmitter from '@/client/hooks/useGlobalEmitter'
@@ -66,7 +73,8 @@ export default {
     const store = useStore()
     const isOpen = ref(false)
     const amountGb = ref(1)
-    const node = ref(null)
+    const node = computed(() => store.getters.selectedNode)
+    const isConnectionLoading = computed(() => store.getters.isConnectionLoading)
 
     const open = () => {
       isOpen.value = true
@@ -103,7 +111,7 @@ export default {
       open()
     })
 
-    return { amountGb, isOpen, close, t, node, onInput, subscribeAndConnect }
+    return { amountGb, isOpen, close, t, node, onInput, subscribeAndConnect, isConnectionLoading }
   }
 }
 </script>

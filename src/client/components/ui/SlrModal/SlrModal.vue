@@ -5,9 +5,11 @@
   >
     <div class="slr-modal__wrapper">
       <slr-button
+        v-if="!loading"
         class="slr-modal__close-button"
         :text="true"
         :tiny="true"
+        :loading="loading"
         @click="close"
       >
         &times;
@@ -48,6 +50,11 @@ export default {
     open: {
       type: Boolean,
       default: false
+    },
+
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -55,6 +62,8 @@ export default {
 
   setup (props, { emit }) {
     const close = () => {
+      if (props.loading) return
+
       emit('close')
     }
 

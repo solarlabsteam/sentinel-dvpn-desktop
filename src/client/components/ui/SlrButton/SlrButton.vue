@@ -46,13 +46,27 @@ export default {
     large: {
       type: Boolean,
       default: false
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
 
-  setup (props) {
+  emits: ['click'],
+
+  setup (props, { emit }) {
     const router = useRouter()
 
-    const onClick = () => {
+    const onClick = (e) => {
+      if (props.disabled) {
+        e.stopImmediatePropagation()
+        e.preventDefault()
+        return
+      }
+
+      emit('click', e)
+
       if (props.to) {
         router.push(props.to)
       }

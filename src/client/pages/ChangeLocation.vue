@@ -9,7 +9,7 @@
       <slr-tab :title="t('route.changeLocation.tab.subscriptions.title')">
         <div
           v-if="isSubscribedNodesLoading"
-          class="text-center my-3"
+          class="text-center mt-5"
         >
           <slr-loader :size="20" />
         </div>
@@ -35,7 +35,7 @@
       <slr-tab :title="t('route.changeLocation.tab.nodes.title')">
         <div
           v-if="isNodesLoading"
-          class="text-center my-3"
+          class="text-center mt-5"
         >
           <slr-loader :size="20" />
         </div>

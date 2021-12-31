@@ -29,6 +29,7 @@
 
       <slr-button
         class="node-details__connect-button"
+        :disabled="isConnectionLoading"
         @click.stop="() => connect(node)"
       >
         <slr-icon
@@ -43,6 +44,8 @@
 
 <script>
 import { useI18n } from 'vue-i18n'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 import ParameterScale from '@/client/components/app/ParameterScale'
 import NodePreview from '@/client/components/app/NodePreview'
 import useConnect from '@/client/hooks/useConnect'
@@ -65,10 +68,13 @@ export default {
   setup () {
     const { t } = useI18n()
     const { connect } = useConnect()
+    const store = useStore()
+    const isConnectionLoading = computed(() => store.getters.isConnectionLoading)
 
     return {
       t,
-      connect
+      connect,
+      isConnectionLoading
     }
   }
 }

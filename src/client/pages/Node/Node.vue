@@ -62,6 +62,7 @@
       :block="true"
       :rounded="true"
       :large="true"
+      :disabled="isConnectionLoading"
       @click="() => connect(node)"
     >
       {{ t('connection.connectNowButton') }}
@@ -97,12 +98,13 @@ export default {
 
     const node = computed(() => store.getters.detailedNode)
     const domain = computed(() => new URL(node.value?.remoteUrl).hostname)
+    const isConnectionLoading = computed(() => store.getters.isConnectionLoading)
 
     onBeforeMount(async () => {
       if (!node.value) router.replace({ name: 'home' })
     })
 
-    return { node, domain, t, connect }
+    return { node, domain, t, connect, isConnectionLoading }
   }
 }
 </script>
