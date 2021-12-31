@@ -27,7 +27,7 @@
 
         <p
           v-else-if="!isSubscribedNodesLoading"
-          class="m-s10- lh12 opacity-4 text-center"
+          class="m-s12-lh15 opacity-4 text-center mt-5"
         >
           {{ t('subscription.list.noData') }}
         </p>
@@ -65,7 +65,7 @@
 
         <p
           v-if="!nodes.length && !isNodesLoading"
-          class="m-s12-lh15 opacity-4 text-center"
+          class="m-s12-lh15 opacity-4 text-center mt-5"
         >
           {{ t('node.list.noData') }}
         </p>
