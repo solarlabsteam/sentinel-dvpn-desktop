@@ -73,7 +73,7 @@ export default {
     const store = useStore()
     const isOpen = ref(false)
     const amountGb = ref(1)
-    const node = computed(() => store.getters.selectedNode)
+    const node = ref(null)
     const isConnectionLoading = computed(() => store.getters.isConnectionLoading)
 
     const open = () => {
