@@ -18,7 +18,7 @@
           :country="selectedNode.location.country"
         />
         <plan-parameter
-          :title="denomNames[selectedCrypto]"
+          :title="denomNames[selectedCrypto]?.name"
           :parameter="t('plan.parameter.crypto.title')"
           :currency="selectedCrypto"
         />
@@ -137,7 +137,7 @@ export default {
     opacity: 0.4;
     margin-bottom: 10px;
     text-align: center;
-    @include font-template(10px, 12px, 500);
+    @include font-template(12px, 15px, 500);
   }
 }
 </style>

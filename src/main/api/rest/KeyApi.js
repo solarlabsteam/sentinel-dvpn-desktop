@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { safeStorage } from 'electron'
 import store, { getters } from '@/main/store/store'
 import { DVPN_KEY_NAME } from '@/shared/constants'
 
@@ -14,7 +15,7 @@ class KeyApi {
     this.provider.interceptors.request.use(config => {
       config.data = {
         backend: 'test',
-        password: key && key.password,
+        password: key && safeStorage.decryptString(Buffer.from(key.password, 'base64')),
         ...config.data
       }
       return config
@@ -48,8 +49,7 @@ class KeyApi {
           this.addAccountBech32(data)
           data.result = {
             ...data.result,
-            mnemonic: requestData.mnemonic,
-            password: requestData.password
+            password: safeStorage.encryptString(requestData.password).toString('base64')
           }
         } catch (e) {
           console.log(e)

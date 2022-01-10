@@ -1,38 +1,38 @@
 <template>
-  <div class="payment-check">
-    <div class="payment-check__date">
+  <div class="payment-receipt">
+    <div class="payment-receipt__date">
       {{ date }}
     </div>
     <div
       v-if="txHash"
-      class="payment-check__txhash"
+      class="payment-receipt__txhash"
     >
       {{ t('payment.check.hash', {hash: croppedHash}) }}
     </div>
 
-    <hr class="payment-check__divider">
+    <hr class="payment-receipt__divider">
 
     <div class="p-relative">
       <slr-icon
-        class="payment-check__crypto-icon"
+        class="payment-receipt__crypto-icon"
         :rounded="true"
         :size="53"
-        :icon="crypto"
+        :icon="cryptoIcon"
       />
       <slr-icon
-        class="payment-check__status-icon"
+        class="payment-receipt__status-icon"
         :icon="success ? 'success' : 'failed'"
         :rounded="true"
       />
     </div>
 
-    <div class="payment-check__crypto">
-      {{ crypto }}
+    <div class="payment-receipt__crypto">
+      {{ cryptoName }}
     </div>
-    <div class="payment-check__amount">
+    <div class="payment-receipt__amount">
       {{ coinsAmount }}
     </div>
-    <div class="payment-check__description">
+    <div class="payment-receipt__description">
       {{ description }}
     </div>
   </div>
@@ -42,9 +42,10 @@
 import { computed } from 'vue'
 import format from 'date-fns/format'
 import { useI18n } from 'vue-i18n'
+import denomNames from '@/client/constants/denomNames'
 
 export default {
-  name: 'PaymentCheck',
+  name: 'PaymentReceipt',
 
   props: {
     success: {
@@ -85,6 +86,8 @@ export default {
       date: computed(() => format(props.timestamp * 1000, 'dd LLL uuuu p')),
       coinsAmount: computed(() => Number(props.amount).toLocaleString('en')),
       croppedHash: computed(() => props.txHash.slice(0, 12)),
+      cryptoName: computed(() => denomNames[props.crypto]?.name),
+      cryptoIcon: computed(() => denomNames[props.crypto]?.icon),
       t
     }
   }
@@ -93,6 +96,6 @@ export default {
 
 <style
   lang="scss"
-  src="./PaymentCheck.scss"
+  src="./PaymentReceipt.scss"
   scoped
 />

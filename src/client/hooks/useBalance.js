@@ -1,11 +1,12 @@
 import { useStore } from 'vuex'
 import { computed } from 'vue'
-import { DENOM, tokensPerDvpn, transactionFee } from '@/shared/constants'
+import { DENOM, transactionFee } from '@/shared/constants'
+import denomNames from '@/client/constants/denomNames'
 
 export default function useBalance () {
   const store = useStore()
   const amount = computed(() => Number(store.getters.balances.find(b => b.denom === DENOM)?.amount) || 0)
-  const dvpn = computed(() => amount.value / tokensPerDvpn)
+  const dvpn = computed(() => amount.value / denomNames[DENOM].perUnit)
 
   const isBalanceEnough = async amount => {
     try {

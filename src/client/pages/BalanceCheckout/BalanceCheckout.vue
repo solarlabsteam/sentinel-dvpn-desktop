@@ -1,6 +1,6 @@
 <template>
   <div class="balance-checkout">
-    <page-header />
+    <page-header :to="{name: 'plans'}" />
 
     <div class="balance-checkout__parameters balance-checkout__padding-wrapper">
       <plan-parameter
@@ -16,7 +16,7 @@
       />
     </div>
 
-    <div class="text-center r-s10-lh12 mb-3">
+    <div class="text-center r-s12-lh15 mb-3">
       {{ t('checkout.scanQr') }}
     </div>
     <qr-code
@@ -39,7 +39,7 @@
     </div>
 
     <slr-timer
-      class="b-s15-lh18"
+      class="b-s17-lh20"
       :time="selectedPlan.payBefore"
       @tick="handleTick"
     />
@@ -57,7 +57,6 @@ import QrCode from '@/client/components/app/QrCode'
 import PlanParameter from '@/client/pages/Plans/PlanParameter'
 import PageHeader from '@/client/components/app/PageHeader'
 import denomNames from '@/client/constants/denomNames'
-import { tokensPerDvpn } from '@/shared/constants'
 import useBalance from '@/client/hooks/useBalance'
 
 export default {
@@ -116,9 +115,9 @@ export default {
     return {
       selectedNode: computed(() => store.getters.selectedNode),
       selectedCrypto: computed(() => store.getters.selectedCrypto),
-      selectedCryptoName: computed(() => denomNames[store.getters.selectedCrypto]),
+      selectedCryptoName: computed(() => denomNames[store.getters.selectedCrypto]?.name),
       selectedPlan: computed(() => store.getters.selectedPlan),
-      selectedAmount: computed(() => Number(store.getters.selectedPlan.deposit.amount / tokensPerDvpn).toLocaleString('en')),
+      selectedAmount: computed(() => Number(store.getters.selectedPlan.deposit.amount / denomNames[store.getters.selectedCrypto]?.perUnit).toLocaleString('en')),
       user: computed(() => store.getters.user),
       handleTick,
       t

@@ -23,7 +23,14 @@ import { reactive, provide, toRefs, onBeforeMount, onBeforeUpdate, onMounted } f
 export default {
   name: 'SlrTabs',
 
-  setup (props, { slots }) {
+  props: {
+    defaultActiveTab: {
+      type: [Number],
+      default: 0
+    }
+  },
+
+  setup (props, { slots, emit }) {
     const state = reactive({
       selectedIndex: 0,
       tabs: [],
@@ -44,7 +51,7 @@ export default {
 
     onBeforeMount(() => update())
     onBeforeUpdate(() => update())
-    onMounted(() => selectTab(0))
+    onMounted(() => selectTab(props.defaultActiveTab))
 
     return { ...toRefs(state), selectTab }
   }

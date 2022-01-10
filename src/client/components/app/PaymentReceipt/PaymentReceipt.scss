@@ -1,4 +1,4 @@
-.payment-check {
+.payment-receipt {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -35,12 +35,12 @@
 
   &__date {
     margin-bottom: 6px;
-    @include font-template(8px, 10px, 600);
+    @include font-template(10px, 12px, 600);
   }
 
   &__txhash {
     opacity: .4;
-    @include font-template(9px, 10px, 500)
+    @include font-template(11px, 13px, 500)
   }
 
   &__divider {
@@ -52,16 +52,16 @@
 
   &__crypto {
     text-transform: uppercase;
-    @include font-template(18px, 22px, 700);
+    @include font-template(20px, 24px, 700);
   }
 
   &__amount {
     margin-bottom: 7px;
-    @include font-template(16px, 19px, 700);
+    @include font-template(18px, 21px, 700);
   }
 
   &__description {
-    @include font-template(10px, 15px, 600);
+    @include font-template(12px, 18px, 600);
   }
 
   &__crypto-icon {

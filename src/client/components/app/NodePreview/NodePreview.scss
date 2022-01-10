@@ -11,7 +11,7 @@
 
   &__title {
     margin-right: 8px;
-    @include font-template(12px, 15px, 500);
+    @include font-template(14px, 17px, 500);
   }
 
   &__number {
@@ -21,6 +21,6 @@
 
   &__subtitle {
     margin-top: 3px;
-    @include font-template(8px, 10px);
+    @include font-template(10px, 12px);
   }
 }

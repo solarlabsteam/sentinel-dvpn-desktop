@@ -24,7 +24,7 @@ export default function useStatusPolling () {
 
     store.dispatch('fetchConnectionStatus')
     clearInterval(polling)
-    unwatch()
+    unwatch && unwatch()
   })
 
   return { stopPolling, startPolling }

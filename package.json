@@ -1,8 +1,10 @@
 {
   "name": "sentinel-dvpn-desktop",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
-  "description": "Sentinel DVPN",
+  "description": "Sentinel dVPN",
+  "license": "MIT",
+  "productName": "Sentinel dVPN",
   "author": {
     "name": "Exidio Corp.",
     "email": "partners@solarlabs.ee"
@@ -63,7 +65,7 @@
     "@vue/eslint-config-standard": "^5.1.2",
     "@vue/test-utils": "^2.0.0-0",
     "babel-eslint": "^10.1.0",
-    "electron": "^13.0.0",
+    "electron": "^16.0.1",
     "electron-devtools-installer": "^3.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",

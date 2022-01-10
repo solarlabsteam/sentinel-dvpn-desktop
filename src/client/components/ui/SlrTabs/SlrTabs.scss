@@ -14,7 +14,7 @@
     background-repeat: no-repeat;
     cursor: pointer;
     color: rgba(255, 255,255, .4);
-    @include font-template(12px, 15px, 500);
+    @include font-template(14px, 17px, 500);
 
     &:hover:not(&--active) {
       color: rgba(255, 255,255, .6);

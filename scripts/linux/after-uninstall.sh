@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo 'Removing configs'
-rm -rf ~/.config/sentinel-dvpn-desktop
+rm -rf ~/.config/Sentinel\ dVPN
 
 echo 'Removing sentinelcli'
 rm -rf /usr/local/bin/sentinelcli

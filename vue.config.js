@@ -1,3 +1,5 @@
+/* eslint-disable no-template-curly-in-string */
+
 const os = require('os').platform()
 const path = require('path')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
@@ -17,12 +19,15 @@ module.exports = {
       builderOptions: {
         linux: {
           target: ['deb', 'AppImage'],
-          category: 'Utility'
+          category: 'Utility',
+          executableName: 'Sentinel dVPN',
+          artifactName: '${productName}-${version}.${ext}'
         },
         deb: {
           afterInstall: 'scripts/linux/after-install.sh',
           depends: ['gconf2', 'gconf-service', 'libnotify4', 'libappindicator1', 'libxtst6', 'libnss3', 'openresolv', 'wireguard-tools'],
-          afterRemove: 'scripts/linux/after-uninstall.sh'
+          afterRemove: 'scripts/linux/after-uninstall.sh',
+          artifactName: '${productName}-${version}.${ext}'
         },
         extraFiles: [
           {

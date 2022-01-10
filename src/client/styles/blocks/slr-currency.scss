@@ -1,4 +1,4 @@
-$slr-currencies: "udvpn";
+$slr-currencies: "dvpn";
 
 @each $currency in $slr-currencies {
   .slr-currency.#{$currency} {

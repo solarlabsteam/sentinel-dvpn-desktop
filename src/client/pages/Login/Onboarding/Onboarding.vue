@@ -47,7 +47,7 @@
         </template>
       </slr-button>
 
-      <login v-else />
+      <login-form v-else />
     </div>
   </div>
 </template>
@@ -55,13 +55,13 @@
 <script>
 import { computed, ref } from 'vue'
 import featureSlides from '@/client/constants/featureSlides'
-import Login from '@/client/pages/Root/Login'
+import LoginForm from '@/client/pages/Login/LoginForm'
 
 export default {
   name: 'Onboarding',
 
   components: {
-    Login
+    LoginForm
   },
 
   setup () {

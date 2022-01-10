@@ -1,10 +1,8 @@
-# sentinel-dvpn-desktop
+# Sentinel dVPN
 
 ## Project setup
 
 ### 1. Install Sentinel CLI (Linux)
-Follow the [first step](https://github.com/sentinel-official/docs/blob/master/guides/mainnets/sentinelhub-1/SETUP.md#step-1---install-golang) to install Golang.
-
 Run the script to install dependencies:
 ````
 sudo sh scripts/linux/install-dev-dependencies
