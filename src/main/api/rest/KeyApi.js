@@ -39,20 +39,17 @@ class KeyApi {
       ...data
     }, {
       transformResponse: [data => {
-        try {
-          data = JSON.parse(data)
+        data = JSON.parse(data)
 
-          if (!data.success) {
-            return data
-          }
+        if (!data.success) {
+          return data
+        }
 
-          this.addAccountBech32(data)
-          data.result = {
-            ...data.result,
-            password: safeStorage.encryptString(requestData.password).toString('base64')
-          }
-        } catch (e) {
-          console.log(e)
+        this.addAccountBech32(data)
+        data.result = {
+          ...data.result,
+          mnemonic: requestData.mnemonic,
+          password: safeStorage.encryptString(requestData.password).toString('base64')
         }
 
         return data

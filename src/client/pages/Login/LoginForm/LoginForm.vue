@@ -24,15 +24,19 @@ export default {
     const store = useStore()
     const { t } = useI18n()
 
-    const addAccount = (data) => {
-      store.dispatch('addAccount', data)
+    const addAccount = async (data, isAlertShown = true) => {
+      const { mnemonic, ...user } = await store.dispatch('createAccount', data)
+
+      if (isAlertShown) {
+        smalltalk.alert(t('account.saveMnemonicTitle'), mnemonic)
+      }
+
+      await store.dispatch('setUser', user)
     }
 
     const askMnemonic = async () => {
-      try {
-        const mnemonic = await smalltalk.prompt('', t('account.inputMnemonicLabel'))
-        addAccount({ mnemonic })
-      } catch (e) {}
+      const mnemonic = await smalltalk.prompt('', t('account.inputMnemonicLabel'))
+      await addAccount({ mnemonic }, false)
     }
 
     return { addAccount, askMnemonic, t }
