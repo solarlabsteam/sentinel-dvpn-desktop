@@ -44,7 +44,8 @@ export default {
     createNewAccount: 'Create a new account',
     restoreAccount: 'I have a mnemonic',
     inputMnemonicLabel: 'Input your mnemonic',
-    balance: 'You have: {amount}'
+    balance: 'You have: {amount}',
+    saveMnemonicTitle: 'Please keep record of these phrases'
   },
 
   connection: {

@@ -40,7 +40,7 @@ export default {
       })
     },
 
-    addAccount ({ commit }, payload = {}) {
+    createAccount ({ commit }, payload = {}) {
       commit(SET_USER_LOADING_STATE, true)
 
       return new Promise((resolve, reject) => {
@@ -51,13 +51,16 @@ export default {
             return
           }
 
-          commit(SET_USER, payload.data)
           commit(SET_USER_LOADING_STATE, false)
-          resolve()
+          resolve(payload.data)
         })
 
         window.ipc.send('ADD_ACCOUNT', JSON.stringify(payload))
       })
+    },
+
+    setUser ({ commit }, payload) {
+      commit(SET_USER, payload)
     },
 
     fetchBalances ({ commit }) {
