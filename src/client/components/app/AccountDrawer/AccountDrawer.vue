@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
 import useGlobalEmitter from '@/client/hooks/useGlobalEmitter'
@@ -59,12 +59,11 @@ export default {
     const isOpen = ref(false)
     const emitter = useGlobalEmitter()
     const { t } = useI18n()
-    const { balance } = useBalance()
-
-    onMounted(() => store.dispatch('fetchBalances'))
+    const { balance, fetchBalances } = useBalance()
 
     const open = () => {
       isOpen.value = true
+      fetchBalances()
     }
 
     const close = () => {
