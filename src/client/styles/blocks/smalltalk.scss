@@ -6,6 +6,11 @@
     height: auto;
     @extend .slr-card;
 
+    header {
+      text-shadow: none;
+      color: $slr__clr-grey;
+    }
+
     .content-area {
       color: $slr__clr-white;
       @include font-template(15px, 18px, 700);

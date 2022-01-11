@@ -20,8 +20,13 @@ export default function useBalance () {
     }
   }
 
+  const fetchBalances = async () => {
+    await store.dispatch('fetchBalances')
+  }
+
   return {
     balance: computed(() => dvpn.value.toLocaleString('en')),
-    isBalanceEnough
+    isBalanceEnough,
+    fetchBalances
   }
 }
