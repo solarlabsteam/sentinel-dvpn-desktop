@@ -6,7 +6,7 @@
         :key="tab.props.title"
         class="slr-tabs__nav-item"
         :class="{'slr-tabs__nav-item--active': selectedIndex === i}"
-        @click="selectTab(i)"
+        @click="changeTab(i)"
       >
         {{ tab.props.title }}
       </li>
@@ -30,6 +30,8 @@ export default {
     }
   },
 
+  emits: ['change'],
+
   setup (props, { slots, emit }) {
     const state = reactive({
       selectedIndex: 0,
@@ -39,21 +41,26 @@ export default {
 
     provide('TabsProvider', state)
 
-    const selectTab = (i) => {
+    const selectTab = i => {
       state.selectedIndex = i
     }
 
-    const update = () => {
+    const changeTab = i => {
+      selectTab(i)
+      emit('change', i)
+    }
+
+    const filterTabs = () => {
       if (slots.default) {
         state.tabs = slots.default().filter((child) => child.type.name === 'SlrTab')
       }
     }
 
-    onBeforeMount(() => update())
-    onBeforeUpdate(() => update())
+    onBeforeMount(() => filterTabs())
+    onBeforeUpdate(() => filterTabs())
     onMounted(() => selectTab(props.defaultActiveTab))
 
-    return { ...toRefs(state), selectTab }
+    return { ...toRefs(state), changeTab }
   }
 }
 </script>

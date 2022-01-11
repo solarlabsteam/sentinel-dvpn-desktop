@@ -46,6 +46,12 @@ export default {
       commit(CLEAR_DETAILED_NODE)
     },
     async selectDefaultNode ({ dispatch, commit, getters }) {
+      function findAvailableNode (nodes) {
+        const firstList = Object.values(nodes)[0]
+
+        return Array.isArray(firstList) && firstList[0] ? firstList[0] : null
+      }
+
       try {
         commit(SET_DEFAULT_NODE_LOADING_STATE, true)
 
@@ -54,7 +60,9 @@ export default {
           dispatch('fetchNodes')
         ])
 
-        const node = getters.subscribedNodes[0] || getters.nodes[0]
+        const defaultSubscribedNode = getters.subscribedNodes[0]
+        const defaultAvailableNode = findAvailableNode(getters.nodes)
+        const node = defaultSubscribedNode || defaultAvailableNode
 
         await Promise.allSettled([
           dispatch('selectNode', node),
@@ -85,7 +93,6 @@ export default {
       state.detailedNode = payload
     },
     [SET_DEFAULT_NODE_LOADING_STATE] (state, value) {
-      console.log(value)
       state.isDefaultNodeLoading = value
     }
   }

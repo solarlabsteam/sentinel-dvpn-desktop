@@ -167,11 +167,6 @@ class NodeService {
       result[continent].push(n)
     })
 
-    Object.defineProperty(result, 'length', {
-      enumerable: false,
-      value: Object.keys(result).length
-    })
-
     return result
   }
 }

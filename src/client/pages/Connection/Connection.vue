@@ -8,8 +8,8 @@
 
     <div class="connection-screen__content-wrapper">
       <node-preview
-        :title="displayedNode?.location.country"
-        :country="displayedNode?.location.country"
+        :title="displayedNode?.location?.country"
+        :country="displayedNode?.location?.country"
         :subtitle="displayedNode?.moniker"
         class="connection-screen__node"
       />
@@ -25,13 +25,13 @@
       <slr-table :outlined="true">
         <connection-detail
           :type="'download'"
-          :value="displayedNode?.bandwidth.downloadDetailed.value"
-          :units="displayedNode?.bandwidth.downloadDetailed.units"
+          :value="displayedNode?.bandwidth?.downloadDetailed?.value"
+          :units="displayedNode?.bandwidth?.downloadDetailed?.units"
         />
         <connection-detail
           :type="'upload'"
-          :value="displayedNode?.bandwidth.uploadDetailed.value"
-          :units="displayedNode?.bandwidth.uploadDetailed.units"
+          :value="displayedNode?.bandwidth?.uploadDetailed?.value"
+          :units="displayedNode?.bandwidth?.uploadDetailed?.units"
         />
         <connection-detail
           :type="'bandwidth'"
