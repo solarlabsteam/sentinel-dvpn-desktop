@@ -2,7 +2,7 @@
   <slr-modal
     class="subscription-modal"
     :open="isOpen"
-    :loading="isConnectionLoading"
+    :loading="isPaymentLoading"
     @close="close"
   >
     <template #header>
@@ -28,7 +28,7 @@
 
     <template #footer>
       <slr-loader
-        v-if="isConnectionLoading"
+        v-if="isPaymentLoading"
         :size="30"
       />
       <slr-button
@@ -36,7 +36,7 @@
         :large="true"
         :block="true"
         :rounded="true"
-        :disabled="isConnectionLoading"
+        :disabled="isPaymentLoading"
         @click="subscribeAndConnect"
       >
         {{ t('action.subscribe') }}
@@ -74,7 +74,7 @@ export default {
     const isOpen = ref(false)
     const amountGb = ref(1)
     const node = ref(null)
-    const isConnectionLoading = computed(() => store.getters.isConnectionLoading)
+    const isPaymentLoading = computed(() => store.getters.isPaymentLoading)
 
     const open = () => {
       isOpen.value = true
@@ -111,7 +111,7 @@ export default {
       open()
     })
 
-    return { amountGb, isOpen, close, t, node, onInput, subscribeAndConnect, isConnectionLoading }
+    return { amountGb, isOpen, close, t, node, onInput, subscribeAndConnect, isPaymentLoading }
   }
 }
 </script>
