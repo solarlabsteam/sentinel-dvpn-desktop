@@ -3,6 +3,7 @@ import { generateError } from '@/main/utils/errorHandler'
 import Notifications from '@/main/common/Notifications'
 import { LoginService } from '@/main/services/LoginService'
 import AccountService from '@/main/services/AccountService'
+import logger from '@/main/utils/logger'
 
 const loginService = new LoginService()
 const accountService = new AccountService()
@@ -14,6 +15,7 @@ function initAccountListeners () {
       event.reply('QUERY_USER', { data: result })
     } catch (e) {
       const error = generateError(e)
+      logger.error(error.message)
       Notifications.createCritical(error.message).show()
       event.reply('QUERY_USER', { error })
     }
@@ -26,6 +28,7 @@ function initAccountListeners () {
       event.reply('ADD_ACCOUNT', { data: result })
     } catch (e) {
       const error = generateError(e)
+      logger.error(error.message)
       Notifications.createCritical(error.message).show()
       event.reply('ADD_ACCOUNT', { error })
     }
@@ -37,6 +40,7 @@ function initAccountListeners () {
       event.reply('QUERY_BALANCES', { data: balances || [] })
     } catch (e) {
       const error = generateError(e)
+      logger.error(error.message)
       Notifications.createCritical(error.message).show()
       event.reply('QUERY_BALANCES', { error })
     }

@@ -5,6 +5,7 @@ import NodeService from '@/main/services/NodeService'
 import SubscriptionService from '@/main/services/SubscriptionService'
 import { DVPN_KEY_NAME } from '@/shared/constants'
 import AccountService from '@/main/services/AccountService'
+import logger from '@/main/utils/logger'
 
 const nodeService = new NodeService()
 const subscriptionService = new SubscriptionService()
@@ -19,6 +20,7 @@ function initNodeListeners () {
       event.reply('QUERY_NODE_LIST', { data: nodeInfos })
     } catch (e) {
       const error = generateError(e)
+      logger.error(error.message)
       Notifications.createCritical(error.message).show()
       event.reply('QUERY_NODE_LIST', { error })
     }
@@ -34,6 +36,7 @@ function initNodeListeners () {
       event.reply('QUERY_SUBSCRIBED_NODE_LIST', { data: nodeInfos })
     } catch (e) {
       const error = generateError(e)
+      logger.error(error.message)
       Notifications.createCritical(error.message).show()
       event.reply('QUERY_NODE_LIST', { error })
     }
@@ -47,6 +50,7 @@ function initNodeListeners () {
       event.reply('QUERY_NODE', { data: result })
     } catch (e) {
       const error = generateError(e)
+      logger.error(error.message)
       Notifications.createCritical(error.message).show()
       event.reply('QUERY_NODE', { error })
     }

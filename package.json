@@ -30,6 +30,7 @@
     "core-js": "^3.6.5",
     "country-code-lookup": "^0.0.19",
     "date-fns": "^2.23.0",
+    "electron-log": "^4.4.4",
     "electron-store": "^8.0.0",
     "flagpack": "^1.0.5",
     "google-protobuf": "^3.17.3",
