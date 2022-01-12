@@ -16,10 +16,15 @@
 
       <div class="connection-screen__quota-wrapper">
         <quota
+          class="mb-4"
           :amount="quota?.consumedGb"
           :unit="t('quota.unit.gb.title')"
           :bright="isConnected"
         />
+
+        <p class="connection-screen__quota-message">
+          {{ t('connection.quotaMessage') }}
+        </p>
       </div>
 
       <slr-table :outlined="true">

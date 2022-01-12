@@ -51,7 +51,8 @@ export default {
   connection: {
     disconnectLabel: 'Disconnect',
     checkingConnection: 'Checking the connection to the server',
-    connectNowButton: 'Connect Now'
+    connectNowButton: 'Connect Now',
+    quotaMessage: 'Data used'
   },
 
   quota: {

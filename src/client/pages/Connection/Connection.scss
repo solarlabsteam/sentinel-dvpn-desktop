@@ -20,6 +20,12 @@
     align-self: stretch;
   }
 
+  &__quota-message {
+    text-align: center;
+    text-transform: uppercase;
+    color: $slr__clr-grey-dark-1;
+  }
+
   &__node {
     margin-bottom: 40px;
     padding: 0 30px;
