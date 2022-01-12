@@ -2,6 +2,7 @@ import { Status } from '@/main/proto/sentinel/types/v1/status_pb'
 import SignService from '@/main/services/SignService'
 import { QueryNodeRequest, QueryNodesRequest } from '@/main/proto/sentinel/node/v1/querier_pb.js'
 import { QueryServiceClient as QueryNodeServiceClient } from '@/main/proto/sentinel/node/v1/querier_grpc_pb.js'
+import { PageRequest } from '@/main/proto/cosmos/base/query/v1beta1/pagination_pb.js'
 import QueryService from '@/main/services/QueryService'
 import TransactionService from '@/main/services/TransactionService'
 import DvpnApi from '@/main/api/rest/DvpnApi'
@@ -125,9 +126,12 @@ class NodeService {
     }
   }
 
-  async queryActiveNodes (offset = 0, limit = 25) {
+  async queryActiveNodes () {
     return new Promise((resolve, reject) => {
-      const request = new QueryNodesRequest([Status.STATUS_ACTIVE])
+      const pagination = new PageRequest()
+      pagination.setLimit(10000)
+      const request = new QueryNodesRequest([Status.STATUS_ACTIVE, pagination])
+      request.setPagination(pagination)
       const client = QueryService.create(QueryNodeServiceClient)
 
       client.queryNodes(request, (err, response) => {
