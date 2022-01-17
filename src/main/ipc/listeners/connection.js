@@ -84,7 +84,6 @@ function initConnectionListeners () {
       event.reply('QUERY_CONNECTION_STATUS', { data: result })
     } catch (e) {
       const error = generateError(e)
-      logger.error(error.message)
       Notifications.createCritical(error.message).show()
       event.reply('QUERY_CONNECTION_STATUS', { error })
     }

@@ -45,7 +45,6 @@
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
 import useConnection from '@/client/hooks/useConnection'
 
 export default {
@@ -54,7 +53,6 @@ export default {
   setup () {
     const store = useStore()
     const { t } = useI18n()
-    const router = useRouter()
     const { connect, disconnect } = useConnection()
 
     const selectedNode = computed(() => store.getters.selectedNode)
@@ -69,11 +67,6 @@ export default {
 
       if (store.getters.isConnected) {
         disconnect()
-        return
-      }
-
-      if (!currentSubscription.value) {
-        router.push({ name: 'plans' })
         return
       }
 
