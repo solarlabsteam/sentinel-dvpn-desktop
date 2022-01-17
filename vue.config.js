@@ -25,7 +25,7 @@ module.exports = {
         },
         deb: {
           afterInstall: 'scripts/linux/after-install.sh',
-          depends: ['gconf2', 'gconf-service', 'libnotify4', 'libappindicator1', 'libxtst6', 'libnss3', 'openresolv', 'wireguard-tools', 'pgrep'],
+          depends: ['gconf2', 'gconf-service', 'libnotify4', 'libappindicator1', 'libxtst6', 'libnss3', 'openresolv', 'wireguard-tools'],
           afterRemove: 'scripts/linux/after-uninstall.sh',
           artifactName: '${productName}-${version}.${ext}'
         },
