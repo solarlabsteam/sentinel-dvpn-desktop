@@ -13,3 +13,6 @@ rm /etc/systemd/system/sentinelcli-vpn.service
 # rm /etc/systemd/system/multi-user.target.wants/sentinelcli-vpn.service
 systemctl daemon-reload
 systemctl reset-failed
+
+echo 'Killing sentinelcli process'
+kill $(pgrep -f "sentinelcli.+\--with-keyring")
