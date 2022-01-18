@@ -8,6 +8,14 @@ import i18n from '@/client/plugins/i18n'
 
 const app = createApp(App)
 
+app.config.errorHandler = (err, vm) => {
+  if (process.env.NODE_ENV === 'development') {
+    console.error(err)
+  } else {
+    window.logger.error(`${vm.$options.name || 'Unknown component'}. ${err}`)
+  }
+}
+
 app.use(router)
 app.use(store)
 app.use(registerSlrComponents)
