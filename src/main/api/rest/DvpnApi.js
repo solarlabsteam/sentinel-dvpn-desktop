@@ -25,6 +25,8 @@ class DvpnApi {
   connect (id, from, to, info, keys, resolvers) {
     return this.provider.post('/Service.Connect', {
       id, from, to, info, keys, resolvers
+    }, {
+      timeout: 10000
     })
   }
 

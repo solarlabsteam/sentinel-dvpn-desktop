@@ -7,7 +7,7 @@ import { BaseAccount } from '@/main/proto/cosmos/auth/v1beta1/auth_pb.js'
 import { QueryAllBalancesRequest } from '@/main/proto/cosmos/bank/v1beta1/query_pb.js'
 import { QueryClient as BankQueryClient } from '@/main/proto/cosmos/bank/v1beta1/query_grpc_pb.js'
 import KeyApi from '@/main/api/rest/KeyApi'
-import QueryService from '@/main/services/QueryService'
+import Client from '@/main/services/CustomClient'
 import { getters } from '@/main/store/store'
 
 class AccountService {
@@ -28,20 +28,13 @@ class AccountService {
   }
 
   async queryAccount (address) {
-    return new Promise((resolve, reject) => {
-      const request = new QueryAccountRequest([address])
-      const client = QueryService.create(AccountQueryClient)
+    const request = new QueryAccountRequest([address])
+    const client = new Client(AccountQueryClient)
 
-      client.account(request, (err, response) => {
-        if (err) {
-          reject(err)
-          return
-        }
+    const response = await client.call('account', request)
+    const accountAny = response.getAccount()
 
-        const accountAny = response.getAccount()
-        resolve(accountAny.unpack(BaseAccount.deserializeBinary, accountAny.getTypeName()).toObject())
-      })
-    })
+    return accountAny.unpack(BaseAccount.deserializeBinary, accountAny.getTypeName()).toObject()
   }
 
   async getPubKeyAny () {
@@ -57,21 +50,11 @@ class AccountService {
   async queryBalances () {
     const key = await this.queryKeyByName(DVPN_KEY_NAME)
 
-    return new Promise((resolve, reject) => {
-      const request = new QueryAllBalancesRequest([key.addressBech32])
-      const client = QueryService.create(BankQueryClient)
+    const request = new QueryAllBalancesRequest([key.addressBech32])
+    const client = new Client(BankQueryClient)
 
-      client.allBalances(request, (err, response) => {
-        if (err) {
-          console.log(err)
-          reject(err)
-          return
-        }
-
-        const balances = response.getBalancesList().map(coin => coin.toObject())
-        resolve(balances)
-      })
-    })
+    const response = await client.call('allBalances', request)
+    return response.getBalancesList().map(coin => coin.toObject())
   }
 
   async isBalanceEnoughForTransaction () {

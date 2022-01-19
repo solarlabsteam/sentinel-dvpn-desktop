@@ -3,7 +3,7 @@ import SignService from '@/main/services/SignService'
 import { QueryNodeRequest, QueryNodesRequest } from '@/main/proto/sentinel/node/v1/querier_pb.js'
 import { QueryServiceClient as QueryNodeServiceClient } from '@/main/proto/sentinel/node/v1/querier_grpc_pb.js'
 import { PageRequest } from '@/main/proto/cosmos/base/query/v1beta1/pagination_pb.js'
-import QueryService from '@/main/services/QueryService'
+import Client from '@/main/services/CustomClient'
 import TransactionService from '@/main/services/TransactionService'
 import DvpnApi from '@/main/api/rest/DvpnApi'
 import RemoteNodeApi from '@/main/api/RemoteNodeApi'
@@ -87,18 +87,11 @@ class NodeService {
   }
 
   async queryNode (address) {
-    return new Promise((resolve, reject) => {
-      const request = new QueryNodeRequest([address])
-      const client = QueryService.create(QueryNodeServiceClient)
-      client.queryNode(request, (err, response) => {
-        if (err) {
-          reject(err)
-          return
-        }
+    const request = new QueryNodeRequest([address])
+    const client = new Client(QueryNodeServiceClient)
 
-        resolve(response.toObject().node)
-      })
-    })
+    const response = await client.call('queryNode', request)
+    return response.toObject().node
   }
 
   async queryNodeStatus (remoteUrl) {
@@ -127,22 +120,15 @@ class NodeService {
   }
 
   async queryActiveNodes () {
-    return new Promise((resolve, reject) => {
-      const pagination = new PageRequest()
-      pagination.setLimit(10000)
-      const request = new QueryNodesRequest([Status.STATUS_ACTIVE, pagination])
-      request.setPagination(pagination)
-      const client = QueryService.create(QueryNodeServiceClient)
+    const pagination = new PageRequest()
+    pagination.setLimit(10000)
 
-      client.queryNodes(request, (err, response) => {
-        if (err) {
-          reject(err)
-          return
-        }
+    const request = new QueryNodesRequest([Status.STATUS_ACTIVE, pagination])
+    request.setPagination(pagination)
 
-        resolve(response.getNodesList().map(node => node.toObject()))
-      })
-    })
+    const client = new Client(QueryNodeServiceClient)
+    const response = await client.call('queryNodes', request)
+    return response.getNodesList().map(node => node.toObject())
   }
 
   async queryNodeInfos (addresses) {

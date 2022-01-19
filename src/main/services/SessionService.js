@@ -1,4 +1,4 @@
-import QueryService from '@/main/services/QueryService'
+import Client from '@/main/services/CustomClient'
 import { QueryServiceClient as SessionQueryServiceClient } from '@/main/proto/sentinel/session/v1/querier_grpc_pb'
 import { QuerySessionsForAddressRequest } from '@/main/proto/sentinel/session/v1/querier_pb'
 import { MsgStartRequest, MsgEndRequest } from '@/main/proto/sentinel/session/v1/msg_pb'
@@ -12,22 +12,12 @@ class SessionService {
     this.transactionService = new TransactionService()
   }
 
-  queryActiveSessionsForAddress (address) {
-    return new Promise((resolve, reject) => {
-      const client = QueryService.create(SessionQueryServiceClient)
+  async queryActiveSessionsForAddress (address) {
+    const client = new Client(SessionQueryServiceClient)
+    const request = new QuerySessionsForAddressRequest([address, Status.STATUS_ACTIVE])
 
-      const request = new QuerySessionsForAddressRequest([address, Status.STATUS_ACTIVE])
-
-      client.querySessionsForAddress(request, (err, response) => {
-        if (err) {
-          reject(err)
-          return
-        }
-
-        const sessions = response.getSessionsList().map(session => session.toObject())
-        resolve(sessions)
-      })
-    })
+    const response = await client.call('querySessionsForAddress', request)
+    return response.getSessionsList().map(session => session.toObject())
   }
 
   async startActiveSession (address, subscription) {
