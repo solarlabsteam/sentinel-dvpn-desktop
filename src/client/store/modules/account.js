@@ -3,6 +3,7 @@ import {
   SET_USER,
   SET_BALANCES
 } from '@/client/store/mutation-types'
+import { syncStoreValue } from '@/client/store/plugins/syncStore'
 
 const getInitialState = () => ({
   user: null,
@@ -59,7 +60,8 @@ export default {
       })
     },
 
-    setUser ({ commit }, payload) {
+    async setUser ({ commit }, payload) {
+      await syncStoreValue('keys', payload)
       commit(SET_USER, payload)
     },
 

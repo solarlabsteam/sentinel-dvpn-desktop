@@ -2,7 +2,6 @@ import * as bip39 from 'bip39'
 import { DVPN_KEY_NAME } from '@/shared/constants'
 import AccountService from '@/main/services/AccountService'
 import KeyApi from '@/main/api/rest/KeyApi'
-import { setters } from '@/main/store/store'
 
 export class LoginService {
   constructor () {
@@ -47,11 +46,6 @@ export class LoginService {
     coinType = 118
   } = {}) {
     const { data } = await this.restKeyApi.createKey({ name, mnemonic, password, index, account, coinType })
-    this.setKeyToStore(data.result)
     return data.result
-  }
-
-  setKeyToStore (key) {
-    setters.setKey(key)
   }
 }

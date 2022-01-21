@@ -10,7 +10,20 @@ export function initStoreHandlers () {
 
   ipcMain.handle('SET_STORE_VALUE', (event, payload) => {
     const { key, data } = JSON.parse(payload)
-    return store.set(key, data)
+
+    switch (key) {
+      case 'keys':
+        setters.setKey(data)
+        break
+      default:
+        store.set(key, data)
+        break
+    }
+  })
+
+  ipcMain.handle('SET_STORE_KEY', (event, payload) => {
+    const key = JSON.parse(payload)
+    return setters.setKey(key)
   })
 }
 
