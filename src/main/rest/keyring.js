@@ -20,7 +20,7 @@ export default async function launchKeyringRestServer () {
   return new Promise((resolve, reject) => {
     const keyringRestServer = spawn(
       'sentinelcli',
-      ['start', '--home', `${process.env.HOME}/.sentinelcli`, '--listen', `127.0.0.1:${port}`, '--with-keyring'],
+      ['start', '--home', `${process.env.HOME}/.sentinelcli-dvpn-desktop`, '--listen', `127.0.0.1:${port}`, '--with-keyring'],
       { detached: true, stdio: 'ignore' }
     )
     setTimeout(() => {

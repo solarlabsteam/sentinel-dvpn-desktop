@@ -12,6 +12,12 @@ if [ -d "$appDirectory" ]; then
     rm -rf "$appDirectory";
 fi
 
+sentinelcliDirectory=/home/$getSudoUser/.sentinelcli-dvpn-desktop/;
+if [ -d "$sentinelcliDirectory" ]; then
+    echo 'Removing the sentinelcli configs'
+    rm -rf "$sentinelcliDirectory";
+fi
+
 vpnDaemonFile=/etc/systemd/system/sentinelcli-vpn.service
 if [ -f "$vpnDaemonFile" ]; then
   echo 'Removing the daemon'
