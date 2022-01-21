@@ -10,11 +10,11 @@ class DvpnApi {
       timeout: 3000,
       baseURL: `http://127.0.0.1:${port}/api/v1`
     })
-    const key = getters.getKeyByName(DVPN_KEY_NAME)
     this.provider.interceptors.request.use(config => {
+      const key = getters.getKeyByName(DVPN_KEY_NAME)
       config.data = {
         password: key && safeStorage.decryptString(Buffer.from(key.password, 'base64')),
-        backend: 'test',
+        backend: 'file',
         ...config.data
       }
 
