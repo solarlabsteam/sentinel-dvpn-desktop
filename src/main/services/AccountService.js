@@ -6,25 +6,16 @@ import { QueryClient as AccountQueryClient } from '@/main/proto/cosmos/auth/v1be
 import { BaseAccount } from '@/main/proto/cosmos/auth/v1beta1/auth_pb.js'
 import { QueryAllBalancesRequest } from '@/main/proto/cosmos/bank/v1beta1/query_pb.js'
 import { QueryClient as BankQueryClient } from '@/main/proto/cosmos/bank/v1beta1/query_grpc_pb.js'
-import KeyApi from '@/main/api/rest/KeyApi'
 import Client from '@/main/services/CustomClient'
 import { getters } from '@/main/store/store'
 
 class AccountService {
-  constructor () {
-    this.restKeyApi = new KeyApi()
-  }
-
-  async queryKeyByName (name, password) {
-    const storedKey = getters.getKeyByName(name)
+  async queryKeyByName () {
+    const storedKey = getters.getUserKey()
 
     if (storedKey) {
       return storedKey
     }
-
-    // const { data } = await this.restKeyApi.getKey(name, password)
-    //
-    // return data.result
   }
 
   async queryAccount (address) {

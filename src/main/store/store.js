@@ -11,51 +11,19 @@ export function initStoreHandlers () {
   ipcMain.handle('SET_STORE_VALUE', (event, payload) => {
     const { key, data } = JSON.parse(payload)
 
-    switch (key) {
-      case 'keys':
-        setters.setKey(data)
-        break
-      default:
-        store.set(key, data)
-        break
-    }
-  })
-
-  ipcMain.handle('SET_STORE_KEY', (event, payload) => {
-    const key = JSON.parse(payload)
-    return setters.setKey(key)
+    store.set(key, data)
   })
 }
 
 export const getters = {
-  getKeyByName (name) {
-    if (!store.has('keys')) {
-      return null
-    }
-
-    const keys = store.get('keys')
-
-    return keys.find(k => k.name === name)
+  getUserKey () {
+    return store.get('key')
   }
 }
 
 export const setters = {
-  setKey (key) {
-    let keys = []
-
-    if (store.has('keys')) {
-      keys = store.get('keys')
-    }
-
-    const existedKeyIndex = keys.findIndex(k => k.name === key.name)
-
-    if (existedKeyIndex !== -1) {
-      keys.splice(1, existedKeyIndex, key)
-    } else {
-      keys.push(key)
-    }
-
-    store.set('keys', keys)
+  setUserKey (key) {
+    store.set('key', key)
   }
 }
 

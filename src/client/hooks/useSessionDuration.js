@@ -1,5 +1,5 @@
 import { onBeforeUnmount, ref } from 'vue'
-import { syncStoreValue } from '@/client/store/plugins/syncStore'
+import { setStoreValue } from '@/client/store/plugins/syncElectronStore'
 
 export default function useSessionDuration () {
   const duration = ref(null)
@@ -9,7 +9,7 @@ export default function useSessionDuration () {
   }
 
   async function store () {
-    await syncStoreValue('sessionDuration', duration.value)
+    await setStoreValue('sessionDuration', duration.value)
   }
 
   onBeforeUnmount(async () => {

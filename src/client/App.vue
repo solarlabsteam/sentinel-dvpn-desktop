@@ -1,10 +1,10 @@
 <template>
+  <router-view v-if="!user" />
+
   <slr-logo
-    v-if="isAppDataLoading"
+    v-else-if="isDefaultNodeLoading"
     class="logo"
   />
-
-  <onboarding v-else-if="!user" />
 
   <template v-else>
     <connection />
@@ -16,9 +16,8 @@
 </template>
 
 <script>
-import { computed, watch } from 'vue'
+import { computed, watch, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
-import Onboarding from '@/client/pages/Login/Onboarding'
 import Connection from '@/client/pages/Connection'
 import AccountDrawer from '@/client/components/app/AccountDrawer'
 
@@ -26,7 +25,6 @@ export default {
   name: 'App',
 
   components: {
-    Onboarding,
     Connection,
     AccountDrawer
   },
@@ -34,12 +32,12 @@ export default {
   setup () {
     const store = useStore()
     const user = computed(() => store.getters.user)
-    const isUserLoading = computed(() => store.getters.isUserLoading)
     const isDefaultNodeLoading = computed(() => store.getters.isDefaultNodeLoading)
-    const isAppDataLoading = computed(() => isUserLoading.value || isDefaultNodeLoading.value)
     const selectedNode = computed(() => store.getters.selectedNode)
 
-    store.dispatch('fetchUser')
+    onBeforeMount(() => {
+      store.dispatch('fetchUser')
+    })
 
     watch(
       () => store.getters.user,
@@ -50,7 +48,7 @@ export default {
       }
     )
 
-    return { isAppDataLoading, user, isDefaultNodeLoading }
+    return { user, isDefaultNodeLoading }
   }
 }
 </script>
@@ -82,8 +80,4 @@ body {
   padding: 20px 24px 20px 16px;
 }
 
-.logo {
-  align-self: center;
-  margin: auto;
-}
 </style>
