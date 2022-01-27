@@ -1,6 +1,6 @@
 <template>
   <div
-    class="plan-parameter slr-card"
+    class="plan-parameter"
     :class="{
       'slr-hoverable': to
     }"

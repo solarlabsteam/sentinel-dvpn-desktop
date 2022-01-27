@@ -3,6 +3,7 @@
     :content="t('action.copied')"
     :show="isPopperShown"
     :offset-distance="'6'"
+    :placement="placement"
   >
     <slr-button
       v-clipboard:copy="value"
@@ -33,6 +34,11 @@ export default {
     value: {
       type: [String, Number],
       required: true
+    },
+
+    placement: {
+      type: String,
+      default: 'right'
     }
   },
 

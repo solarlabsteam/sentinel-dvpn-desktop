@@ -78,7 +78,6 @@ export default {
   padding: 10px 0;
 
   &__step-back.slr-button {
-    color: $slr__clr-light-blue-2;
     @include font-template(18px, 27px)
   }
 }

@@ -1,5 +1,5 @@
 import { createStore, createLogger } from 'vuex'
-import { prefetchStore } from '@/client/store/plugins/syncStore'
+import { prefetchStore } from '@/client/store/plugins/syncElectronStore'
 import subscriptions from '@/client/store/modules/subscriptions'
 import subscription from '@/client/store/modules/subscription'
 import node from '@/client/store/modules/node'
