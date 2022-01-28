@@ -34,6 +34,21 @@ export default {
       exit: {
         label: 'Exit'
       }
+    },
+
+    dialog: {
+      quit: {
+        terminate: {
+          message: 'dVPN connection is running. Would you like to keep it as a background process?',
+          button: {
+            kill: 'Kill',
+            keep: 'Keep'
+          }
+        }
+      },
+      button: {
+        cancel: 'Cancel'
+      }
     }
   }
 }

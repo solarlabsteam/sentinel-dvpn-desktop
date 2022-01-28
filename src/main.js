@@ -1,7 +1,7 @@
 'use strict'
 
 import path from 'path'
-import { app, protocol, BrowserWindow, Menu, nativeImage, Tray, globalShortcut } from 'electron'
+import { app, protocol, BrowserWindow, Menu, nativeImage, Tray, globalShortcut, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import i18next from 'i18next'
@@ -9,6 +9,9 @@ import launchKeyringRestServer from '@/main/rest/keyring'
 import launchDvpnRestServer from '@/main/rest/dvpn'
 import Notifications from '@/main/common/Notifications'
 import initI18n from '@/main/i18n'
+import ConnectionService from '@/main/services/СonnectionService'
+import { generateError } from '@/main/utils/errorHandler'
+import logger from '@/main/utils/logger'
 
 const isDevelopment = process.env.NODE_ENV === 'development'
 
@@ -80,7 +83,7 @@ app.on('activate', () => {
 app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
+  if (app.isQuitting || process.platform !== 'darwin') {
     app.quit()
   }
 })
@@ -171,7 +174,11 @@ function createTray () {
     },
     {
       label: i18next.t('tray.exit.label'),
-      click: function () {
+      click: async function () {
+        const isQuitting = await checkConnectionBeforeQuit()
+
+        if (!isQuitting) return
+
         app.isQuitting = true
         win.close()
       }
@@ -193,7 +200,11 @@ function createMenu () {
     },
     {
       label: i18next.t('menu.file.submenu.exit.label'),
-      click: function () {
+      click: async function () {
+        const isQuitting = await checkConnectionBeforeQuit()
+
+        if (!isQuitting) return
+
         app.isQuitting = true
         win.close()
       }
@@ -219,4 +230,44 @@ function createMenu () {
 
   const menu = Menu.buildFromTemplate(menuTemplate)
   Menu.setApplicationMenu(menu)
+}
+
+async function checkConnectionBeforeQuit () {
+  const connectionService = new ConnectionService()
+  let connectionStatus
+
+  try {
+    connectionStatus = await connectionService.queryConnectionStatus()
+  } catch (e) {
+    return true
+  }
+
+  if (!connectionStatus) return true
+
+  const cancelButton = { idx: 0, label: i18next.t('dialog.button.cancel') }
+  const killButton = { idx: 1, label: i18next.t('dialog.quit.terminate.button.kill') }
+  const keepButton = { idx: 2, label: i18next.t('dialog.quit.terminate.button.keep') }
+  const idx = dialog.showMessageBoxSync(null, {
+    message: i18next.t('dialog.quit.terminate.message'),
+    buttons: [
+      cancelButton.label,
+      killButton.label,
+      keepButton.label
+    ]
+  })
+
+  if (idx === cancelButton.idx) return false
+  if (idx === killButton.idx) {
+    try {
+      await connectionService.queryDisconnectFromNode()
+      return true
+    } catch (e) {
+      const error = generateError(e)
+      logger.error(error.message)
+      Notifications.createCritical(error.message).show()
+      return false
+    }
+  }
+
+  return true
 }
