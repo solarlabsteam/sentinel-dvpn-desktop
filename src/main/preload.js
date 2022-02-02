@@ -1,4 +1,5 @@
 import channels from '@/main/channels'
+import logger from '@/main/utils/logger'
 const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld(
@@ -30,5 +31,11 @@ contextBridge.exposeInMainWorld(
         ipcRenderer.removeAllListeners(channel)
       }
     }
+  }
+)
+
+contextBridge.exposeInMainWorld(
+  'logger', {
+    error: logger.error
   }
 )

@@ -1,28 +1,24 @@
 .quota {
-  box-sizing: border-box;
-  width: 160px;
-  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 8px solid $slr__clr-dark-blue-3;
+  border-radius: 50%;
+  width: 170px;
+  height: 170px;
 
-  &__count {
-    margin-bottom: 5px;
-    @include font-template(20px, 24px, 700);
+  &--bright {
+    box-shadow: 20px 20px 100px 0 rgba(55, 115, 255, 0.13);
+    border-color: $slr__clr-light-blue-1;
   }
 
-  &__units {
-    margin-left: 5px;
+  &__amount {
+    @include font-template(30px, 44px, 400);
+  }
+
+  &__unit {
     text-transform: uppercase;
-    color: $slr__clr-blue-1;
-    @include font-template(11px, 13px, 600);
-  }
-
-  &__description {
-    margin-bottom: 10px;
-    @include font-template(11px, 13px, 500);
-  }
-
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    @include font-template(16px, 24px, 400);
   }
 }

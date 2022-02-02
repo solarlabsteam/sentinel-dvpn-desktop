@@ -3,6 +3,7 @@ import {
   SET_USER,
   SET_BALANCES
 } from '@/client/store/mutation-types'
+import { setStoreValue } from '@/client/store/plugins/syncElectronStore'
 
 const getInitialState = () => ({
   user: null,
@@ -40,11 +41,11 @@ export default {
       })
     },
 
-    createAccount ({ commit }, payload = {}) {
+    createAccount ({ commit, dispatch }, payload = {}) {
       commit(SET_USER_LOADING_STATE, true)
 
       return new Promise((resolve, reject) => {
-        window.ipc.once('ADD_ACCOUNT', payload => {
+        window.ipc.once('ADD_ACCOUNT', async payload => {
           if (payload.error) {
             commit(SET_USER_LOADING_STATE, false)
             reject(payload.error)
@@ -59,7 +60,29 @@ export default {
       })
     },
 
-    setUser ({ commit }, payload) {
+    importAccount ({ commit, dispatch }, payload = {}) {
+      commit(SET_USER_LOADING_STATE, true)
+
+      return new Promise((resolve, reject) => {
+        window.ipc.once('ADD_ACCOUNT', async payload => {
+          if (payload.error) {
+            commit(SET_USER_LOADING_STATE, false)
+            reject(payload.error)
+            return
+          }
+
+          const { mnemonic, ...user } = payload.data
+          await dispatch('setUser', user)
+          commit(SET_USER_LOADING_STATE, false)
+          resolve()
+        })
+
+        window.ipc.send('ADD_ACCOUNT', JSON.stringify(payload))
+      })
+    },
+
+    async setUser ({ commit }, payload) {
+      await setStoreValue('key', payload)
       commit(SET_USER, payload)
     },
 

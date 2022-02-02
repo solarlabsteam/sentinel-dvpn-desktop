@@ -1,0 +1,22 @@
+.continent-preview {
+  display: flex;
+  align-items: center;
+
+  &__map {
+    margin-right: 4px;
+    width: 60px;
+    height: 50px;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+
+  &__title {
+    @include font-template(14px, 16px, 500);
+  }
+
+  &__subtitle {
+    margin-top: 6px;
+    color: $slr__clr-grey-dark;
+    @include font-template(11px, 16px);
+  }
+}

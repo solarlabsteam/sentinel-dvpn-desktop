@@ -1,0 +1,23 @@
+@import '~flagpack/dist/flagpack.css';
+
+.node-details {
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  &__signal {
+    margin-left: auto;
+  }
+
+  &__main {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  &__connect-button.slr-button {
+    padding: 12px 11px 8px 12px;
+  }
+}

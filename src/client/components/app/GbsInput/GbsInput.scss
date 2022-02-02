@@ -1,0 +1,31 @@
+.gbs-input {
+  display: flex;
+  border: 1px solid $slr__clr-blue-6;
+  border-radius: 4px;
+
+  &__amount {
+    margin: auto;
+    @include font-template(22px, 26px, 500)
+  }
+
+  &__logo {
+    margin-right: 12px;
+    vertical-align: middle;
+  }
+
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid $slr__clr-blue-6;
+  }
+
+  &__control.slr-button {
+    border-radius: 0;
+    padding: 10px 20px;
+    color: $slr__clr-light-blue-1;
+  }
+
+  &__control-increase.slr-button {
+    border-bottom: 1px solid $slr__clr-blue-6;
+  }
+}

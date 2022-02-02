@@ -1,7 +1,7 @@
 'use strict'
 
 import path from 'path'
-import { app, protocol, BrowserWindow, Menu, nativeImage, Tray } from 'electron'
+import { app, protocol, BrowserWindow, Menu, nativeImage, Tray, globalShortcut, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import i18next from 'i18next'
@@ -9,6 +9,9 @@ import launchKeyringRestServer from '@/main/rest/keyring'
 import launchDvpnRestServer from '@/main/rest/dvpn'
 import Notifications from '@/main/common/Notifications'
 import initI18n from '@/main/i18n'
+import ConnectionService from '@/main/services/СonnectionService'
+import { generateError } from '@/main/utils/errorHandler'
+import logger from '@/main/utils/logger'
 
 const isDevelopment = process.env.NODE_ENV === 'development'
 
@@ -80,9 +83,26 @@ app.on('activate', () => {
 app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
+  if (app.isQuitting || process.platform !== 'darwin') {
     app.quit()
   }
+})
+
+app.on('browser-window-focus', function () {
+  if (isDevelopment) return
+
+  globalShortcut.register('CommandOrControl+R', () => {
+    console.log('CommandOrControl+R is pressed: Shortcut Disabled')
+  })
+  globalShortcut.register('F5', () => {
+    console.log('F5 is pressed: Shortcut Disabled')
+  })
+})
+
+app.on('browser-window-blur', function () {
+  if (isDevelopment) return
+  globalShortcut.unregister('CommandOrControl+R')
+  globalShortcut.unregister('F5')
 })
 
 // Exit cleanly on request from parent process in development mode.
@@ -106,7 +126,9 @@ async function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({
     width: 1200,
-    height: 800,
+    minWidth: 800,
+    minHeight: 860,
+    height: 900,
     icon: nativeImage.createFromPath(path.resolve(__static, 'assets/images/logo.png')),
     autoHideMenuBar: true,
     webPreferences: {
@@ -152,7 +174,11 @@ function createTray () {
     },
     {
       label: i18next.t('tray.exit.label'),
-      click: function () {
+      click: async function () {
+        const isQuitting = await checkConnectionBeforeQuit()
+
+        if (!isQuitting) return
+
         app.isQuitting = true
         win.close()
       }
@@ -167,21 +193,81 @@ function createTray () {
 }
 
 function createMenu () {
-  const menu = Menu.buildFromTemplate([{
+  const menuTemplate = [{
     label: i18next.t('menu.file.label'),
     submenu: [{
       role: 'close'
     },
     {
       label: i18next.t('menu.file.submenu.exit.label'),
-      click: function () {
+      click: async function () {
+        const isQuitting = await checkConnectionBeforeQuit()
+
+        if (!isQuitting) return
+
         app.isQuitting = true
         win.close()
       }
     }]
-  }, {
-    role: 'viewMenu'
-  }])
+  }]
 
+  if (process.platform === 'darwin') {
+    menuTemplate.push({
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'pasteandmatchstyle' },
+        { role: 'delete' },
+        { role: 'selectall' }
+      ]
+    })
+  }
+
+  const menu = Menu.buildFromTemplate(menuTemplate)
   Menu.setApplicationMenu(menu)
+}
+
+async function checkConnectionBeforeQuit () {
+  const connectionService = new ConnectionService()
+  let connectionStatus
+
+  try {
+    connectionStatus = await connectionService.queryConnectionStatus()
+  } catch (e) {
+    return true
+  }
+
+  if (!connectionStatus) return true
+
+  const cancelButton = { idx: 0, label: i18next.t('dialog.button.cancel') }
+  const killButton = { idx: 1, label: i18next.t('dialog.quit.terminate.button.kill') }
+  const keepButton = { idx: 2, label: i18next.t('dialog.quit.terminate.button.keep') }
+  const idx = dialog.showMessageBoxSync(null, {
+    message: i18next.t('dialog.quit.terminate.message'),
+    buttons: [
+      cancelButton.label,
+      killButton.label,
+      keepButton.label
+    ]
+  })
+
+  if (idx === cancelButton.idx) return false
+  if (idx === killButton.idx) {
+    try {
+      await connectionService.queryDisconnectFromNode()
+      return true
+    } catch (e) {
+      const error = generateError(e)
+      logger.error(error.message)
+      Notifications.createCritical(error.message).show()
+      return false
+    }
+  }
+
+  return true
 }

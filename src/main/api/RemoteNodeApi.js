@@ -13,7 +13,9 @@ class RemoteNodeApi {
   }
 
   signSession (from, sessionId, data) {
-    return this.provider.post(`/accounts/${from}/sessions/${sessionId}`, data)
+    return this.provider.post(`/accounts/${from}/sessions/${sessionId}`, data, {
+      timeout: null
+    })
   }
 
   queryNodeStatus () {

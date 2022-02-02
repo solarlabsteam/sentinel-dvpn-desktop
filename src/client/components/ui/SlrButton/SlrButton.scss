@@ -3,21 +3,25 @@
   border: none;
   border-radius: 6px;
   padding: 14px 36px;
-  background-color: $slr__clr-blue;
+  background-color: $slr__clr-light-blue-2;
   font-size: 12px;
   letter-spacing: 0.118421px;
   line-height: 15px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 600;
-  color: $slr__clr-white;
+  text-align: center;
+  color: $slr__clr-dark-blue-5;
 
   &--block {
     display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
   }
 
   &--text {
     background-color: transparent;
+    color: $slr__clr-light-blue-2;
 
     &::before {
       background-color: transparent;
@@ -26,5 +30,20 @@
 
   &--tiny {
     padding: 2px 4px;
+  }
+
+  &--rounded {
+    border-radius: 20px;
+  }
+
+  &--large {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+
+    &.slr-button--rounded {
+      border-radius: 36px;
+    }
   }
 }

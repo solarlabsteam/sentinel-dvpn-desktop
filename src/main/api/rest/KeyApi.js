@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { safeStorage } from 'electron'
 import store, { getters } from '@/main/store/store'
-import { DVPN_KEY_NAME } from '@/shared/constants'
 
 const bech32 = require('bech32')
 
@@ -11,13 +10,14 @@ class KeyApi {
     this.provider = axios.create({
       baseURL: `http://127.0.0.1:${port}/api/v1`
     })
-    const key = getters.getKeyByName(DVPN_KEY_NAME)
     this.provider.interceptors.request.use(config => {
+      const key = getters.getUserKey()
       config.data = {
-        backend: 'test',
+        backend: 'file',
         password: key && safeStorage.decryptString(Buffer.from(key.password, 'base64')),
         ...config.data
       }
+
       return config
     })
   }

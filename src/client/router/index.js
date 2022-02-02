@@ -1,90 +1,50 @@
-import { createRouter, createWebHashHistory, RouterView } from 'vue-router'
-import Onboarding from '@/client/pages/Login/Onboarding'
-import Home from '@/client/pages/Home'
-import Plans from '@/client/pages/Plans'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import ChangeLocation from '@/client/pages/ChangeLocation'
-import PaymentResult from '@/client/pages/PaymentResult'
-import BalanceCheckout from '@/client/pages/BalanceCheckout'
-import Settings from '@/client/pages/Settings'
 import i18n from '@/client/plugins/i18n'
+import Node from '@/client/pages/Node'
+import Onboarding from '@/client/pages/Login/Onboarding'
+import Login from '@/client/pages/Login'
+import { getStoreValue } from '@/client/store/plugins/syncElectronStore'
 
 const routes = [
   {
     path: '/',
-    component: Home,
+    component: ChangeLocation,
     name: 'home',
     meta: {
-      title: i18n.global.t('route.home.title')
+      title: i18n.global.t('route.changeLocation.title')
     }
+  },
+  {
+    path: '/node',
+    name: 'node',
+    component: Node,
+    meta: {
+      hasStepBackButton: true
+    }
+  },
+  {
+    path: '/onboarding',
+    component: Onboarding,
+    name: 'login-onboarding'
   },
   {
     path: '/login',
-    component: Onboarding,
-    name: 'login'
-  },
-  {
-    path: '/change-location',
-    name: 'change-location',
-    component: ChangeLocation,
-    meta: {
-      title: i18n.global.t('route.changeLocation.title'),
-      hasStepBackButton: true
-    }
-  },
-  {
-    path: '/plans',
-    component: RouterView,
-    children: [{
-      path: '',
-      name: 'plans',
-      component: Plans,
-      meta: {
-        title: i18n.global.t('route.plans.title'),
-        hasStepBackButton: true,
-        blurConnectionScreen: true
-      }
-    }, {
-      path: 'change-location',
-      name: 'plan-change-location',
-      component: ChangeLocation,
-      meta: {
-        title: i18n.global.t('route.changeLocation.title'),
-        hasStepBackButton: true,
-        blurConnectionScreen: true
-      }
-    }, {
-      path: 'balance-checkout',
-      name: 'balance-checkout',
-      component: BalanceCheckout,
-      meta: {
-        title: i18n.global.t('route.checkout.title'),
-        hasStepBackButton: true,
-        blurConnectionScreen: true
-      }
-    }]
-  },
-  {
-    path: '/payment',
-    name: 'payment-result',
-    component: PaymentResult,
-    meta: {
-      blurConnectionScreen: true
-    }
-  },
-  {
-    path: '/settings',
-    name: 'settings',
-    component: Settings,
-    meta: {
-      title: i18n.global.t('route.settings.title'),
-      hasStepBackButton: true
-    }
+    component: Login,
+    name: 'login',
+    props: route => ({ isImport: !!route.query.isImport })
   }
 ]
 
 const router = createRouter({
   history: createWebHashHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach(async (to, from, next) => {
+  const key = await getStoreValue('key')
+  if (!to.name.startsWith('login') && !key) next({ name: 'login-onboarding' })
+  else next()
 })
 
 export default router

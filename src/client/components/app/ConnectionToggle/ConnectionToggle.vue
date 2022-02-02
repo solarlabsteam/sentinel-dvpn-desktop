@@ -3,50 +3,41 @@
     class="connection-toggle"
     @click="toggleConnect"
   >
-    <div
-      class="connection-toggle__background"
-      :class="{'connection-toggle__background--on' : isConnected}"
-    >
-      <div class="connection-toggle__layout">
-        <slr-loader
-          v-if="isConnectionLoading"
-          :size="20"
-        />
-        <span
-          v-else
-          class="text-uppercase"
-        >{{ t('connection.toggle.off') }}</span>
+    <div class="connection-toggle__layout">
+      <slr-loader
+        v-if="isConnectionLoading"
+        :size="16"
+      />
+      <slr-icon
+        v-else
+        :size="20"
+        :icon="'triple-arrows-up'"
+      />
 
-        <div
-          class="connection-toggle__control-background"
-          :class="{'connection-toggle__control-background--on' : isConnected}"
-        >
-          <div class="connection-toggle__control">
-            <div
-              class="connection-toggle__control-indicator connection-toggle__control-indicator-connect"
-              :class="{'connection-toggle__control-indicator-connect--on': isConnected}"
-            />
-            <div>
-              <div class="connection-toggle__control-strip" />
-              <div class="connection-toggle__control-strip" />
-            </div>
-            <div
-              class="connection-toggle__control-indicator connection-toggle__control-indicator-disconnect"
-              :class="{'connection-toggle__control-indicator-disconnect--on': !isConnected}"
-            />
-          </div>
-        </div>
+      <div
+        class="connection-toggle__control"
+        :class="{'connection-toggle__control--on' : isConnected}"
+      />
 
-        <slr-loader
-          v-if="isConnectionLoading"
-          :size="20"
-        />
-        <span
-          v-else
-          class="text-uppercase"
-        >{{ t('connection.toggle.on') }}</span>
-      </div>
+      <slr-loader
+        v-if="isConnectionLoading"
+        :size="16"
+      />
+      <slr-icon
+        v-else
+        :size="20"
+        :icon="'triple-arrows-down'"
+      />
     </div>
+
+    <p
+      class="connection-toggle__disconnect-label"
+      :class="{
+        'connection-toggle__disconnect-label--hidden': !isConnected
+      }"
+    >
+      {{ t('connection.disconnectLabel') }}
+    </p>
   </div>
 </template>
 
@@ -54,7 +45,7 @@
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
+import useConnection from '@/client/hooks/useConnection'
 
 export default {
   name: 'ConnectionToggle',
@@ -62,7 +53,7 @@ export default {
   setup () {
     const store = useStore()
     const { t } = useI18n()
-    const router = useRouter()
+    const { connect, disconnect } = useConnection()
 
     const selectedNode = computed(() => store.getters.selectedNode)
     const currentSubscription = computed(() => store.getters.currentSubscription)
@@ -75,16 +66,11 @@ export default {
       }
 
       if (store.getters.isConnected) {
-        store.dispatch('disconnectFromNode')
+        disconnect()
         return
       }
 
-      if (!currentSubscription.value) {
-        router.push({ name: 'plans' })
-        return
-      }
-
-      store.dispatch('connectToNode')
+      connect(selectedNode.value)
     }
 
     return {

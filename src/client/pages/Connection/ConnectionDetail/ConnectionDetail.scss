@@ -1,0 +1,25 @@
+.connection-detail {
+  display: flex;
+  align-items: center;
+  padding: 22px 32px;
+
+  &__icon {
+    margin-right: 12px;
+  }
+
+  &__value {
+    padding-right: 7px;
+    @include font-template(16px, 24px, 600);
+  }
+
+  &__units {
+    @include font-template(12px, 14px, 400);
+  }
+
+  &__type {
+    text-transform: capitalize;
+    color: $slr__clr-grey-dark-1;
+
+    @include font-template(13px, 15px, 400);
+  }
+}

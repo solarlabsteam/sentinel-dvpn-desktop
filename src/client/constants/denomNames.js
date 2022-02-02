@@ -1,7 +1,7 @@
 export default {
   udvpn: {
     name: 'DVPN',
-    icon: 'dvpn',
+    icon: 'dvpn-circle',
     perUnit: 1000000
   }
 }

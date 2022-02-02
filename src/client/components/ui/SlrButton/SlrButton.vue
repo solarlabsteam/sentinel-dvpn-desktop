@@ -38,13 +38,35 @@ export default {
     icon: {
       type: String,
       default: ''
+    },
+    rounded: {
+      type: Boolean,
+      default: false
+    },
+    large: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
 
-  setup (props) {
+  emits: ['click'],
+
+  setup (props, { emit }) {
     const router = useRouter()
 
-    const onClick = () => {
+    const onClick = (e) => {
+      if (props.disabled) {
+        e.stopImmediatePropagation()
+        e.preventDefault()
+        return
+      }
+
+      emit('click', e)
+
       if (props.to) {
         router.push(props.to)
       }
@@ -53,7 +75,9 @@ export default {
     const classes = {
       'slr-button--block': props.block,
       'slr-button--text': props.text,
-      'slr-button--tiny': props.tiny
+      'slr-button--tiny': props.tiny,
+      'slr-button--rounded': props.rounded,
+      'slr-button--large': props.rounded
     }
 
     return {

@@ -13,7 +13,6 @@ class Notifications {
   }
 
   static createCritical (text = 'Unexpected error') {
-    console.trace(text)
     return Notifications.create({ body: text, urgency: 'critical', timeoutType: 'never', subtitle: 'Error' })
   }
 }

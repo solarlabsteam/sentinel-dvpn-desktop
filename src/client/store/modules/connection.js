@@ -44,7 +44,7 @@ export default {
             })
 
             window.ipc.send('CONNECT_TO_NODE', JSON.stringify({
-              subscription: getters.currentSubscription,
+              node: getters.selectedNode,
               resolvers: getters.selectedDns.value.split(', ')
             }))
           })
@@ -120,6 +120,10 @@ export default {
 
         window.ipc.send('QUERY_SERVICE_SERVER')
       })
+    },
+
+    setConnectionLoadingState ({ commit }, value) {
+      commit(SET_CONNECTION_LOADING_STATE, value)
     }
   },
 

@@ -1,6 +1,6 @@
 import { google } from '@/client/constants/dns'
 import { CLEAR_SELECTED_DNS, SET_SELECTED_DNS } from '@/client/store/mutation-types'
-import { syncStoreValue } from '@/client/store/plugins/syncStore'
+import { setStoreValue } from '@/client/store/plugins/syncElectronStore'
 
 const getDefaultState = () => ({
   selectedDns: google
@@ -16,7 +16,7 @@ export default {
   actions: {
     async selectDns ({ commit }, payload) {
       commit(SET_SELECTED_DNS, payload)
-      await syncStoreValue('selectedDns', payload)
+      await setStoreValue('selectedDns', payload)
     }
   },
 

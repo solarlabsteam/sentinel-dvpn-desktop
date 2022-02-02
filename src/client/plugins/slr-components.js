@@ -9,6 +9,12 @@ import SlrTab from '@/client/components/ui/SlrTabs/SlrTab'
 import SlrCheckbox from '@/client/components/ui/SlrCheckbox'
 import SlrPopper from '@/client/components/ui/SlrPopper'
 import SlrCopyButton from '@/client/components/ui/SlrCopyButton'
+import SlrTable from '@/client/components/ui/SlrTable'
+import SlrModal from '@/client/components/ui/SlrModal'
+import SlrDrawer from '@/client/components/ui/SlrDrawer'
+import SlrTextarea from '@/client/components/ui/SlrTextarea'
+import SlrCard from '@/client/components/ui/SlrCard'
+import SlrClipboardText from '@/client/components/ui/SlrClipboardText'
 
 export default function registerSlrComponents (app) {
   app.component('SlrButton', SlrButton)
@@ -22,4 +28,10 @@ export default function registerSlrComponents (app) {
   app.component('SlrCheckbox', SlrCheckbox)
   app.component('SlrPopper', SlrPopper)
   app.component('SlrCopyButton', SlrCopyButton)
+  app.component('SlrTable', SlrTable)
+  app.component('SlrModal', SlrModal)
+  app.component('SlrDrawer', SlrDrawer)
+  app.component('SlrTextarea', SlrTextarea)
+  app.component('SlrCard', SlrCard)
+  app.component('SlrClipboardText', SlrClipboardText)
 }

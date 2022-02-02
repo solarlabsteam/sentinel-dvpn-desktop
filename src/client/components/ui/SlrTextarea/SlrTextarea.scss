@@ -1,0 +1,40 @@
+.slr-textarea {
+  $bl: slr-textarea;
+
+  position: relative;
+
+  &__label {
+    position: absolute;
+    top: -8px;
+    left: 15px;
+    transition: color .2s;
+    padding-right: 4px;
+    padding-left: 4px;
+    background-color: $slr__clr-dark-blue;
+    color: #97A0B6;
+    @include font-template(10px, 15px);
+  }
+
+  &__input {
+    transition: border-color .2s;
+    outline: none;
+    border: 1px solid $slr__clr-blue-4;
+    border-radius: 4px;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 13px 16px;
+    background: $slr__clr-dark-blue;
+    color: $slr__clr-white-1;
+    resize: none;
+  }
+
+  &--focused {
+    .#{$bl}__label {
+      color: #bfc7d3;
+    }
+
+    .#{$bl}__input {
+      border-color: $slr__clr-blue-6;
+    }
+  }
+}

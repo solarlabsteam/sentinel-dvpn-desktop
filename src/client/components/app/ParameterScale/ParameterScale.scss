@@ -1,0 +1,40 @@
+.parameter-scale {
+
+  &__stages {
+    display: inline-flex;
+    border: 1px solid rgba(84,104,145, 0.35);
+    border-radius: 4px;
+    padding: 2px;
+  }
+
+  &__stage {
+    display: inline-block;
+    visibility: hidden;
+    margin-right: 1px;
+    margin-left: 1px;
+    width: 8px;
+    height: 6px;
+    background-color: #FFFFFF;
+
+    &:first-child {
+      margin-left: 0;
+      border-top-left-radius: 2px;
+      border-bottom-left-radius: 2px;
+    }
+
+    &:last-child {
+      margin-right: 0;
+      border-top-right-radius: 2px;
+      border-bottom-right-radius: 2px;
+    }
+
+    &--visible {
+      visibility: visible;
+    }
+  }
+
+  &__title {
+    margin-bottom: 8px;
+    @include font-template(10px, 15px);
+  }
+}

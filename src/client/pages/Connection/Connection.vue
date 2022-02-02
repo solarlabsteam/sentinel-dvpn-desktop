@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="connection-screen"
-    :class="classes"
-  >
+  <div class="connection-screen">
     <div class="connection-screen__logo-wrapper">
       <router-link :to="{name: 'home'}">
         <slr-logo />
@@ -10,45 +7,48 @@
     </div>
 
     <div class="connection-screen__content-wrapper">
-      <div class="connection-screen__content-gap" />
       <node-preview
-        :title="displayedNode?.location.country"
-        :number="nodeNumber"
-        :size="30"
-        :country="displayedNode?.location.country"
+        :title="displayedNode?.location?.country"
+        :country="displayedNode?.location?.country"
+        :subtitle="displayedNode?.moniker"
         class="connection-screen__node"
       />
 
-      <span class="m-s20-lh24 mb-3">{{ isConnected ? t('connection.connectedStatus') : t('connection.disconnectedStatus') }}</span>
-      <div class="connection-screen__ip-info r-s12-lh15">
-        <span v-if="isCurrentIpLoading">
-          {{ t('connection.obtainingIp') }}
-        </span>
+      <div class="connection-screen__quota-wrapper">
+        <quota
+          class="mb-4"
+          :amount="quota?.consumedGb"
+          :unit="t('quota.unit.gb.title')"
+          :bright="isConnected"
+        />
 
-        <span v-else-if="currentIp">
-          <span>{{ currentIp }}</span>
-          &nbsp;—&nbsp;
-          <span>
-            <span
-              v-if="isConnected"
-              class="text-green"
-            >{{ t('connection.securedIp') }}</span>
-            <span
-              v-else
-              class="text-red"
-            >{{ t('connection.exposedIp') }}</span>
-          </span>
-        </span>
-
-        <span v-else>
-          {{ t('connection.unknownIp') }}
-        </span>
+        <p class="connection-screen__quota-message">
+          {{ t('connection.quotaMessage') }}
+        </p>
       </div>
 
-      <div
-        class="connection-screen__toggle-wrapper"
-        :class="{'connection-screen__toggle-wrapper--connected': isConnected}"
-      >
+      <slr-table :outlined="true">
+        <connection-detail
+          :type="'download'"
+          :value="displayedNode?.bandwidth?.downloadDetailed?.value"
+          :units="displayedNode?.bandwidth?.downloadDetailed?.units"
+        />
+        <connection-detail
+          :type="'upload'"
+          :value="displayedNode?.bandwidth?.uploadDetailed?.value"
+          :units="displayedNode?.bandwidth?.uploadDetailed?.units"
+        />
+        <connection-detail
+          :type="'bandwidth'"
+          :value="quota?.allocatedGb"
+          :units="'GB'"
+        />
+        <connection-detail
+          :type="'duration'"
+        />
+      </slr-table>
+
+      <div class="connection-screen__toggle-wrapper">
         <connection-toggle v-if="isServiceServerAvailable" />
         <div
           v-else
@@ -61,49 +61,68 @@
         </div>
       </div>
     </div>
+
+    <transition name="modal">
+      <subscription-modal />
+    </transition>
   </div>
 </template>
 
 <script>
 import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { computed, onMounted, onUnmounted, watch } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
+import ConnectionDetail from './ConnectionDetail'
 import statuses from '@/client/constants/statuses'
 import NodePreview from '@/client/components/app/NodePreview'
 import ConnectionToggle from '@/client/components/app/ConnectionToggle'
 import useStatusPolling from '@/client/hooks/useStatusPolling'
-import useIpPolling from '@/client/hooks/useIpPolling'
+import Quota from '@/client/components/app/Quota'
+import SubscriptionModal from '@/client/components/app/SubscriptionModal'
 
 export default {
   name: 'Connection',
 
   components: {
+    ConnectionDetail,
+    Quota,
     NodePreview,
-    ConnectionToggle
+    ConnectionToggle,
+    SubscriptionModal
   },
 
   setup () {
     const store = useStore()
-    const route = useRoute()
     const { t } = useI18n()
     const { startPolling: startStatusPolling, stopPolling: stopStatusPolling } = useStatusPolling()
-    const { startPolling: startIpPolling, stopPolling: stopIpPolling } = useIpPolling()
+    const selectedNode = store.getters.selectedNode
+
+    const handleSelectedNode = async () => {
+      await store.dispatch('fetchSubscriptionForNode')
+      if (store.getters.currentSubscription) {
+        await store.dispatch('fetchQuota')
+      }
+    }
+
+    if (selectedNode) {
+      handleSelectedNode()
+    }
+
+    store.watch(
+      () => store.getters.selectedNode,
+      node => {
+        if (!node) return
+        handleSelectedNode()
+      }
+    )
 
     onMounted(() => {
       startStatusPolling()
-      startIpPolling()
     })
 
     onUnmounted(() => {
       stopStatusPolling()
-      stopIpPolling()
     })
-
-    watch(
-      () => store.getters.isConnected,
-      () => startIpPolling()
-    )
 
     const isNodeAvailable = computed(() => store.getters.selectedNode?.status === statuses.STATUS_ACTIVE)
     const isSubscriptionAvailable = computed(() => store.getters.currentSubscription?.status === statuses.STATUS_ACTIVE)
@@ -115,10 +134,8 @@ export default {
       isConnectionLoading: computed(() => store.getters.isConnectionLoading),
       isConnected: computed(() => store.getters.isConnected),
       displayedNode: computed(() => store.getters.connectedNode || store.getters.selectedNode),
-      currentIp: computed(() => store.getters.currentIp),
-      isCurrentIpLoading: computed(() => store.getters.isCurrentIpLoading),
       isServiceServerAvailable: computed(() => store.getters.isServiceServerAvailable),
-      classes: computed(() => ({ 'connection-screen--blur': route.meta.blurConnectionScreen })),
+      quota: computed(() => store.getters.quota),
       isNodeAvailable,
       isSubscriptionAvailable,
       isQuotaAvailable,

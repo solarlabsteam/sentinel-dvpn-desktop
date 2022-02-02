@@ -1,0 +1,18 @@
+.slide-left-enter-active {
+  animation: slide-left-in 0.3s;
+}
+
+.slide-left-leave-active {
+  animation: slide-left-in 0.3s reverse;
+}
+
+@keyframes slide-left-in {
+
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}

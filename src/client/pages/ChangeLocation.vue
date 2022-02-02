@@ -2,11 +2,14 @@
   <div class="change-location mb-4">
     <page-header />
 
-    <slr-tabs :default-active-tab="subscribedNodes.length > 0 ? 0 : 1">
+    <slr-tabs
+      :default-active-tab="subscribedNodes.length > 0 ? 0 : 1"
+      @change="resetContinent"
+    >
       <slr-tab :title="t('route.changeLocation.tab.subscriptions.title')">
         <div
           v-if="isSubscribedNodesLoading"
-          class="text-center mb-3"
+          class="text-center mt-5"
         >
           <slr-loader :size="20" />
         </div>
@@ -15,29 +18,16 @@
           <li
             v-for="node in subscribedNodes"
             :key="node.address"
-            class="change-location__node"
-            :class="{'change-location__node--selected': node.address === selectedNode?.address}"
-            @click="() => select(node)"
+            class="change-location__list-item"
+            @click="() => openNode(node)"
           >
-            <node-preview
-              :title="node.location.country"
-              :number="node.address.slice(-6)"
-              :size="25"
-              :country="node.location.country"
-              :subtitle="node.moniker"
-            />
-
-            <slr-icon
-              :icon="'arrow-top-right'"
-              :size="14"
-              :rounded="true"
-            />
+            <node-details :node="node" />
           </li>
         </ul>
 
         <p
           v-else-if="!isSubscribedNodesLoading"
-          class="m-s10- lh12 opacity-4 text-center"
+          class="m-s12-lh15 opacity-4 text-center mt-5"
         >
           {{ t('subscription.list.noData') }}
         </p>
@@ -45,62 +35,94 @@
       <slr-tab :title="t('route.changeLocation.tab.nodes.title')">
         <div
           v-if="isNodesLoading"
-          class="text-center mb-3"
+          class="text-center mt-5"
         >
           <slr-loader :size="20" />
         </div>
 
-        <ul v-if="nodes.length">
+        <ul
+          v-if="nodes.length && displayedContinent === null"
+        >
           <li
-            v-for="node in nodes"
-            :key="node.address"
-            class="change-location__node"
-            :class="{'change-location__node--selected': node.address === selectedNode?.address}"
-            @click="() => select(node)"
+            v-for="(continentNodes, continent) in nodes"
+            :key="continent"
+            class="change-location__list-item change-location__list-item--continent"
+            @click="() => openContinent(continent)"
           >
-            <node-preview
-              :title="node.location.country"
-              :number="node.address.slice(-6)"
-              :size="25"
-              :country="node.location.country"
-              :subtitle="node.moniker"
+            <continent-preview
+              :continent="continent"
+              :nodes-length="continentNodes.length"
             />
 
             <slr-icon
-              :icon="'arrow-top-right'"
-              :size="14"
-              :rounded="true"
+              :width="7"
+              :height="12"
+              :icon="'chevron-right'"
+              class="mr-3"
             />
           </li>
         </ul>
 
         <p
-          v-else-if="!isNodesLoading"
-          class="m-s12-lh15 opacity-4 text-center"
+          v-if="!nodes.length && !isNodesLoading"
+          class="m-s12-lh15 opacity-4 text-center mt-5"
         >
           {{ t('node.list.noData') }}
         </p>
+
+        <template v-for="(continentNodes, continent) in nodes">
+          <ul
+            v-if="displayedContinent === continent"
+            :key="continent"
+          >
+            <li
+              v-for="node in continentNodes"
+              :key="node.address"
+              class="change-location__list-item"
+              @click="() => openNode(node)"
+            >
+              <node-details :node="node" />
+            </li>
+          </ul>
+        </template>
       </slr-tab>
     </slr-tabs>
   </div>
 </template>
 
 <script>
-import { mapActions, useStore } from 'vuex'
-import { computed, onMounted } from 'vue'
+import { useStore } from 'vuex'
+import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import NodePreview from '@/client/components/app/NodePreview'
+import { useRouter } from 'vue-router'
+import NodeDetails from '@/client/components/app/NodeDetails'
 import PageHeader from '@/client/components/app/PageHeader'
-import { syncStoreValue } from '@/client/store/plugins/syncStore'
+import ContinentPreview from '@/client/components/app/ContinentPreview'
 
 export default {
   components: {
     PageHeader,
-    NodePreview
+    NodeDetails,
+    ContinentPreview
   },
   setup () {
     const store = useStore()
     const { t } = useI18n()
+    const router = useRouter()
+    const displayedContinent = ref(null)
+
+    const openContinent = c => {
+      displayedContinent.value = c
+    }
+
+    const openNode = async node => {
+      await store.dispatch('setDetailedNode', node)
+      router.push({ name: 'node' })
+    }
+
+    const resetContinent = () => {
+      displayedContinent.value = null
+    }
 
     onMounted(() => {
       store.dispatch('fetchNodes')
@@ -113,25 +135,12 @@ export default {
       subscribedNodes: computed(() => store.getters.subscribedNodes),
       isSubscribedNodesLoading: computed(() => store.getters.isSubscribedNodesLoading),
       selectedNode: computed(() => store.getters.selectedNode),
-      t
+      t,
+      openNode,
+      openContinent,
+      displayedContinent,
+      resetContinent
     }
-  },
-
-  methods: {
-    async select (node) {
-      await this.clearPreviousNodeState()
-      await this.selectNode(node)
-      await syncStoreValue('selectedNode', node)
-      this.$router.push({ path: window.history.state.back })
-    },
-
-    async clearPreviousNodeState () {
-      await this.clearSelectedNode()
-      await this.clearSubscriptionForNode()
-      await this.clearQuota()
-    },
-
-    ...mapActions(['selectNode', 'clearSubscriptionForNode', 'clearQuota', 'clearSelectedNode'])
   }
 }
 </script>
@@ -139,17 +148,20 @@ export default {
 <style lang="scss" scoped>
 .change-location {
 
-  &__node {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 6px 35px 6px 30px;
+  &__list-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 36px;
+    padding-bottom: 27px;
     cursor: pointer;
 
-    &--selected,
-    &:hover {
-      background-color: $slr__clr-dark-blue-2;
+    &--continent {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &:last-child {
+      border-bottom: none;
     }
   }
 }

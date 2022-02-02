@@ -1,6 +1,6 @@
 import getUnixTime from 'date-fns/getUnixTime'
 import SignService from '@/main/services/SignService'
-import QueryService from '@/main/services/QueryService'
+import Client from '@/main/services/CustomClient'
 import { BroadcastTxRequest } from '@/main/proto/cosmos/tx/v1beta1/service_pb'
 import { ServiceClient as TxServiceClient } from '@/main/proto/cosmos/tx/v1beta1/service_grpc_pb'
 
@@ -14,31 +14,21 @@ class TransactionService {
     return await this.broadcastTx(signedTxBytes.serializeBinary(), mode)
   }
 
-  broadcastTx (txBytes, mode) {
-    return new Promise((resolve, reject) => {
-      const client = QueryService.create(TxServiceClient)
-      const request = new BroadcastTxRequest([txBytes, mode])
+  async broadcastTx (txBytes, mode) {
+    const request = new BroadcastTxRequest([txBytes, mode])
+    const client = new Client(TxServiceClient)
+    const response = await client.call('broadcastTx', request, { deadline: null, calls: 1 })
+    const txResponse = response.getTxResponse().toObject()
 
-      client.broadcastTx(request, (err, response) => {
-        if (err) {
-          reject(err)
-          return
-        }
+    if (!txResponse.timestamp) {
+      txResponse.timestamp = getUnixTime(new Date())
+    }
 
-        const txResponse = response.getTxResponse().toObject()
+    if (txResponse.code !== 0) {
+      throw txResponse
+    }
 
-        if (!txResponse.timestamp) {
-          txResponse.timestamp = getUnixTime(new Date())
-        }
-
-        if (txResponse.code !== 0) {
-          reject(txResponse)
-          return
-        }
-
-        resolve(txResponse)
-      })
-    })
+    return txResponse
   }
 }
 

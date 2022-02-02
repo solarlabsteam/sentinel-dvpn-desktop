@@ -4,7 +4,7 @@ export default {
       title: 'Current Plan'
     },
     changeLocation: {
-      title: 'Change Location',
+      title: 'Nodes',
       tab: {
         subscriptions: {
           title: 'Subscribed'
@@ -42,24 +42,19 @@ export default {
 
   account: {
     createNewAccount: 'Create a new account',
-    restoreAccount: 'I have a mnemonic',
+    restoreAccount: 'Import account',
     inputMnemonicLabel: 'Input your mnemonic',
-    balance: 'You have: {amount}',
-    saveMnemonicTitle: 'Please keep record of these phrases'
+    balance: 'Account balance',
+    saveMnemonicNote: 'Please keep record of these phrases exactly, this will never be recovered in any condition.',
+    wallet: 'Wallet Address',
+    mnemonic: 'Mnemonic'
   },
 
   connection: {
-    connectedStatus: 'Connected',
-    disconnectedStatus: 'Disconnected',
-    securedIp: 'Secured',
-    exposedIp: 'IP Address is Exposed',
-    unknownIp: 'Unknown IP',
-    obtainingIp: 'Obtaining an IP address...',
+    disconnectLabel: 'Disconnect',
     checkingConnection: 'Checking the connection to the server',
-    toggle: {
-      on: 'on',
-      off: 'off'
-    }
+    connectNowButton: 'Connect Now',
+    quotaMessage: 'Data used'
   },
 
   quota: {
@@ -81,6 +76,26 @@ export default {
     },
     list: {
       noData: 'No available nodes found'
+    },
+    parameters: {
+      price: 'Price',
+      latency: 'Latency',
+      peers: 'Peers',
+      address: 'Node Address',
+      connectedPeers: 'Connected peers count',
+      uploadSpeed: 'Upload speed',
+      provider: 'Node provider',
+      downloadSpeed: 'Download speed',
+      version: 'Version',
+      type: 'Type of node',
+      country: 'Country',
+      city: 'City'
+    }
+  },
+
+  continent: {
+    parameters: {
+      availableNode: '{count} available nodes'
     }
   },
 
@@ -118,7 +133,7 @@ export default {
   },
 
   checkout: {
-    scanQr: 'Scan the QR Code',
+    scanQr: 'Scan QR code to receive',
     message: {
       timer: 'Your transaction should be processed within'
     }
@@ -143,6 +158,14 @@ export default {
 
   action: {
     copy: 'Copy',
-    copied: 'Copied!'
+    copied: 'Copied!',
+    back: 'Back',
+    subscribe: 'Subscribe',
+    topUp: 'Top-up with Solar Pay',
+    continue: 'Continue'
+  },
+
+  subscriptionModal: {
+    header: 'How much DVPN do you want to spent?'
   }
 }

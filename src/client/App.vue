@@ -1,42 +1,43 @@
 <template>
+  <router-view v-if="!user" />
+
   <slr-logo
-    v-if="isAppDataLoading"
+    v-else-if="isDefaultNodeLoading"
     class="logo"
   />
-
-  <onboarding v-else-if="!user" />
 
   <template v-else>
     <connection />
     <div class="page">
       <router-view />
+      <account-drawer />
     </div>
   </template>
 </template>
 
 <script>
-import { computed, watch } from 'vue'
+import { computed, watch, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
-import Onboarding from '@/client/pages/Login/Onboarding'
 import Connection from '@/client/pages/Connection'
+import AccountDrawer from '@/client/components/app/AccountDrawer'
 
 export default {
   name: 'App',
 
   components: {
-    Onboarding,
-    Connection
+    Connection,
+    AccountDrawer
   },
 
   setup () {
     const store = useStore()
     const user = computed(() => store.getters.user)
-    const isUserLoading = computed(() => store.getters.isUserLoading)
     const isDefaultNodeLoading = computed(() => store.getters.isDefaultNodeLoading)
-    const isAppDataLoading = computed(() => isUserLoading.value || isDefaultNodeLoading.value)
     const selectedNode = computed(() => store.getters.selectedNode)
 
-    store.dispatch('fetchUser')
+    onBeforeMount(() => {
+      store.dispatch('fetchUser')
+    })
 
     watch(
       () => store.getters.user,
@@ -47,7 +48,7 @@ export default {
       }
     )
 
-    return { isAppDataLoading, user, isDefaultNodeLoading }
+    return { user, isDefaultNodeLoading }
   }
 }
 </script>
@@ -64,8 +65,8 @@ body {
   overflow: auto;
   height: 100vh;
   background-color: $slr__clr-dark-blue;
-  font-family: 'Inter', sans-serif;
-  color: $slr__clr-white;
+  font-family: 'Poppins', sans-serif;
+  color: $slr__clr-white-1;
   @include font-template(14px, 17px);
 }
 
@@ -73,12 +74,10 @@ body {
   flex: none;
   overflow-x: auto;
   border-left: 1px solid rgba(255, 255, 255, 0.1);
-  width: 400px;
+  box-sizing: border-box;
+  width: 365px;
   height: 100%;
+  padding: 20px 24px 20px 16px;
 }
 
-.logo {
-  align-self: center;
-  margin: auto;
-}
 </style>
