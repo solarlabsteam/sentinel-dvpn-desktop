@@ -15,7 +15,7 @@
 
         <qr-code
           class="mb-3"
-          :value="user.addressBech32"
+          :value="user?.addressBech32"
           :size="144"
         />
 
@@ -23,7 +23,13 @@
           {{ t('checkout.scanQr') }}
         </div>
 
-        <wallet-address class="account-drawer__address" />
+        <slr-card class="account-drawer__address">
+          <slr-clipboard-text
+            class="r-s12-lh15"
+            :text="user?.addressBech32"
+            :placement="'bottom'"
+          />
+        </slr-card>
 
         <slr-button
           :large="true"
@@ -42,7 +48,6 @@ import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
 import useGlobalEmitter from '@/client/hooks/useGlobalEmitter'
-import WalletAddress from '@/client/components/app/WalletAddress'
 import QrCode from '@/client/components/app/QrCode'
 import useBalance from '@/client/hooks/useBalance'
 
@@ -50,7 +55,6 @@ export default {
   name: 'AccountDrawer',
 
   components: {
-    WalletAddress,
     QrCode
   },
 

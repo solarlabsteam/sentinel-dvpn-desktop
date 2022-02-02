@@ -47,24 +47,34 @@
         </template>
       </slr-button>
 
-      <login-form v-else />
+      <template v-else>
+        <slr-button
+          class="mr-3"
+          @click="goToCreate"
+        >
+          {{ t('account.createNewAccount') }}
+        </slr-button>
+
+        <slr-button @click="goToImport">
+          {{ t('account.restoreAccount') }}
+        </slr-button>
+      </template>
     </div>
   </div>
 </template>
 
 <script>
 import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import featureSlides from '@/client/constants/featureSlides'
-import LoginForm from '@/client/pages/Login/LoginForm'
 
 export default {
   name: 'Onboarding',
 
-  components: {
-    LoginForm
-  },
-
   setup () {
+    const router = useRouter()
+    const { t } = useI18n()
     const currentSlideIndex = ref(0)
     const currentSlide = computed(() => featureSlides[currentSlideIndex.value])
     const slidesLength = featureSlides.length
@@ -72,7 +82,15 @@ export default {
       currentSlideIndex.value++
     }
 
-    return { currentSlide, currentSlideIndex, showNextSlide, slidesLength }
+    const goToImport = () => {
+      router.push({ name: 'login', query: { isImport: true } })
+    }
+
+    const goToCreate = () => {
+      router.push({ name: 'login' })
+    }
+
+    return { currentSlide, currentSlideIndex, showNextSlide, slidesLength, goToImport, goToCreate, t }
   }
 }
 </script>

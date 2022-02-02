@@ -42,10 +42,12 @@ export default {
 
   account: {
     createNewAccount: 'Create a new account',
-    restoreAccount: 'I have a mnemonic',
+    restoreAccount: 'Import account',
     inputMnemonicLabel: 'Input your mnemonic',
     balance: 'Account balance',
-    saveMnemonicTitle: 'Please keep record of these phrases'
+    saveMnemonicNote: 'Please keep record of these phrases exactly, this will never be recovered in any condition.',
+    wallet: 'Wallet Address',
+    mnemonic: 'Mnemonic'
   },
 
   connection: {
@@ -159,7 +161,8 @@ export default {
     copied: 'Copied!',
     back: 'Back',
     subscribe: 'Subscribe',
-    topUp: 'Top-up with Solar Pay'
+    topUp: 'Top-up with Solar Pay',
+    continue: 'Continue'
   },
 
   subscriptionModal: {

@@ -3,7 +3,7 @@ import {
   SET_CURRENT_SUBSCRIPTION,
   SET_CURRENT_SUBSCRIPTION_LOADING_STATE, SET_PAYMENT_LOADING_STATE, SET_PAYMENT_RESULT
 } from '@/client/store/mutation-types'
-import { syncStoreValue } from '@/client/store/plugins/syncStore'
+import { setStoreValue } from '@/client/store/plugins/syncElectronStore'
 
 const getDefaultState = () => ({
   currentSubscription: null,
@@ -100,7 +100,7 @@ export default {
     },
     async setPaymentResult ({ commit }, payload) {
       commit(SET_PAYMENT_RESULT, payload)
-      await syncStoreValue('paymentResult', payload)
+      await setStoreValue('paymentResult', payload)
     },
     clearPaymentResult ({ commit }) {
       commit(CLEAR_PAYMENT_RESULT)

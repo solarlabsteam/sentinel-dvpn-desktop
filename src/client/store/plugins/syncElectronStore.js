@@ -33,6 +33,10 @@ export async function prefetchStore (store) {
   }
 }
 
-export async function syncStoreValue (key, data) {
+export async function setStoreValue (key, data) {
   return await window.ipc.invoke('SET_STORE_VALUE', JSON.stringify({ key, data }))
+}
+
+export async function getStoreValue (key) {
+  return await window.ipc.invoke('GET_STORE_VALUE', key)
 }

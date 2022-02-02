@@ -1,4 +1,4 @@
-import { syncStoreValue } from '@/client/store/plugins/syncStore'
+import { setStoreValue } from '@/client/store/plugins/syncElectronStore'
 import {
   CLEAR_SELECTED_NODE,
   SET_SELECTED_NODE,
@@ -66,7 +66,7 @@ export default {
 
         await Promise.allSettled([
           dispatch('selectNode', node),
-          syncStoreValue('selectedNode', node)
+          setStoreValue('selectedNode', node)
         ])
       } catch (e) {
         console.error(e)

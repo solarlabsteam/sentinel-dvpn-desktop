@@ -1,5 +1,5 @@
 import { useStore } from 'vuex'
-import { syncStoreValue } from '@/client/store/plugins/syncStore'
+import { setStoreValue } from '@/client/store/plugins/syncElectronStore'
 import useSubscription from '@/client/hooks/useSubscription'
 
 export default function useConnection () {
@@ -33,7 +33,7 @@ export default function useConnection () {
       if (store.getters.isConnected) await disconnect()
       await clearPreviousNodeState()
       await store.dispatch('selectNode', node)
-      await syncStoreValue('selectedNode', node)
+      await setStoreValue('selectedNode', node)
       await store.dispatch('connectToNode')
     } catch (e) {
       await store.dispatch('setConnectionLoadingState', false)

@@ -3,10 +3,12 @@
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
+  border-radius: 6px;
   box-sizing: border-box;
   width: 160px;
   min-height: 70px;
   padding: 10px 7px 10px 13px;
+  background: linear-gradient(210.55deg, #1F3A64 -49.23%, #031734 111.47%);
 
   &__header {
     display: flex;
