@@ -9,6 +9,7 @@ import NodeService from '@/main/services/NodeService'
 import SessionService from '@/main/services/SessionService'
 import SubscriptionService from '@/main/services/SubscriptionService'
 import logger from '@/main/utils/logger'
+import { CONNECT_TO_NODE, DISCONNECT, QUERY_CONNECTION_STATUS, QUERY_SERVICE_SERVER } from '@/shared/channel-types'
 
 const accountService = new AccountService()
 const nodeService = new NodeService()
@@ -17,7 +18,7 @@ const connectionService = new ConnectionService()
 const subscriptionService = new SubscriptionService()
 
 function initConnectionListeners () {
-  ipcMain.on('CONNECT_TO_NODE', async (event, payload) => {
+  ipcMain.on(CONNECT_TO_NODE, async (event, payload) => {
     try {
       const key = await accountService.queryKeyByName(DVPN_KEY_NAME)
       const { resolvers, node } = JSON.parse(payload)
@@ -27,7 +28,7 @@ function initConnectionListeners () {
         const message = i18next.t('connection.error.noSubscription')
         logger.error(message)
         Notifications.createCritical(message).show()
-        event.reply('CONNECT_TO_NODE', { error: generateError({ message }) })
+        event.reply(CONNECT_TO_NODE, { error: generateError({ message }) })
         return
       }
 
@@ -38,7 +39,7 @@ function initConnectionListeners () {
           const message = i18next.t('connection.error.noBalance')
           logger.error(message)
           Notifications.createCritical(message).show()
-          event.reply('CONNECT_TO_NODE', { error: generateError({ message: message }) })
+          event.reply(CONNECT_TO_NODE, { error: generateError({ message: message }) })
           return
         }
       } catch (e) {}
@@ -49,7 +50,7 @@ function initConnectionListeners () {
         const message = i18next.t('connection.error.noSession')
         logger.error(message)
         Notifications.createCritical(message).show()
-        event.reply('CONNECT_TO_NODE', { error: generateError({ message: message }) })
+        event.reply(CONNECT_TO_NODE, { error: generateError({ message: message }) })
         return
       }
 
@@ -57,46 +58,46 @@ function initConnectionListeners () {
       const { result: info, privateKey } = await connectionService.queryConnectionData(nodeInfo.remoteUrl, key.addressBech32, activeSession.id)
       const result = await connectionService.queryConnectToNode(subscription.id, DVPN_KEY_NAME, subscription.node, info, privateKey, resolvers)
 
-      event.reply('CONNECT_TO_NODE', { data: result })
+      event.reply(CONNECT_TO_NODE, { data: result })
     } catch (e) {
       const error = generateError(e)
       logger.error(error.message)
       Notifications.createCritical(i18next.t('connection.error.common')).show()
-      event.reply('CONNECT_TO_NODE', { error })
+      event.reply(CONNECT_TO_NODE, { error })
     }
   })
 
-  ipcMain.on('DISCONNECT', async (event) => {
+  ipcMain.on(DISCONNECT, async (event) => {
     try {
       const result = await connectionService.queryDisconnectFromNode()
-      event.reply('DISCONNECT', { data: result })
+      event.reply(DISCONNECT, { data: result })
     } catch (e) {
       const error = generateError(e)
       logger.error(error.message)
       Notifications.createCritical(error.message).show()
-      event.reply('DISCONNECT', { error })
+      event.reply(DISCONNECT, { error })
     }
   })
 
-  ipcMain.on('QUERY_CONNECTION_STATUS', async (event) => {
+  ipcMain.on(QUERY_CONNECTION_STATUS, async (event) => {
     try {
       const result = await connectionService.queryConnectionStatus()
-      event.reply('QUERY_CONNECTION_STATUS', { data: result })
+      event.reply(QUERY_CONNECTION_STATUS, { data: result })
     } catch (e) {
       const error = generateError(e)
       Notifications.createCritical(error.message).show()
-      event.reply('QUERY_CONNECTION_STATUS', { error })
+      event.reply(QUERY_CONNECTION_STATUS, { error })
     }
   })
 
-  ipcMain.on('QUERY_SERVICE_SERVER', async (event) => {
+  ipcMain.on(QUERY_SERVICE_SERVER, async (event) => {
     try {
       await connectionService.queryConnectionStatus()
-      event.reply('QUERY_SERVICE_SERVER', { data: true })
+      event.reply(QUERY_SERVICE_SERVER, { data: true })
     } catch (e) {
       const error = generateError(e)
       logger.error(error.message)
-      event.reply('QUERY_SERVICE_SERVER', { data: false })
+      event.reply(QUERY_SERVICE_SERVER, { data: false })
     }
   })
 }

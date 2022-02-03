@@ -1,6 +1,8 @@
-import channels from '@/main/channels'
+import * as channelsModule from '@/shared/channel-types'
 import logger from '@/main/utils/logger'
 const { contextBridge, ipcRenderer } = require('electron')
+
+const channels = Object.values(channelsModule)
 
 contextBridge.exposeInMainWorld(
   'ipc', {

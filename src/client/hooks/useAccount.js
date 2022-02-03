@@ -12,7 +12,7 @@ export default function useAccount () {
 
   const createNew = async () => {
     try {
-      return await store.dispatch('createAccount')
+      return await store.dispatch('createUser')
     } catch (e) {
       router.push({ name: 'login', query: { isImport: true } })
     }

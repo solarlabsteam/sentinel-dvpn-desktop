@@ -1,14 +1,15 @@
 import { ipcMain } from 'electron'
 import Store from 'electron-store'
+import { GET_STORE_VALUE, SET_STORE_VALUE } from '@/shared/channel-types'
 
 const store = new Store()
 
 export function initStoreHandlers () {
-  ipcMain.handle('GET_STORE_VALUE', (event, key) => {
+  ipcMain.handle(GET_STORE_VALUE, (event, key) => {
     return store.get(key)
   })
 
-  ipcMain.handle('SET_STORE_VALUE', (event, payload) => {
+  ipcMain.handle(SET_STORE_VALUE, (event, payload) => {
     const { key, data } = JSON.parse(payload)
 
     store.set(key, data)
