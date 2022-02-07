@@ -1,7 +1,7 @@
 'use strict'
 
 import path from 'path'
-import { app, protocol, BrowserWindow, Menu, nativeImage, Tray, globalShortcut, dialog } from 'electron'
+import { app, protocol, BrowserWindow, Menu, nativeImage, Tray, globalShortcut, dialog, screen } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import i18next from 'i18next'
@@ -124,11 +124,13 @@ if (isDevelopment) {
 
 async function createWindow () {
   // Create the browser window.
+  const { minHeight, height, zoomFactor } = getWindowRatio()
+
   win = new BrowserWindow({
     width: 1200,
     minWidth: 800,
-    minHeight: 860,
-    height: 900,
+    minHeight,
+    height,
     icon: nativeImage.createFromPath(path.resolve(__static, 'assets/images/logo.png')),
     autoHideMenuBar: true,
     webPreferences: {
@@ -138,7 +140,8 @@ async function createWindow () {
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
       enableRemoteModule: false,
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
+      zoomFactor
     }
   })
 
@@ -270,4 +273,28 @@ async function checkConnectionBeforeQuit () {
   }
 
   return true
+}
+
+function getWindowRatio () {
+  const minScreenToWindowRatio = 0.8
+  const minWindowHeight = 900
+
+  let actualMinWindowHeight = 900
+  let actualWindowHeight = 950
+  let actualZoomFactor = 1
+
+  const { workAreaSize } = screen.getPrimaryDisplay()
+  const actualScreenToWindowRatio = minWindowHeight / workAreaSize.height
+
+  if (actualScreenToWindowRatio > minScreenToWindowRatio) {
+    actualMinWindowHeight *= minScreenToWindowRatio
+    actualWindowHeight *= minScreenToWindowRatio
+    actualZoomFactor *= minScreenToWindowRatio
+  }
+
+  return {
+    minHeight: actualMinWindowHeight,
+    height: actualWindowHeight,
+    zoomFactor: actualZoomFactor
+  }
 }
