@@ -4,7 +4,7 @@ import {
   SET_BALANCES
 } from '@/client/store/mutation-types'
 import { setStoreValue } from '@/client/store/plugins/syncElectronStore'
-import { once, subscribeToOnce } from '@/client/store/helpers/promisifyIpc'
+import { once, onceForAll } from '@/client/store/helpers/promisifyIpc'
 import { QUERY_USER, CREATE_USER, QUERY_BALANCES } from '@/shared/channel-types'
 
 const getInitialState = () => ({
@@ -61,7 +61,7 @@ export default {
     },
 
     async fetchBalances ({ commit }) {
-      const balances = await subscribeToOnce(QUERY_BALANCES)
+      const balances = await onceForAll(QUERY_BALANCES)
       commit(SET_BALANCES, balances)
     }
   },

@@ -1,6 +1,6 @@
 const channelPromises = {}
 
-export function subscribeToOnce (channel, payload) {
+export function onceForAll (channel, payload) {
   if (channelPromises[channel]) return channelPromises[channel]
 
   channelPromises[channel] = once(channel, payload)
