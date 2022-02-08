@@ -1,19 +1,34 @@
 <template>
   <div class="change-location mb-4">
-    <page-header />
+    <page-header>
+      <slr-button
+        v-if="!isNodesLoading && !isSubscribedNodesLoading"
+        :text="true"
+        :tiny="true"
+        class="mt-1"
+        :disabled="isNodesLoading || isSubscribedNodesLoading"
+        @click="fetchNodes"
+      >
+        <template #icon>
+          <slr-icon
+            :size="14"
+            :icon="'refresh'"
+          />
+        </template>
+      </slr-button>
+
+      <slr-loader
+        v-else
+        class="ml-2"
+        :size="16"
+      />
+    </page-header>
 
     <slr-tabs
       :default-active-tab="subscribedNodes.length > 0 ? 0 : 1"
       @change="resetContinent"
     >
       <slr-tab :title="t('route.changeLocation.tab.subscriptions.title')">
-        <div
-          v-if="isSubscribedNodesLoading"
-          class="text-center mt-5"
-        >
-          <slr-loader :size="20" />
-        </div>
-
         <ul v-if="subscribedNodes.length">
           <li
             v-for="node in subscribedNodes"
@@ -26,20 +41,13 @@
         </ul>
 
         <p
-          v-else-if="!isSubscribedNodesLoading"
+          v-else
           class="m-s12-lh15 opacity-4 text-center mt-5"
         >
           {{ t('subscription.list.noData') }}
         </p>
       </slr-tab>
       <slr-tab :title="t('route.changeLocation.tab.nodes.title')">
-        <div
-          v-if="isNodesLoading"
-          class="text-center mt-5"
-        >
-          <slr-loader :size="20" />
-        </div>
-
         <ul
           v-if="nodes.length && displayedContinent === null"
         >
@@ -64,7 +72,7 @@
         </ul>
 
         <p
-          v-if="!nodes.length && !isNodesLoading"
+          v-if="!nodes.length"
           class="m-s12-lh15 opacity-4 text-center mt-5"
         >
           {{ t('node.list.noData') }}
@@ -124,9 +132,13 @@ export default {
       displayedContinent.value = null
     }
 
-    onMounted(() => {
+    const fetchNodes = () => {
       store.dispatch('fetchNodes')
       store.dispatch('fetchSubscribedNodes')
+    }
+
+    onMounted(() => {
+      fetchNodes()
     })
 
     return {
@@ -139,7 +151,8 @@ export default {
       openNode,
       openContinent,
       displayedContinent,
-      resetContinent
+      resetContinent,
+      fetchNodes
     }
   }
 }

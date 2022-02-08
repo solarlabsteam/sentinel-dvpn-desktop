@@ -32,7 +32,8 @@ export default {
   },
 
   actions: {
-    async fetchNodes ({ commit }) {
+    async fetchNodes ({ commit, getters }) {
+      if (getters.isNodesLoading) return
       commit(SET_NODES_LOADING_STATE, true)
 
       try {
@@ -43,7 +44,8 @@ export default {
       }
     },
 
-    async fetchSubscribedNodes ({ commit }) {
+    async fetchSubscribedNodes ({ commit, getters }) {
+      if (getters.isSubscribedNodesLoading) return
       commit(SET_SUBSCRIBED_NODES_LOADING_STATE, true)
 
       try {

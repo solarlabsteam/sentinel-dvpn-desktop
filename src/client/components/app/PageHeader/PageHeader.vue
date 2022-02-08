@@ -9,11 +9,14 @@
     >
       {{ t('action.back') }}
     </slr-button>
-    <span class="m-s18-lh22">{{ title }}</span>
+    <span class="m-s18-lh22 mr-2">{{ title }}</span>
+
+    <slot />
 
     <slr-button
       :text="true"
       :tiny="true"
+      class="ml-auto"
       @click="openAccountDrawer"
     >
       <template #icon>
@@ -70,7 +73,7 @@ export default {
 <style lang="scss" scoped>
 .page-header {
   display: flex;
-  justify-content: space-between;
+  //justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
   box-sizing: border-box;
