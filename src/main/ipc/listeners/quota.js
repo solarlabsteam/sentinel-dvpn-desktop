@@ -19,7 +19,7 @@ function initQuotaListeners () {
       event.reply(QUERY_QUOTA, { data: result })
     } catch (e) {
       const error = generateError(e)
-      logger.error(error.message)
+      logger.error(QUERY_QUOTA, error.message)
       Notifications.createCritical(error.message).show()
       event.reply(QUERY_QUOTA, { error })
     }
@@ -33,7 +33,7 @@ function initQuotaListeners () {
       event.reply(QUERY_CHECKED_QUOTA, { data: result })
     } catch (e) {
       const error = generateError(e)
-      logger.error(error.message)
+      logger.error(QUERY_CHECKED_QUOTA, error.message)
       Notifications.createCritical(error.message).show()
       event.reply(QUERY_CHECKED_QUOTA, { error })
     }

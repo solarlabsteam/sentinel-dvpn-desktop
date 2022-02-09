@@ -16,7 +16,7 @@ function initNodeListeners () {
       event.reply(QUERY_NODE, { data: result })
     } catch (e) {
       const error = generateError(e)
-      logger.error(error.message)
+      logger.error(QUERY_NODE, error.message)
       Notifications.createCritical(error.message).show()
       event.reply(QUERY_NODE, { error })
     }

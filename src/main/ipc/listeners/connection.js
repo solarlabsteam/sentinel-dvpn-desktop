@@ -26,7 +26,7 @@ function initConnectionListeners () {
 
       if (!subscription) {
         const message = i18next.t('connection.error.noSubscription')
-        logger.error(message)
+        logger.error(CONNECT_TO_NODE, message)
         Notifications.createCritical(message).show()
         event.reply(CONNECT_TO_NODE, { error: generateError({ message }) })
         return
@@ -37,7 +37,7 @@ function initConnectionListeners () {
 
         if (!isBalanceEnough) {
           const message = i18next.t('connection.error.noBalance')
-          logger.error(message)
+          logger.error(CONNECT_TO_NODE, message)
           Notifications.createCritical(message).show()
           event.reply(CONNECT_TO_NODE, { error: generateError({ message: message }) })
           return
@@ -48,7 +48,7 @@ function initConnectionListeners () {
 
       if (!activeSession) {
         const message = i18next.t('connection.error.noSession')
-        logger.error(message)
+        logger.error(CONNECT_TO_NODE, message)
         Notifications.createCritical(message).show()
         event.reply(CONNECT_TO_NODE, { error: generateError({ message: message }) })
         return
@@ -61,7 +61,7 @@ function initConnectionListeners () {
       event.reply(CONNECT_TO_NODE, { data: result })
     } catch (e) {
       const error = generateError(e)
-      logger.error(error.message)
+      logger.error(CONNECT_TO_NODE, error.message)
       Notifications.createCritical(i18next.t('connection.error.common')).show()
       event.reply(CONNECT_TO_NODE, { error })
     }
@@ -73,7 +73,7 @@ function initConnectionListeners () {
       event.reply(DISCONNECT, { data: result })
     } catch (e) {
       const error = generateError(e)
-      logger.error(error.message)
+      logger.error(DISCONNECT, error.message)
       Notifications.createCritical(error.message).show()
       event.reply(DISCONNECT, { error })
     }
@@ -96,7 +96,7 @@ function initConnectionListeners () {
       event.reply(QUERY_SERVICE_SERVER, { data: true })
     } catch (e) {
       const error = generateError(e)
-      logger.error(error.message)
+      logger.error(QUERY_SERVICE_SERVER, error.message)
       event.reply(QUERY_SERVICE_SERVER, { data: false })
     }
   })

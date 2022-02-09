@@ -57,7 +57,7 @@ export default {
     }
 
     const onError = e => {
-      console.error(e)
+      window.logger.error(e)
     }
 
     onBeforeUnmount(() => {

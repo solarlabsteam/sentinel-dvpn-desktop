@@ -15,7 +15,7 @@ export default function useBalance () {
         return b.denom === DENOM && Number(b.amount) > (amount + transactionFee)
       })
     } catch (e) {
-      console.error(e)
+      window.logger.error(e)
       return false
     }
   }

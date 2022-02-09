@@ -16,7 +16,7 @@ function initAccountListeners () {
       event.reply(QUERY_USER, { data: result })
     } catch (e) {
       const error = generateError(e)
-      logger.error(error.message)
+      logger.error(QUERY_USER, error.message)
       Notifications.createCritical(error.message).show()
       event.reply(QUERY_USER, { error })
     }
@@ -29,7 +29,7 @@ function initAccountListeners () {
       event.reply(CREATE_USER, { data: result })
     } catch (e) {
       const error = generateError(e)
-      logger.error(error.message)
+      logger.error(CREATE_USER, error.message)
       Notifications.createCritical(error.message).show()
       event.reply(CREATE_USER, { error })
     }
@@ -41,7 +41,7 @@ function initAccountListeners () {
       event.reply(QUERY_BALANCES, { data: balances || [] })
     } catch (e) {
       const error = generateError(e)
-      logger.error(error.message)
+      logger.error(QUERY_BALANCES, error.message)
       Notifications.createCritical(error.message).show()
       event.reply(QUERY_BALANCES, { error })
     }

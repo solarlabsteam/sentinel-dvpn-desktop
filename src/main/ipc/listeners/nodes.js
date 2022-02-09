@@ -21,7 +21,7 @@ function initNodesListeners () {
       event.reply(QUERY_NODE_LIST, { data: nodeInfos })
     } catch (e) {
       const error = generateError(e)
-      logger.error(error.message)
+      logger.error(QUERY_NODE_LIST, error.message)
       Notifications.createCritical(error.message).show()
       event.reply(QUERY_NODE_LIST, { error })
     }
@@ -37,7 +37,7 @@ function initNodesListeners () {
       event.reply(QUERY_SUBSCRIBED_NODE_LIST, { data: nodeInfos })
     } catch (e) {
       const error = generateError(e)
-      logger.error(error.message)
+      logger.error(QUERY_SUBSCRIBED_NODE_LIST, error.message)
       Notifications.createCritical(error.message).show()
       event.reply(QUERY_SUBSCRIBED_NODE_LIST, { error })
     }

@@ -30,7 +30,7 @@ export async function prefetchStore (store) {
       prefetchDns(store)]
     )
   } catch (e) {
-    console.error(e)
+    window.logger.error(e)
   }
 }
 

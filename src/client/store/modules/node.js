@@ -68,8 +68,6 @@ export default {
           dispatch('selectNode', node),
           setStoreValue('selectedNode', node)
         ])
-      } catch (e) {
-        console.error(e)
       } finally {
         commit(SET_DEFAULT_NODE_LOADING_STATE, false)
       }

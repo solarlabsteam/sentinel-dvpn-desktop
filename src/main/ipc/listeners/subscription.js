@@ -25,7 +25,7 @@ function initSubscriptionListeners () {
       event.reply(SUBSCRIBE_TO_NODE, { data: result })
     } catch (e) {
       const error = generateError(e.rawLog || e)
-      logger.error(`${n && n.address} ${d && d.denom} ${error.message}`)
+      logger.error(SUBSCRIBE_TO_NODE, `${n && n.address} ${d && d.denom} ${error.message}`)
       Notifications.createCritical(error.message).show()
       event.reply(SUBSCRIBE_TO_NODE, { error })
     }
@@ -40,7 +40,7 @@ function initSubscriptionListeners () {
       event.reply(QUERY_SUBSCRIPTION_FOR_NODE, { data: result })
     } catch (e) {
       const error = generateError(e)
-      logger.error(error.message)
+      logger.error(QUERY_SUBSCRIPTION_FOR_NODE, error.message)
       Notifications.createCritical(error.message).show()
       event.reply(QUERY_SUBSCRIPTION_FOR_NODE, { error })
     }
@@ -55,7 +55,7 @@ function initSubscriptionListeners () {
       event.reply(QUERY_CHECKED_SUBSCRIPTION_FOR_NODE, { data: result })
     } catch (e) {
       const error = generateError(e)
-      logger.error(error.message)
+      logger.error(QUERY_CHECKED_SUBSCRIPTION_FOR_NODE, error.message)
       Notifications.createCritical(error.message).show()
       event.reply(QUERY_CHECKED_SUBSCRIPTION_FOR_NODE, { error })
     }
