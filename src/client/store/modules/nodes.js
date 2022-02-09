@@ -4,7 +4,7 @@ import {
   SET_SUBSCRIBED_NODES,
   SET_SUBSCRIBED_NODES_LOADING_STATE
 } from '@/client/store/mutation-types'
-import { once } from '@/client/store/helpers/promisifyIpc'
+import { onceForAll } from '@/client/store/helpers/promisifyIpc'
 import { QUERY_NODE_LIST, QUERY_SUBSCRIBED_NODE_LIST } from '@/shared/channel-types'
 
 const getDefaultState = () => ({
@@ -32,24 +32,22 @@ export default {
   },
 
   actions: {
-    async fetchNodes ({ commit, getters }) {
-      if (getters.isNodesLoading) return
+    async fetchNodes ({ commit }) {
       commit(SET_NODES_LOADING_STATE, true)
 
       try {
-        const data = await once(QUERY_NODE_LIST)
+        const data = await onceForAll(QUERY_NODE_LIST)
         commit(SET_NODES, data)
       } finally {
         commit(SET_NODES_LOADING_STATE, false)
       }
     },
 
-    async fetchSubscribedNodes ({ commit, getters }) {
-      if (getters.isSubscribedNodesLoading) return
+    async fetchSubscribedNodes ({ commit }) {
       commit(SET_SUBSCRIBED_NODES_LOADING_STATE, true)
 
       try {
-        const data = await once(QUERY_SUBSCRIBED_NODE_LIST)
+        const data = await onceForAll(QUERY_SUBSCRIBED_NODE_LIST)
         commit(SET_SUBSCRIBED_NODES, data)
       } finally {
         commit(SET_SUBSCRIBED_NODES_LOADING_STATE, false)
