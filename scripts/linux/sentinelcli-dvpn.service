@@ -4,6 +4,6 @@ After=multi-user.target
 [Service]
 Environment=HOME=${HOME}
 Type=idle
-ExecStart=/usr/local/bin/sentinelcli start --home /tmp --listen 127.0.0.1:12000 --tty --with-service
+ExecStart=/usr/local/bin/sentinelcli-dvpn-desktop start --home /tmp --listen 127.0.0.1:12000 --tty --with-service
 [Install]
 WantedBy=multi-user.target

@@ -18,19 +18,25 @@ if [ -d "$sentinelcliDirectory" ]; then
     rm -rf "$sentinelcliDirectory";
 fi
 
-vpnDaemonFile=/etc/systemd/system/sentinelcli-vpn.service
+vpnDaemonFile=/etc/systemd/system/sentinelcli-dvpn.service
 if [ -f "$vpnDaemonFile" ]; then
   echo 'Removing the daemon'
-  systemctl stop sentinelcli-vpn.service
-  systemctl disable sentinelcli-vpn.service
+  systemctl stop sentinelcli-dvpn.service
+  systemctl disable sentinelcli-dvpn.service
   rm "$vpnDaemonFile"
-  # rm /etc/systemd/system/multi-user.target.wants/sentinelcli-vpn.service
+  # rm /etc/systemd/system/multi-user.target.wants/sentinelcli-dvpn.service
   systemctl daemon-reload
   systemctl reset-failed
 fi
 
-keyringPid=$(pgrep -f "sentinelcli.+\--with-keyring") || keyringPid=0
+keyringPid=$(pgrep -f "sentinelcli-dvpn-desktop.+\--with-keyring") || keyringPid=0
 if [ $keyringPid -gt 0 ]; then
   echo 'Killing a sentinelcli keyring process'
   kill $keyringPid
+fi
+
+sentinelCliFile=/usr/local/bin/sentinelcli-dvpn-desktop
+if [ -f "$sentinelCliFile" ]; then
+  echo 'Removing sentinelcli'
+  rm "$sentinelCliFile"
 fi
