@@ -73,7 +73,6 @@ body {
 .page {
   flex: none;
   overflow-x: auto;
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
   box-sizing: border-box;
   width: 365px;
   height: 100%;

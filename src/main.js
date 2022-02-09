@@ -124,12 +124,11 @@ if (isDevelopment) {
 
 async function createWindow () {
   // Create the browser window.
-  const { minHeight, height, zoomFactor } = getWindowRatio()
+  const { height } = getWindowRatio()
 
   win = new BrowserWindow({
     width: 1200,
     minWidth: 800,
-    minHeight,
     height,
     icon: nativeImage.createFromPath(path.resolve(__static, 'assets/images/logo.png')),
     autoHideMenuBar: true,
@@ -140,8 +139,7 @@ async function createWindow () {
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
       enableRemoteModule: false,
-      preload: path.join(__dirname, 'preload.js'),
-      zoomFactor
+      preload: path.join(__dirname, 'preload.js')
     }
   })
 
@@ -212,6 +210,15 @@ function createMenu () {
         win.close()
       }
     }]
+  }, {
+    label: 'View',
+    submenu: [
+      { role: 'resetZoom' },
+      { role: 'zoomIn' },
+      { role: 'zoomOut' },
+      { type: 'separator' },
+      { role: 'togglefullscreen' }
+    ]
   }]
 
   if (process.platform === 'darwin') {
@@ -276,25 +283,19 @@ async function checkConnectionBeforeQuit () {
 }
 
 function getWindowRatio () {
-  const minScreenToWindowRatio = 0.8
-  const minWindowHeight = 900
+  const desirableScreenToWindowRatio = 0.8
+  const desirableWindowHeight = 900
 
-  let actualMinWindowHeight = 900
   let actualWindowHeight = 950
-  let actualZoomFactor = 1
 
   const { workAreaSize } = screen.getPrimaryDisplay()
-  const actualScreenToWindowRatio = minWindowHeight / workAreaSize.height
+  const actualScreenToMinWindowRatio = workAreaSize.height / desirableWindowHeight
 
-  if (actualScreenToWindowRatio > minScreenToWindowRatio) {
-    actualMinWindowHeight *= minScreenToWindowRatio
-    actualWindowHeight *= minScreenToWindowRatio
-    actualZoomFactor *= minScreenToWindowRatio
+  if (actualScreenToMinWindowRatio < desirableScreenToWindowRatio) {
+    actualWindowHeight = workAreaSize.height * desirableScreenToWindowRatio
   }
 
   return {
-    minHeight: actualMinWindowHeight,
-    height: actualWindowHeight,
-    zoomFactor: actualZoomFactor
+    height: Math.round(actualWindowHeight)
   }
 }
