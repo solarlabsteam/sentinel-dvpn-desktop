@@ -74,7 +74,7 @@ body {
   flex: none;
   overflow-x: auto;
   box-sizing: border-box;
-  width: 365px;
+  width: 400px;
   height: 100%;
   padding: 20px 24px 20px 16px;
 }
