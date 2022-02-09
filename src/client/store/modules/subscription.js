@@ -64,6 +64,7 @@ export default {
           success: true,
           response: data
         })
+        dispatch('fetchSubscribedNodes')
       } catch (e) {
         await dispatch('setPaymentResult', {
           success: false,
