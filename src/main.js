@@ -1,7 +1,18 @@
 'use strict'
 
 import path from 'path'
-import { app, protocol, BrowserWindow, Menu, nativeImage, Tray, globalShortcut, dialog, screen } from 'electron'
+import {
+  app,
+  protocol,
+  BrowserWindow,
+  Menu,
+  nativeImage,
+  Tray,
+  globalShortcut,
+  dialog,
+  screen,
+  safeStorage
+} from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import i18next from 'i18next'
@@ -37,7 +48,7 @@ if (!gotTheLock) {
     try {
       await initI18n()
     } catch (e) {
-      console.trace('Cannot load locales')
+      logger.error('Cannot load locales')
     }
 
     try {
@@ -54,6 +65,14 @@ if (!gotTheLock) {
       await import('./main/ipc')
 
       await createWindow()
+
+      if (!safeStorage.isEncryptionAvailable()) {
+        dialog.showErrorBox(i18next.t('dialog.decryption.error.title'), i18next.t('dialog.decryption.error.message'))
+        app.isQuitting = true
+        app.quit()
+        return
+      }
+
       tray = createTray()
       createMenu()
     } catch (e) {

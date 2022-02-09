@@ -46,6 +46,12 @@ export default {
           }
         }
       },
+      decryption: {
+        error: {
+          title: 'Decryption error',
+          message: 'Decryption is not available. Enable decryption and try again.'
+        }
+      },
       button: {
         cancel: 'Cancel'
       }
