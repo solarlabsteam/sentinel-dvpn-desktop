@@ -307,11 +307,18 @@ function getWindowRatio () {
 
   let actualWindowHeight = 950
 
-  const { workAreaSize } = screen.getPrimaryDisplay()
-  const actualScreenToMinWindowRatio = workAreaSize.height / desirableWindowHeight
+  try {
+    const { workAreaSize } = screen.getPrimaryDisplay()
+    const actualScreenToMinWindowRatio = workAreaSize.height / desirableWindowHeight
 
-  if (actualScreenToMinWindowRatio < desirableScreenToWindowRatio) {
-    actualWindowHeight = workAreaSize.height * desirableScreenToWindowRatio
+    if (actualScreenToMinWindowRatio < desirableScreenToWindowRatio) {
+      actualWindowHeight = workAreaSize.height * desirableScreenToWindowRatio
+    }
+  } catch (e) {
+    logger.error(e)
+    return {
+      height: desirableWindowHeight
+    }
   }
 
   return {
