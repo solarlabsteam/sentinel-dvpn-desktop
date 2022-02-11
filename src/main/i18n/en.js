@@ -55,6 +55,12 @@ export default {
       button: {
         cancel: 'Cancel'
       }
+    },
+
+    error: {
+      rpc: {
+        deadline: 'Request timed-out. Check your internet connection.'
+      }
     }
   }
 }
