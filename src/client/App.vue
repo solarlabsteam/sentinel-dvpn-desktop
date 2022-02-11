@@ -62,7 +62,8 @@ body {
 
 #app {
   display: flex;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   height: 100vh;
   background-color: $slr__clr-dark-blue;
   font-family: 'Poppins', sans-serif;
