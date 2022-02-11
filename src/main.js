@@ -147,7 +147,6 @@ async function createWindow () {
 
   win = new BrowserWindow({
     width: 1200,
-    minWidth: 870,
     height,
     icon: nativeImage.createFromPath(path.resolve(__static, 'assets/images/logo.png')),
     autoHideMenuBar: true,
