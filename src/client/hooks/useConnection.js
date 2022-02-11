@@ -36,6 +36,10 @@ export default function useConnection () {
       await setStoreValue('selectedNode', node)
       await store.dispatch('connectToNode')
     } catch (e) {
+      if (e.isResubscribeNeeded) {
+        promptSubscription(node)
+      }
+
       await store.dispatch('setConnectionLoadingState', false)
     }
   }

@@ -1,5 +1,6 @@
 import { ipcMain } from 'electron'
 import i18next from 'i18next'
+import uint64be from 'uint64be'
 import { DVPN_KEY_NAME } from '@/shared/constants'
 import Notifications from '@/main/common/Notifications'
 import { generateError } from '@/main/utils/errorHandler'
@@ -10,12 +11,14 @@ import SessionService from '@/main/services/SessionService'
 import SubscriptionService from '@/main/services/SubscriptionService'
 import logger from '@/main/utils/logger'
 import { CONNECT_TO_NODE, DISCONNECT, QUERY_CONNECTION_STATUS, QUERY_SERVICE_SERVER } from '@/shared/channel-types'
+import SignService from '@/main/services/SignService'
 
 const accountService = new AccountService()
 const nodeService = new NodeService()
 const sessionService = new SessionService()
 const connectionService = new ConnectionService()
 const subscriptionService = new SubscriptionService()
+const signService = new SignService()
 
 function initConnectionListeners () {
   ipcMain.on(CONNECT_TO_NODE, async (event, payload) => {
@@ -55,9 +58,28 @@ function initConnectionListeners () {
       }
 
       const nodeInfo = await nodeService.queryNode(activeSession.node)
-      const { result: info, privateKey } = await connectionService.queryConnectionData(nodeInfo.remoteUrl, key.addressBech32, activeSession.id)
-      const result = await connectionService.queryConnectToNode(subscription.id, DVPN_KEY_NAME, subscription.node, info, privateKey, resolvers)
+      const encodedBuffer = uint64be.encode(activeSession.id)
+      const { signature } = await signService.querySignedBytes(Array.from(encodedBuffer))
 
+      let connectionData
+      try {
+        connectionData = await connectionService.queryConnectionData(nodeInfo.remoteUrl, key.addressBech32, activeSession.id, signature)
+      } catch (e) {
+        const error = generateError(e)
+        logger.error(CONNECT_TO_NODE, error.message)
+
+        if (!e.response && e.response.status === 400) {
+          Notifications.createCritical(i18next.t('connection.error.allDataUsed')).show()
+          event.reply(CONNECT_TO_NODE, { error: { ...error, isResubscribeNeeded: true } })
+          return
+        }
+
+        Notifications.createCritical(i18next.t('connection.error.unavailableNode')).show()
+        event.reply(CONNECT_TO_NODE, { error })
+        return
+      }
+
+      const result = await connectionService.queryConnectToNode(subscription.id, DVPN_KEY_NAME, subscription.node, connectionData.result, connectionData.privateKey, resolvers)
       event.reply(CONNECT_TO_NODE, { data: result })
     } catch (e) {
       const error = generateError(e)
