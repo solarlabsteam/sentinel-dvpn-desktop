@@ -2,26 +2,27 @@
   <div class="change-location mb-4">
     <page-header>
       <slr-button
-        v-if="!isNodesLoading && !isSubscribedNodesLoading"
         :text="true"
         :tiny="true"
         class="mt-1"
-        :disabled="isNodesLoading || isSubscribedNodesLoading"
+        :loading="isNodesLoading || isSubscribedNodesLoading"
         @click="fetchNodes"
       >
-        <template #icon>
+        <template #icon="{ loading }">
           <slr-icon
+            v-if="!loading"
             :size="14"
             :icon="'refresh'"
           />
         </template>
-      </slr-button>
 
-      <slr-loader
-        v-else
-        class="ml-2"
-        :size="16"
-      />
+        <template #default="{ loading }">
+          <slr-loader
+            v-if="loading"
+            :size="16"
+          />
+        </template>
+      </slr-button>
     </page-header>
 
     <slr-tabs

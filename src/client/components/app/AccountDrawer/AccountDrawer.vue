@@ -15,24 +15,24 @@
           <slr-button
             :text="true"
             :tiny="true"
-            class="mt-1 ml-1"
-            :disabled="isBalancesLoading"
+            class="ml-1"
+            :loading="isBalancesLoading"
             @click="fetchBalances"
           >
-            <template
-              v-if="!isBalancesLoading"
-              #icon
-            >
+            <template #icon="{ loading }">
               <slr-icon
+                v-if="!loading"
                 :size="14"
                 :icon="'refresh'"
               />
             </template>
 
-            <slr-loader
-              v-if="isBalancesLoading"
-              :size="14"
-            />
+            <template #default="{ loading }">
+              <slr-loader
+                v-if="loading"
+                :size="14"
+              />
+            </template>
           </slr-button>
         </p>
 

@@ -7,8 +7,12 @@
     <slot
       v-if="$slots['icon']"
       name="icon"
+      :loading="loading"
     />
-    <slot :loading="loading" />
+    <slot
+      name="default"
+      :loading="loading"
+    />
   </button>
 </template>
 
