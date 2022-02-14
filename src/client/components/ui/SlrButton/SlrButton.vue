@@ -8,7 +8,7 @@
       v-if="$slots['icon']"
       name="icon"
     />
-    <slot />
+    <slot :loading="loading" />
   </button>
 </template>
 
@@ -50,6 +50,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -59,7 +63,7 @@ export default {
     const router = useRouter()
 
     const onClick = (e) => {
-      if (props.disabled) {
+      if (props.disabled || props.loading) {
         e.stopImmediatePropagation()
         e.preventDefault()
         return
@@ -77,7 +81,8 @@ export default {
       'slr-button--text': props.text,
       'slr-button--tiny': props.tiny,
       'slr-button--rounded': props.rounded,
-      'slr-button--large': props.rounded
+      'slr-button--large': props.rounded,
+      'slr-button--disabled': props.disabled || props.loading
     }
 
     return {

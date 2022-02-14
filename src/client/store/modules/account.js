@@ -1,7 +1,8 @@
 import {
   SET_USER_LOADING_STATE,
   SET_USER,
-  SET_BALANCES
+  SET_BALANCES,
+  SET_BALANCE_LOADING_STATE
 } from '@/client/store/mutation-types'
 import { setStoreValue } from '@/client/store/plugins/syncElectronStore'
 import { once, onceForAll } from '@/client/store/helpers/promisifyIpc'
@@ -10,7 +11,8 @@ import { QUERY_USER, CREATE_USER, QUERY_BALANCES } from '@/shared/channel-types'
 const getInitialState = () => ({
   user: null,
   isUserLoading: false,
-  balances: []
+  balances: [],
+  isBalancesLoading: false
 })
 
 export default {
@@ -19,7 +21,8 @@ export default {
   getters: {
     user: state => state.user,
     isUserLoading: state => state.isUserLoading,
-    balances: state => state.balances
+    balances: state => state.balances,
+    isBalancesLoading: state => state.isBalancesLoading
   },
 
   actions: {
@@ -61,8 +64,14 @@ export default {
     },
 
     async fetchBalances ({ commit }) {
-      const balances = await onceForAll(QUERY_BALANCES)
-      commit(SET_BALANCES, balances)
+      commit(SET_BALANCE_LOADING_STATE, true)
+
+      try {
+        const balances = await onceForAll(QUERY_BALANCES)
+        commit(SET_BALANCES, balances)
+      } finally {
+        commit(SET_BALANCE_LOADING_STATE, false)
+      }
     }
   },
 
@@ -75,6 +84,9 @@ export default {
     },
     [SET_BALANCES] (state, payload) {
       state.balances = payload
+    },
+    [SET_BALANCE_LOADING_STATE] (state, value) {
+      state.isBalancesLoading = value
     }
   }
 }

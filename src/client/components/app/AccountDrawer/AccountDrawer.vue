@@ -11,6 +11,29 @@
         </p>
         <p class="account-drawer__balance">
           <span>{{ balance }}</span>&nbsp;<span>DVPN</span>
+
+          <slr-button
+            :text="true"
+            :tiny="true"
+            class="mt-1 ml-1"
+            :disabled="isBalancesLoading"
+            @click="fetchBalances"
+          >
+            <template
+              v-if="!isBalancesLoading"
+              #icon
+            >
+              <slr-icon
+                :size="14"
+                :icon="'refresh'"
+              />
+            </template>
+
+            <slr-loader
+              v-if="isBalancesLoading"
+              :size="14"
+            />
+          </slr-button>
         </p>
 
         <qr-code
@@ -63,7 +86,7 @@ export default {
     const isOpen = ref(false)
     const emitter = useGlobalEmitter()
     const { t } = useI18n()
-    const { balance, fetchBalances } = useBalance()
+    const { balance, fetchBalances, isBalancesLoading } = useBalance()
 
     const open = () => {
       isOpen.value = true
@@ -83,7 +106,9 @@ export default {
       close,
       user: computed(() => store.getters.user),
       balance,
-      t
+      t,
+      isBalancesLoading,
+      fetchBalances
     }
   }
 }
