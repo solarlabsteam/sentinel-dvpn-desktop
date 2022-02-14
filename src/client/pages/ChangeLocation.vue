@@ -100,7 +100,7 @@
 
 <script>
 import { useStore } from 'vuex'
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import NodeDetails from '@/client/components/app/NodeDetails'
@@ -136,10 +136,6 @@ export default {
       store.dispatch('fetchNodes')
       store.dispatch('fetchSubscribedNodes')
     }
-
-    onMounted(() => {
-      fetchNodes()
-    })
 
     return {
       nodes: computed(() => store.getters.nodes),

@@ -42,8 +42,13 @@ export default {
     watch(
       () => store.getters.user,
       user => {
-        if (user && !selectedNode.value) {
+        if (!user) return
+
+        if (!selectedNode.value) {
           store.dispatch('selectDefaultNode')
+        } else {
+          store.dispatch('fetchNodes')
+          store.dispatch('fetchSubscribedNodes')
         }
       }
     )
