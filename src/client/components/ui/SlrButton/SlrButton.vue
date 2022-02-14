@@ -14,6 +14,7 @@
 
 <script>
 import { useRouter } from 'vue-router'
+import { computed } from 'vue'
 
 export default {
   name: 'SlrButton',
@@ -61,6 +62,14 @@ export default {
 
   setup (props, { emit }) {
     const router = useRouter()
+    const classes = computed(() => ({
+      'slr-button--block': props.block,
+      'slr-button--text': props.text,
+      'slr-button--tiny': props.tiny,
+      'slr-button--rounded': props.rounded,
+      'slr-button--large': props.rounded,
+      'slr-button--disabled': props.disabled || props.loading
+    }))
 
     const onClick = (e) => {
       if (props.disabled || props.loading) {
@@ -74,15 +83,6 @@ export default {
       if (props.to) {
         router.push(props.to)
       }
-    }
-
-    const classes = {
-      'slr-button--block': props.block,
-      'slr-button--text': props.text,
-      'slr-button--tiny': props.tiny,
-      'slr-button--rounded': props.rounded,
-      'slr-button--large': props.rounded,
-      'slr-button--disabled': props.disabled || props.loading
     }
 
     return {
