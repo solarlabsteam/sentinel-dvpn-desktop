@@ -79,15 +79,26 @@
           {{ t('node.list.noData') }}
         </p>
 
+        <slr-button
+          v-if="displayedContinent"
+          :tiny="true"
+          :text="true"
+          class="mt-4 m-s14-lh17"
+          @click="resetContinent"
+        >
+          {{ t('action.back') }}
+        </slr-button>
+
         <template v-for="(continentNodes, continentName) in nodes">
           <ul
             v-if="displayedContinent === continentName"
             :key="continentName"
           >
             <li
-              v-for="node in continentNodes"
+              v-for="(node, idx) in continentNodes"
               :key="node.address"
               class="change-location__list-item"
+              :class="{'pt-4': idx === 0}"
               @click="() => openNode(node)"
             >
               <node-details :node="node" />
