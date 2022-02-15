@@ -13,6 +13,12 @@ const routes = [
     name: 'home',
     meta: {
       title: i18n.global.t('route.changeLocation.title')
+    },
+    props: route => {
+      let tab = Number(route.query.tab)
+      if (isNaN(tab)) tab = null
+
+      return { tab, continent: route.query.continent }
     }
   },
   {

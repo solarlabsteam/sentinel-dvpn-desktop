@@ -3,10 +3,7 @@
     v-if="node"
     class="node"
   >
-    <page-header
-      :to="{name: 'home'}"
-      class="mb-4"
-    />
+    <page-header class="mb-4" />
 
     <node-preview
       :title="node.moniker"

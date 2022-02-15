@@ -26,8 +26,8 @@
     </page-header>
 
     <slr-tabs
-      :default-active-tab="subscribedNodes.length > 0 ? 0 : 1"
-      @change="resetContinent"
+      :default-active-tab="defaultActiveTab"
+      @change="onTabChanged"
     >
       <slr-tab :title="t('route.changeLocation.tab.subscriptions.title')">
         <ul v-if="subscribedNodes.length">
@@ -53,13 +53,13 @@
           v-if="nodes.length && displayedContinent === null"
         >
           <li
-            v-for="(continentNodes, continent) in nodes"
-            :key="continent"
+            v-for="(continentNodes, continentName) in nodes"
+            :key="continentName"
             class="change-location__list-item change-location__list-item--continent"
-            @click="() => openContinent(continent)"
+            @click="() => openContinent(continentName)"
           >
             <continent-preview
-              :continent="continent"
+              :continent="continentName"
               :nodes-length="continentNodes.length"
             />
 
@@ -79,10 +79,10 @@
           {{ t('node.list.noData') }}
         </p>
 
-        <template v-for="(continentNodes, continent) in nodes">
+        <template v-for="(continentNodes, continentName) in nodes">
           <ul
-            v-if="displayedContinent === continent"
-            :key="continent"
+            v-if="displayedContinent === continentName"
+            :key="continentName"
           >
             <li
               v-for="node in continentNodes"
@@ -101,7 +101,7 @@
 
 <script>
 import { useStore } from 'vuex'
-import { computed, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import NodeDetails from '@/client/components/app/NodeDetails'
@@ -114,13 +114,28 @@ export default {
     NodeDetails,
     ContinentPreview
   },
-  setup () {
+
+  props: {
+    tab: {
+      type: Number,
+      default: null
+    },
+    continent: {
+      type: String,
+      default: null
+    }
+  },
+
+  setup (props) {
     const store = useStore()
     const { t } = useI18n()
     const router = useRouter()
     const displayedContinent = ref(null)
+    const subscribedNodes = computed(() => store.getters.subscribedNodes)
+    const defaultActiveTab = computed(() => props.tab ?? (subscribedNodes.value.length > 0 ? 0 : 1))
 
     const openContinent = c => {
+      router.push({ name: 'home', query: { continent: c, tab: 1 } })
       displayedContinent.value = c
     }
 
@@ -138,17 +153,27 @@ export default {
       store.dispatch('fetchSubscribedNodes')
     }
 
+    const onTabChanged = tabIdx => {
+      router.push({ name: 'home', query: { tab: tabIdx } })
+      resetContinent()
+    }
+
+    onBeforeMount(() => {
+      displayedContinent.value = props.continent
+    })
+
     return {
       nodes: computed(() => store.getters.nodes),
       isNodesLoading: computed(() => store.getters.isNodesLoading),
-      subscribedNodes: computed(() => store.getters.subscribedNodes),
+      subscribedNodes,
       isSubscribedNodesLoading: computed(() => store.getters.isSubscribedNodesLoading),
       selectedNode: computed(() => store.getters.selectedNode),
       t,
+      defaultActiveTab,
       openNode,
       openContinent,
       displayedContinent,
-      resetContinent,
+      onTabChanged,
       fetchNodes
     }
   }
