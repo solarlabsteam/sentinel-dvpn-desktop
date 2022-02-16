@@ -83,7 +83,7 @@
           v-if="displayedContinent"
           :tiny="true"
           :text="true"
-          class="mt-4 m-s14-lh17"
+          class="mt-4 m-s14-lh17 px-0"
           @click="resetContinent"
         >
           {{ t('action.back') }}
