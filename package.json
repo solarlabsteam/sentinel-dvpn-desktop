@@ -88,7 +88,7 @@
     "last 2 versions",
     "not dead"
   ],
-  "_id": "sentinel-dvpn-desktop@0.1.0",
+  "_id": "sentinel-dvpn-desktop@1.0.0",
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
