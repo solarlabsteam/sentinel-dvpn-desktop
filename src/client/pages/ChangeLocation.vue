@@ -1,19 +1,35 @@
 <template>
   <div class="change-location mb-4">
-    <page-header />
+    <page-header>
+      <slr-button
+        :text="true"
+        :tiny="true"
+        class="mt-1"
+        :loading="isNodesLoading || isSubscribedNodesLoading"
+        @click="fetchNodes"
+      >
+        <template #icon="{ loading }">
+          <slr-icon
+            v-if="!loading"
+            :size="14"
+            :icon="'refresh'"
+          />
+        </template>
+
+        <template #default="{ loading }">
+          <slr-loader
+            v-if="loading"
+            :size="16"
+          />
+        </template>
+      </slr-button>
+    </page-header>
 
     <slr-tabs
-      :default-active-tab="subscribedNodes.length > 0 ? 0 : 1"
-      @change="resetContinent"
+      :default-active-tab="defaultActiveTab"
+      @change="onTabChanged"
     >
       <slr-tab :title="t('route.changeLocation.tab.subscriptions.title')">
-        <div
-          v-if="isSubscribedNodesLoading"
-          class="text-center mt-5"
-        >
-          <slr-loader :size="20" />
-        </div>
-
         <ul v-if="subscribedNodes.length">
           <li
             v-for="node in subscribedNodes"
@@ -26,31 +42,24 @@
         </ul>
 
         <p
-          v-else-if="!isSubscribedNodesLoading"
+          v-else
           class="m-s12-lh15 opacity-4 text-center mt-5"
         >
           {{ t('subscription.list.noData') }}
         </p>
       </slr-tab>
       <slr-tab :title="t('route.changeLocation.tab.nodes.title')">
-        <div
-          v-if="isNodesLoading"
-          class="text-center mt-5"
-        >
-          <slr-loader :size="20" />
-        </div>
-
         <ul
           v-if="nodes.length && displayedContinent === null"
         >
           <li
-            v-for="(continentNodes, continent) in nodes"
-            :key="continent"
+            v-for="(continentNodes, continentName) in nodes"
+            :key="continentName"
             class="change-location__list-item change-location__list-item--continent"
-            @click="() => openContinent(continent)"
+            @click="() => openContinent(continentName)"
           >
             <continent-preview
-              :continent="continent"
+              :continent="continentName"
               :nodes-length="continentNodes.length"
             />
 
@@ -64,21 +73,32 @@
         </ul>
 
         <p
-          v-if="!nodes.length && !isNodesLoading"
+          v-if="!nodes.length"
           class="m-s12-lh15 opacity-4 text-center mt-5"
         >
           {{ t('node.list.noData') }}
         </p>
 
-        <template v-for="(continentNodes, continent) in nodes">
+        <slr-button
+          v-if="displayedContinent"
+          :tiny="true"
+          :text="true"
+          class="mt-4 m-s14-lh17 px-0"
+          @click="resetContinent"
+        >
+          {{ t('action.back') }}
+        </slr-button>
+
+        <template v-for="(continentNodes, continentName) in nodes">
           <ul
-            v-if="displayedContinent === continent"
-            :key="continent"
+            v-if="displayedContinent === continentName"
+            :key="continentName"
           >
             <li
-              v-for="node in continentNodes"
+              v-for="(node, idx) in continentNodes"
               :key="node.address"
               class="change-location__list-item"
+              :class="{'pt-4': idx === 0}"
               @click="() => openNode(node)"
             >
               <node-details :node="node" />
@@ -92,7 +112,7 @@
 
 <script>
 import { useStore } from 'vuex'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import NodeDetails from '@/client/components/app/NodeDetails'
@@ -105,13 +125,28 @@ export default {
     NodeDetails,
     ContinentPreview
   },
-  setup () {
+
+  props: {
+    tab: {
+      type: Number,
+      default: null
+    },
+    continent: {
+      type: String,
+      default: null
+    }
+  },
+
+  setup (props) {
     const store = useStore()
     const { t } = useI18n()
     const router = useRouter()
     const displayedContinent = ref(null)
+    const subscribedNodes = computed(() => store.getters.subscribedNodes)
+    const defaultActiveTab = computed(() => props.tab ?? (subscribedNodes.value.length > 0 ? 0 : 1))
 
     const openContinent = c => {
+      router.push({ name: 'home', query: { continent: c, tab: 1 } })
       displayedContinent.value = c
     }
 
@@ -124,21 +159,33 @@ export default {
       displayedContinent.value = null
     }
 
-    onMounted(() => {
+    const fetchNodes = () => {
       store.dispatch('fetchNodes')
       store.dispatch('fetchSubscribedNodes')
+    }
+
+    const onTabChanged = tabIdx => {
+      router.push({ name: 'home', query: { tab: tabIdx } })
+      resetContinent()
+    }
+
+    onBeforeMount(() => {
+      displayedContinent.value = props.continent
     })
 
     return {
       nodes: computed(() => store.getters.nodes),
       isNodesLoading: computed(() => store.getters.isNodesLoading),
-      subscribedNodes: computed(() => store.getters.subscribedNodes),
+      subscribedNodes,
       isSubscribedNodesLoading: computed(() => store.getters.isSubscribedNodesLoading),
       selectedNode: computed(() => store.getters.selectedNode),
       t,
+      defaultActiveTab,
       openNode,
       openContinent,
       displayedContinent,
+      onTabChanged,
+      fetchNodes,
       resetContinent
     }
   }
@@ -163,6 +210,10 @@ export default {
     &:last-child {
       border-bottom: none;
     }
+  }
+
+  &__step-back.slr-button {
+    @include font-template(18px, 27px)
   }
 }
 </style>

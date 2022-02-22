@@ -8,6 +8,7 @@ import TransactionService from '@/main/services/TransactionService'
 import DvpnApi from '@/main/api/rest/DvpnApi'
 import RemoteNodeApi from '@/main/api/RemoteNodeApi'
 import continents from '@/main/data/continents'
+import { DENOM } from '@/shared/constants'
 
 class NodeService {
   constructor () {
@@ -104,6 +105,10 @@ class NodeService {
     const startTime = new Date()
     const { data } = await this.queryNodeStatus(node.remoteUrl)
 
+    if (!data.result || !data.result.price.includes(DENOM)) {
+      throw new Error('non-valid node')
+    }
+
     if (data.result) {
       data.result.bandwidth.downloadDetailed = this.formatBandwidth(data.result.bandwidth.download)
       data.result.bandwidth.uploadDetailed = this.formatBandwidth(data.result.bandwidth.upload)
@@ -115,7 +120,7 @@ class NodeService {
 
     return {
       ...node,
-      ...data.result || {}
+      ...data.result
     }
   }
 

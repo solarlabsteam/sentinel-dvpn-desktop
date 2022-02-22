@@ -46,4 +46,8 @@
       border-radius: 36px;
     }
   }
+
+  &--disabled {
+    cursor: default;
+  }
 }

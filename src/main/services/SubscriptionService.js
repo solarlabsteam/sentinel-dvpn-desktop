@@ -57,7 +57,9 @@ class SubscriptionService {
 
   async querySubscriptionForAddress (address, node) {
     const subscriptions = await this.querySubscriptionsForAddress(address)
-    return subscriptions.find(s => s.node === node)
+    return subscriptions
+      .filter(s => s.node === node)
+      .pop()
   }
 
   async subscribeToNode (to, deposit) {

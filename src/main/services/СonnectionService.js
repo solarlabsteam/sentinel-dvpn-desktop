@@ -1,22 +1,17 @@
-import uint64be from 'uint64be'
 import { Wg } from 'wireguard-wrapper'
-import SignService from '@/main/services/SignService'
 import DvpnApi from '@/main/api/rest/DvpnApi'
 import RemoteNodeApi from '@/main/api/RemoteNodeApi'
 
 class ConnectionService {
   constructor () {
-    this.signService = new SignService()
     this.restDvpnApi = new DvpnApi()
   }
 
-  async queryConnectionData (nodeRemoteHost, address, sessionId) {
-    const encodedBuffer = uint64be.encode(sessionId)
-    const { signature } = await this.signService.querySignedBytes(Array.from(encodedBuffer))
+  async queryConnectionData (nodeRemoteHost, address, sessionId, signature) {
     const privateKey = await Wg.genkey()
     const publicKey = await Wg.pubkey(privateKey)
-
     const api = new RemoteNodeApi(nodeRemoteHost)
+
     const result = await api.signSession(address, sessionId, {
       key: publicKey,
       signature

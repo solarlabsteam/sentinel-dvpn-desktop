@@ -42,8 +42,13 @@ export default {
     watch(
       () => store.getters.user,
       user => {
-        if (user && !selectedNode.value) {
+        if (!user) return
+
+        if (!selectedNode.value) {
           store.dispatch('selectDefaultNode')
+        } else {
+          store.dispatch('fetchNodes')
+          store.dispatch('fetchSubscribedNodes')
         }
       }
     )
@@ -62,7 +67,8 @@ body {
 
 #app {
   display: flex;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   height: 100vh;
   background-color: $slr__clr-dark-blue;
   font-family: 'Poppins', sans-serif;
@@ -73,9 +79,9 @@ body {
 .page {
   flex: none;
   overflow-x: auto;
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
   box-sizing: border-box;
-  width: 365px;
+  width: 30%;
+  min-width: 400px;
   height: 100%;
   padding: 20px 24px 20px 16px;
 }

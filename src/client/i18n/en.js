@@ -28,7 +28,7 @@ export default {
   onboarding: {
     first: {
       title: 'Military Grade Encryption',
-      description: 'You can choose from WireGuard or OpenVPN servers which enforce quantum level encryption standards such as AES-256.'
+      description: 'You can choose WireGuard or OpenVPN servers which enforce quantum level encryption standards such as AES-256.'
     },
     second: {
       title: 'Absolute Transparency',
@@ -166,6 +166,6 @@ export default {
   },
 
   subscriptionModal: {
-    header: 'How much DVPN do you want to spent?'
+    header: 'How much DVPN do you want to spend?'
   }
 }

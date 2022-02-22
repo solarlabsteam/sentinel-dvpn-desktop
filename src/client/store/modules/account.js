@@ -1,14 +1,18 @@
 import {
   SET_USER_LOADING_STATE,
   SET_USER,
-  SET_BALANCES
+  SET_BALANCES,
+  SET_BALANCE_LOADING_STATE
 } from '@/client/store/mutation-types'
 import { setStoreValue } from '@/client/store/plugins/syncElectronStore'
+import { once, onceForAll } from '@/client/store/helpers/promisifyIpc'
+import { QUERY_USER, CREATE_USER, QUERY_BALANCES } from '@/shared/channel-types'
 
 const getInitialState = () => ({
   user: null,
   isUserLoading: false,
-  balances: []
+  balances: [],
+  isBalancesLoading: false
 })
 
 export default {
@@ -17,68 +21,41 @@ export default {
   getters: {
     user: state => state.user,
     isUserLoading: state => state.isUserLoading,
-    balances: state => state.balances
+    balances: state => state.balances,
+    isBalancesLoading: state => state.isBalancesLoading
   },
 
   actions: {
-    fetchUser ({ commit }) {
+    async fetchUser ({ commit }) {
       commit(SET_USER_LOADING_STATE, true)
 
-      return new Promise((resolve, reject) => {
-        window.ipc.once('QUERY_USER', payload => {
-          if (payload.error) {
-            commit(SET_USER_LOADING_STATE, false)
-            reject(payload.error)
-            return
-          }
-
-          commit(SET_USER, payload.data)
-          commit(SET_USER_LOADING_STATE, false)
-          resolve()
-        })
-
-        window.ipc.send('QUERY_USER')
-      })
+      try {
+        const user = await once(QUERY_USER)
+        commit(SET_USER, user)
+      } finally {
+        commit(SET_USER_LOADING_STATE, false)
+      }
     },
 
-    createAccount ({ commit, dispatch }, payload = {}) {
+    async createUser ({ commit, dispatch }, payload = {}) {
       commit(SET_USER_LOADING_STATE, true)
 
-      return new Promise((resolve, reject) => {
-        window.ipc.once('ADD_ACCOUNT', async payload => {
-          if (payload.error) {
-            commit(SET_USER_LOADING_STATE, false)
-            reject(payload.error)
-            return
-          }
-
-          commit(SET_USER_LOADING_STATE, false)
-          resolve(payload.data)
-        })
-
-        window.ipc.send('ADD_ACCOUNT', JSON.stringify(payload))
-      })
+      try {
+        return await once(CREATE_USER, payload)
+      } finally {
+        commit(SET_USER_LOADING_STATE, false)
+      }
     },
 
-    importAccount ({ commit, dispatch }, payload = {}) {
+    async importUser ({ commit, dispatch }, payload = {}) {
       commit(SET_USER_LOADING_STATE, true)
 
-      return new Promise((resolve, reject) => {
-        window.ipc.once('ADD_ACCOUNT', async payload => {
-          if (payload.error) {
-            commit(SET_USER_LOADING_STATE, false)
-            reject(payload.error)
-            return
-          }
-
-          const { mnemonic, ...user } = payload.data
-          await dispatch('setUser', user)
-          commit(SET_USER_LOADING_STATE, false)
-          resolve()
-        })
-
-        window.ipc.send('ADD_ACCOUNT', JSON.stringify(payload))
-      })
+      try {
+        const { mnemonic, ...user } = await once(CREATE_USER, payload)
+        await dispatch('setUser', user)
+      } finally {
+        commit(SET_USER_LOADING_STATE, false)
+      }
     },
 
     async setUser ({ commit }, payload) {
@@ -86,22 +63,15 @@ export default {
       commit(SET_USER, payload)
     },
 
-    fetchBalances ({ commit }) {
-      window.ipc.removeAllListeners('QUERY_BALANCES')
+    async fetchBalances ({ commit }) {
+      commit(SET_BALANCE_LOADING_STATE, true)
 
-      return new Promise((resolve, reject) => {
-        window.ipc.once('QUERY_BALANCES', payload => {
-          if (payload.error) {
-            reject(payload.error)
-            return
-          }
-
-          commit(SET_BALANCES, payload.data)
-          resolve()
-        })
-
-        window.ipc.send('QUERY_BALANCES')
-      })
+      try {
+        const balances = await onceForAll(QUERY_BALANCES)
+        commit(SET_BALANCES, balances)
+      } finally {
+        commit(SET_BALANCE_LOADING_STATE, false)
+      }
     }
   },
 
@@ -114,6 +84,9 @@ export default {
     },
     [SET_BALANCES] (state, payload) {
       state.balances = payload
+    },
+    [SET_BALANCE_LOADING_STATE] (state, value) {
+      state.isBalancesLoading = value
     }
   }
 }

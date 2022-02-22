@@ -7,13 +7,19 @@
     <slot
       v-if="$slots['icon']"
       name="icon"
+      :loading="loading"
     />
-    <slot />
+    <slot
+      name="default"
+      :loading="loading"
+    />
   </button>
 </template>
 
 <script>
 import { useRouter } from 'vue-router'
+import { computed } from 'vue'
+import useShell from '@/client/hooks/useShell'
 
 export default {
   name: 'SlrButton',
@@ -50,6 +56,14 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    loading: {
+      type: Boolean,
+      default: false
+    },
+    href: {
+      type: String,
+      default: ''
     }
   },
 
@@ -57,9 +71,18 @@ export default {
 
   setup (props, { emit }) {
     const router = useRouter()
+    const { openUrl } = useShell()
+    const classes = computed(() => ({
+      'slr-button--block': props.block,
+      'slr-button--text': props.text,
+      'slr-button--tiny': props.tiny,
+      'slr-button--rounded': props.rounded,
+      'slr-button--large': props.rounded,
+      'slr-button--disabled': props.disabled || props.loading
+    }))
 
     const onClick = (e) => {
-      if (props.disabled) {
+      if (props.disabled || props.loading) {
         e.stopImmediatePropagation()
         e.preventDefault()
         return
@@ -69,15 +92,12 @@ export default {
 
       if (props.to) {
         router.push(props.to)
+        return
       }
-    }
 
-    const classes = {
-      'slr-button--block': props.block,
-      'slr-button--text': props.text,
-      'slr-button--tiny': props.tiny,
-      'slr-button--rounded': props.rounded,
-      'slr-button--large': props.rounded
+      if (props.href) {
+        openUrl(props.href)
+      }
     }
 
     return {

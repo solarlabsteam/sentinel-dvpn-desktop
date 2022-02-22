@@ -6,6 +6,8 @@ import {
   SET_CURRENT_IP_LOADING_STATE,
   SET_SERVICE_SERVER_STATE
 } from '@/client/store/mutation-types'
+import { once } from '@/client/store/helpers/promisifyIpc'
+import { CONNECT_TO_NODE, DISCONNECT, QUERY_CONNECTION_STATUS, QUERY_SERVICE_SERVER } from '@/shared/channel-types'
 
 const getDefaultState = () => ({
   isConnectionLoading: false,
@@ -27,99 +29,47 @@ export default {
   },
 
   actions: {
-    connectToNode ({ commit, dispatch, getters }) {
+    async connectToNode ({ commit, dispatch, getters }) {
       commit(SET_CONNECTION_LOADING_STATE, true)
 
-      return Promise
-        .resolve()
-        .then(() => {
-          return new Promise((resolve, reject) => {
-            window.ipc.once('CONNECT_TO_NODE', (payload) => {
-              if (payload.error) {
-                reject(payload.error)
-                return
-              }
-
-              resolve()
-            })
-
-            window.ipc.send('CONNECT_TO_NODE', JSON.stringify({
-              node: getters.selectedNode,
-              resolvers: getters.selectedDns.value.split(', ')
-            }))
-          })
+      try {
+        await once(CONNECT_TO_NODE, {
+          node: getters.selectedNode,
+          resolvers: getters.selectedDns.value.split(', ')
         })
-        .then(() => {
-          dispatch('setConnectedNode', getters.selectedNode)
-          commit(SET_CONNECTION_STATE, true)
-        })
-        .finally(() => {
-          commit(SET_CONNECTION_LOADING_STATE, false)
-        })
+        dispatch('setConnectedNode', getters.selectedNode)
+        commit(SET_CONNECTION_STATE, true)
+      } finally {
+        commit(SET_CONNECTION_LOADING_STATE, false)
+      }
     },
 
-    disconnectFromNode ({ commit, dispatch }) {
+    async disconnectFromNode ({ commit, dispatch }) {
       commit(SET_CONNECTION_LOADING_STATE, true)
 
-      return Promise
-        .resolve()
-        .then(() => {
-          return new Promise((resolve, reject) => {
-            window.ipc.once('DISCONNECT', (payload) => {
-              if (payload.error) {
-                reject(payload.error)
-                return
-              }
-
-              resolve()
-            })
-
-            window.ipc.send('DISCONNECT')
-          })
-        })
-        .then(() => {
-          dispatch('clearConnectedNode')
-          commit(SET_CONNECTION_STATE, false)
-        })
-        .finally(() => {
-          commit(SET_CONNECTION_LOADING_STATE, false)
-        })
+      try {
+        await once(DISCONNECT)
+        dispatch('clearConnectedNode')
+        commit(SET_CONNECTION_STATE, false)
+      } finally {
+        commit(SET_CONNECTION_LOADING_STATE, false)
+      }
     },
 
-    fetchConnectionStatus ({ commit }) {
+    async fetchConnectionStatus ({ commit }) {
       commit(SET_CONNECTION_LOADING_STATE, true)
 
-      return new Promise((resolve, reject) => {
-        window.ipc.once('QUERY_CONNECTION_STATUS', (payload) => {
-          if (payload.error) {
-            commit(SET_CONNECTION_LOADING_STATE, false)
-            reject(payload.error)
-            return
-          }
-
-          commit(SET_CONNECTION_STATE, !!payload.data)
-          commit(SET_CONNECTION_LOADING_STATE, false)
-          resolve()
-        })
-
-        window.ipc.send('QUERY_CONNECTION_STATUS')
-      })
+      try {
+        const data = await once(QUERY_CONNECTION_STATUS)
+        commit(SET_CONNECTION_STATE, !!data)
+      } finally {
+        commit(SET_CONNECTION_LOADING_STATE, false)
+      }
     },
 
     async fetchConnectionServerAvailability ({ commit }) {
-      return new Promise((resolve, reject) => {
-        window.ipc.once('QUERY_SERVICE_SERVER', (payload) => {
-          if (payload.error) {
-            reject(payload.error)
-            return
-          }
-
-          commit(SET_SERVICE_SERVER_STATE, payload.data)
-          resolve()
-        })
-
-        window.ipc.send('QUERY_SERVICE_SERVER')
-      })
+      const data = await once(QUERY_SERVICE_SERVER)
+      commit(SET_SERVICE_SERVER_STATE, data)
     },
 
     setConnectionLoadingState ({ commit }, value) {

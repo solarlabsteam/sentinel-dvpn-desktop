@@ -3,6 +3,8 @@ import {
   SET_QUOTA,
   SET_QUOTA_LOADING_STATE
 } from '@/client/store/mutation-types'
+import { once } from '@/client/store/helpers/promisifyIpc'
+import { QUERY_CHECKED_QUOTA, QUERY_QUOTA } from '@/shared/channel-types'
 
 const getDefaultState = () => ({
   quota: null,
@@ -22,58 +24,26 @@ export default {
   },
 
   actions: {
-    fetchQuota ({ commit, getters }) {
+    async fetchQuota ({ commit, getters }) {
       commit(SET_QUOTA_LOADING_STATE, true)
 
-      return new Promise((resolve, reject) => {
-        window.ipc.once('QUERY_QUOTA', (payload) => {
-          if (payload.error) {
-            commit(SET_QUOTA_LOADING_STATE, false)
-            reject(payload.error)
-            return
-          }
-
-          commit(SET_QUOTA, payload.data)
-          commit(SET_QUOTA_LOADING_STATE, false)
-          resolve()
-        })
-
-        window.ipc.send('QUERY_QUOTA', JSON.stringify(getters.currentSubscription))
-      })
+      try {
+        const data = await once(QUERY_QUOTA, getters.currentSubscription)
+        commit(SET_QUOTA, data)
+      } finally {
+        commit(SET_QUOTA_LOADING_STATE, false)
+      }
     },
-    fetchCheckedQuota ({ commit, getters }, subscription) {
+
+    async fetchCheckedQuota ({ commit, getters }, subscription) {
       commit(SET_CHECKED_QUOTA_LOADING_STATE, true)
 
-      return new Promise((resolve, reject) => {
-        window.ipc.once('QUERY_CHECKED_QUOTA', (payload) => {
-          if (payload.error) {
-            commit(SET_CHECKED_QUOTA_LOADING_STATE, false)
-            reject(payload.error)
-            return
-          }
-
-          commit(SET_CHECKED_QUOTA, payload.data)
-          commit(SET_CHECKED_QUOTA_LOADING_STATE, false)
-          resolve()
-        })
-
-        window.ipc.send('QUERY_CHECKED_QUOTA', JSON.stringify(subscription))
-      })
-    },
-    updateQuota ({ commit, getters }) {
-      return new Promise((resolve, reject) => {
-        window.ipc.once('QUERY_QUOTA', (payload) => {
-          if (payload.error) {
-            reject(payload.error)
-            return
-          }
-
-          commit(SET_QUOTA, payload.data)
-          resolve()
-        })
-
-        window.ipc.send('QUERY_QUOTA', JSON.stringify(getters.currentSubscription))
-      })
+      try {
+        const data = await once(QUERY_CHECKED_QUOTA, subscription)
+        commit(SET_CHECKED_QUOTA, data)
+      } finally {
+        commit(SET_CHECKED_QUOTA_LOADING_STATE, false)
+      }
     },
     clearQuota ({ commit }) {
       commit(CLEAR_QUOTA)

@@ -5,7 +5,9 @@ export default {
         common: 'Please try again or try to connect to another node',
         noSubscription: 'Please select a node with an active subscription',
         noSession: 'Cannot create a session. $t(connection.error.common)',
-        noBalance: 'Not enough tokens to broadcast - you\'ll need at least 0.01 DVPN on your account. Please, check your balance and try again later'
+        noBalance: 'Not enough tokens to broadcast - you\'ll need at least 0.01 DVPN on your account. Please, check your balance and try again later',
+        allDataUsed: 'Data update is pending, but it seems you used all data. Do you want to resubscribe?',
+        unavailableNode: 'Selected node is temporary unavailable. Please, try later or select another node'
       }
     },
 
@@ -46,8 +48,20 @@ export default {
           }
         }
       },
+      decryption: {
+        error: {
+          title: 'Decryption error',
+          message: 'Decryption is not available. Enable decryption and try again.'
+        }
+      },
       button: {
         cancel: 'Cancel'
+      }
+    },
+
+    error: {
+      rpc: {
+        deadline: 'Request timed-out. Check your internet connection.'
       }
     }
   }

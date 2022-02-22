@@ -11,6 +11,29 @@
         </p>
         <p class="account-drawer__balance">
           <span>{{ balance }}</span>&nbsp;<span>DVPN</span>
+
+          <slr-button
+            :text="true"
+            :tiny="true"
+            class="ml-1"
+            :loading="isBalancesLoading"
+            @click="fetchBalances"
+          >
+            <template #icon="{ loading }">
+              <slr-icon
+                v-if="!loading"
+                :size="14"
+                :icon="'refresh'"
+              />
+            </template>
+
+            <template #default="{ loading }">
+              <slr-loader
+                v-if="loading"
+                :size="14"
+              />
+            </template>
+          </slr-button>
         </p>
 
         <qr-code
@@ -35,6 +58,7 @@
           :large="true"
           :rounded="true"
           :block="true"
+          :href="`https://pay.solarlabs.ee/topup?currency=dvpn&wallet=${user?.addressBech32}`"
         >
           {{ t('action.topUp') }}
         </slr-button>
@@ -63,7 +87,7 @@ export default {
     const isOpen = ref(false)
     const emitter = useGlobalEmitter()
     const { t } = useI18n()
-    const { balance, fetchBalances } = useBalance()
+    const { balance, fetchBalances, isBalancesLoading } = useBalance()
 
     const open = () => {
       isOpen.value = true
@@ -83,7 +107,9 @@ export default {
       close,
       user: computed(() => store.getters.user),
       balance,
-      t
+      t,
+      isBalancesLoading,
+      fetchBalances
     }
   }
 }

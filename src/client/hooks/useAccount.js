@@ -12,14 +12,14 @@ export default function useAccount () {
 
   const createNew = async () => {
     try {
-      return await store.dispatch('createAccount')
+      return await store.dispatch('createUser')
     } catch (e) {
       router.push({ name: 'login', query: { isImport: true } })
     }
   }
 
-  const importAccount = async mnemonic => {
-    await store.dispatch('importAccount', { mnemonic })
+  const importUser = async mnemonic => {
+    await store.dispatch('importUser', { mnemonic })
     router.push({ name: 'home' })
   }
 
@@ -27,5 +27,5 @@ export default function useAccount () {
     await store.dispatch('setUser', user)
   }
 
-  return { openAccountDrawer, createNew, importAccount, saveUser }
+  return { openAccountDrawer, createNew, importUser, saveUser }
 }

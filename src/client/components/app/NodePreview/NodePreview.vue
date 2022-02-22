@@ -20,6 +20,7 @@
 <script>
 import { computed } from 'vue'
 import lookupCountry from 'country-code-lookup'
+import checkCountryName from '@/shared/checkCountryName'
 
 export default {
   name: 'NodePreview',
@@ -41,7 +42,7 @@ export default {
 
   setup (props) {
     return {
-      countryIso: computed(() => props.country ? lookupCountry.byCountry(props.country)?.iso2.toLowerCase() : '')
+      countryIso: computed(() => props.country ? lookupCountry.byCountry(checkCountryName(props.country))?.iso2.toLowerCase() : '')
     }
   }
 }

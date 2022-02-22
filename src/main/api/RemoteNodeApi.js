@@ -19,7 +19,9 @@ class RemoteNodeApi {
   }
 
   queryNodeStatus () {
-    return this.provider.get('/status')
+    return this.provider.get('/status', {
+      timeout: 5000
+    })
   }
 }
 

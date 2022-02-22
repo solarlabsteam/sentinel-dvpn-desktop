@@ -1,4 +1,5 @@
 import { addMilliseconds } from 'date-fns'
+import i18next from 'i18next'
 
 const grpc = require('@grpc/grpc-js')
 const keepaliveTime = 10000
@@ -46,13 +47,28 @@ class CustomClient {
     return new Promise((resolve, reject) => {
       method(request, callOptions, (err, response) => {
         if (err) {
-          reject(err)
+          const e = this.errorHandler(err)
+          reject(e)
           return
         }
 
         resolve(response)
       })
     })
+  }
+
+  errorHandler (err) {
+    err.isRpcError = true
+
+    switch (err.code) {
+      case grpc.status.DEADLINE_EXCEEDED:
+        err.description = i18next.t('error.rpc.deadline')
+        break
+      default:
+        break
+    }
+
+    return err
   }
 }
 

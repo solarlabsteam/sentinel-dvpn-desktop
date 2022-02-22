@@ -1,5 +1,5 @@
 @mixin font-template($font-size, $line-height, $font-weight: normal) {
-  font-size: $font-size;
-  line-height: $line-height;
-  font-weight: $font-weight;
+  font-size: $font-size !important;
+  line-height: $line-height !important;
+  font-weight: $font-weight !important;
 }

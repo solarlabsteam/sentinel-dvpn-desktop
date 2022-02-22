@@ -1,7 +1,18 @@
 'use strict'
 
 import path from 'path'
-import { app, protocol, BrowserWindow, Menu, nativeImage, Tray, globalShortcut, dialog } from 'electron'
+import {
+  app,
+  protocol,
+  BrowserWindow,
+  Menu,
+  nativeImage,
+  Tray,
+  globalShortcut,
+  dialog,
+  screen,
+  safeStorage
+} from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import i18next from 'i18next'
@@ -37,7 +48,7 @@ if (!gotTheLock) {
     try {
       await initI18n()
     } catch (e) {
-      console.trace('Cannot load locales')
+      logger.error('Cannot load locales')
     }
 
     try {
@@ -54,6 +65,14 @@ if (!gotTheLock) {
       await import('./main/ipc')
 
       await createWindow()
+
+      if (!safeStorage.isEncryptionAvailable()) {
+        dialog.showErrorBox(i18next.t('dialog.decryption.error.title'), i18next.t('dialog.decryption.error.message'))
+        app.isQuitting = true
+        app.quit()
+        return
+      }
+
       tray = createTray()
       createMenu()
     } catch (e) {
@@ -124,11 +143,11 @@ if (isDevelopment) {
 
 async function createWindow () {
   // Create the browser window.
+  const { height } = getWindowRatio()
+
   win = new BrowserWindow({
     width: 1200,
-    minWidth: 800,
-    minHeight: 860,
-    height: 900,
+    height,
     icon: nativeImage.createFromPath(path.resolve(__static, 'assets/images/logo.png')),
     autoHideMenuBar: true,
     webPreferences: {
@@ -209,6 +228,15 @@ function createMenu () {
         win.close()
       }
     }]
+  }, {
+    label: 'View',
+    submenu: [
+      { role: 'resetZoom' },
+      { role: 'zoomIn' },
+      { role: 'zoomOut' },
+      { type: 'separator' },
+      { role: 'togglefullscreen' }
+    ]
   }]
 
   if (process.platform === 'darwin') {
@@ -270,4 +298,29 @@ async function checkConnectionBeforeQuit () {
   }
 
   return true
+}
+
+function getWindowRatio () {
+  const desirableScreenToWindowRatio = 0.8
+  const desirableWindowHeight = 900
+
+  let actualWindowHeight = 950
+
+  try {
+    const { workAreaSize } = screen.getPrimaryDisplay()
+    const actualScreenToMinWindowRatio = workAreaSize.height / desirableWindowHeight
+
+    if (actualScreenToMinWindowRatio < desirableScreenToWindowRatio) {
+      actualWindowHeight = workAreaSize.height * desirableScreenToWindowRatio
+    }
+  } catch (e) {
+    logger.error(e)
+    return {
+      height: desirableWindowHeight
+    }
+  }
+
+  return {
+    height: Math.round(actualWindowHeight)
+  }
 }

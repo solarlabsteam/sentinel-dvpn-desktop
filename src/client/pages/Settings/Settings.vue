@@ -73,9 +73,9 @@
 import { useStore } from 'vuex'
 import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import WalletAddress from '@/client/components/app/WalletAddress'
 import servers from '@/client/constants/dns'
 import PageHeader from '@/client/components/app/PageHeader'
-import WalletAddress from '@/client/components/app/WalletAddress'
 import QrCode from '@/client/components/app/QrCode'
 import { DENOM } from '@/shared/constants'
 import denomNames from '@/client/constants/denomNames'
@@ -93,9 +93,9 @@ export default {
   setup () {
     const store = useStore()
     const { t } = useI18n()
-    const { balance } = useBalance()
+    const { balance, fetchBalances } = useBalance()
 
-    onMounted(() => store.dispatch('fetchBalances'))
+    onMounted(() => fetchBalances())
 
     return {
       selectedDns: computed(() => store.getters.selectedDns),

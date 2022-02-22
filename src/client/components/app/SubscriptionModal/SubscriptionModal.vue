@@ -108,6 +108,7 @@ export default {
 
     emitter.$on('open-subscription-modal', n => {
       node.value = n
+      amountGb.value = 1
       open()
     })
 

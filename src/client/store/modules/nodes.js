@@ -4,6 +4,8 @@ import {
   SET_SUBSCRIBED_NODES,
   SET_SUBSCRIBED_NODES_LOADING_STATE
 } from '@/client/store/mutation-types'
+import { onceForAll } from '@/client/store/helpers/promisifyIpc'
+import { QUERY_NODE_LIST, QUERY_SUBSCRIBED_NODE_LIST } from '@/shared/channel-types'
 
 const getDefaultState = () => ({
   nodes: {},
@@ -30,44 +32,26 @@ export default {
   },
 
   actions: {
-    fetchNodes ({ commit }) {
+    async fetchNodes ({ commit }) {
       commit(SET_NODES_LOADING_STATE, true)
 
-      return new Promise((resolve, reject) => {
-        window.ipc.once('QUERY_NODE_LIST', (payload) => {
-          if (payload.error) {
-            commit(SET_NODES_LOADING_STATE, false)
-            reject(payload.error)
-            return
-          }
-
-          commit(SET_NODES, payload.data)
-          commit(SET_NODES_LOADING_STATE, false)
-          resolve(payload.data)
-        })
-
-        window.ipc.send('QUERY_NODE_LIST')
-      })
+      try {
+        const data = await onceForAll(QUERY_NODE_LIST)
+        commit(SET_NODES, data)
+      } finally {
+        commit(SET_NODES_LOADING_STATE, false)
+      }
     },
 
-    fetchSubscribedNodes ({ commit }) {
+    async fetchSubscribedNodes ({ commit }) {
       commit(SET_SUBSCRIBED_NODES_LOADING_STATE, true)
 
-      return new Promise((resolve, reject) => {
-        window.ipc.once('QUERY_SUBSCRIBED_NODE_LIST', (payload) => {
-          if (payload.error) {
-            commit(SET_SUBSCRIBED_NODES_LOADING_STATE, false)
-            reject(payload.error)
-            return
-          }
-
-          commit(SET_SUBSCRIBED_NODES, payload.data)
-          commit(SET_SUBSCRIBED_NODES_LOADING_STATE, false)
-          resolve(payload.data)
-        })
-
-        window.ipc.send('QUERY_SUBSCRIBED_NODE_LIST')
-      })
+      try {
+        const data = await onceForAll(QUERY_SUBSCRIBED_NODE_LIST)
+        commit(SET_SUBSCRIBED_NODES, data)
+      } finally {
+        commit(SET_SUBSCRIBED_NODES_LOADING_STATE, false)
+      }
     }
   },
 

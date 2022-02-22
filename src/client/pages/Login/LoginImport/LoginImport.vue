@@ -11,7 +11,7 @@
       class="mb-5"
       :block="true"
       :rounded="true"
-      @click="importAccount(mnemonic)"
+      @click="importUser(mnemonic)"
     >
       {{ t('account.restoreAccount') }}
     </slr-button>
@@ -37,11 +37,11 @@ export default {
   name: 'LoginImport',
 
   setup () {
-    const { createNew, importAccount } = useAccount()
+    const { createNew, importUser } = useAccount()
     const { t } = useI18n()
     const mnemonic = ref('')
 
-    return { createNew, importAccount, t, mnemonic }
+    return { createNew, importUser, t, mnemonic }
   }
 }
 </script>

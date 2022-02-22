@@ -4,6 +4,12 @@ import {
   SET_CURRENT_SUBSCRIPTION_LOADING_STATE, SET_PAYMENT_LOADING_STATE, SET_PAYMENT_RESULT
 } from '@/client/store/mutation-types'
 import { setStoreValue } from '@/client/store/plugins/syncElectronStore'
+import { once } from '@/client/store/helpers/promisifyIpc'
+import {
+  QUERY_CHECKED_SUBSCRIPTION_FOR_NODE,
+  QUERY_SUBSCRIPTION_FOR_NODE,
+  SUBSCRIBE_TO_NODE
+} from '@/shared/channel-types'
 
 const getDefaultState = () => ({
   currentSubscription: null,
@@ -27,74 +33,49 @@ export default {
   },
 
   actions: {
-    fetchSubscriptionForNode ({ commit, getters }) {
+    async fetchSubscriptionForNode ({ commit, getters }) {
       commit(SET_CURRENT_SUBSCRIPTION_LOADING_STATE, true)
 
-      return new Promise((resolve, reject) => {
-        window.ipc.once('QUERY_SUBSCRIPTION_FOR_NODE', (payload) => {
-          if (payload.error) {
-            commit(SET_CURRENT_SUBSCRIPTION_LOADING_STATE, false)
-            reject(payload.error)
-            return
-          }
-
-          commit(SET_CURRENT_SUBSCRIPTION, payload.data)
-          commit(SET_CURRENT_SUBSCRIPTION_LOADING_STATE, false)
-          resolve()
-        })
-
-        window.ipc.send('QUERY_SUBSCRIPTION_FOR_NODE', JSON.stringify(getters.selectedNode))
-      })
+      try {
+        const data = await once(QUERY_SUBSCRIPTION_FOR_NODE, getters.selectedNode)
+        commit(SET_CURRENT_SUBSCRIPTION, data)
+      } finally {
+        commit(SET_CURRENT_SUBSCRIPTION_LOADING_STATE, false)
+      }
     },
-    fetchCheckedSubscriptionForNode ({ commit, getters }, node) {
+
+    async fetchCheckedSubscriptionForNode ({ commit, getters }, node) {
       commit(SET_CHECKED_SUBSCRIPTION_LOADING_STATE, true)
 
-      return new Promise((resolve, reject) => {
-        window.ipc.once('QUERY_CHECKED_SUBSCRIPTION_FOR_NODE', (payload) => {
-          if (payload.error) {
-            commit(SET_CURRENT_SUBSCRIPTION_LOADING_STATE, false)
-            reject(payload.error)
-            return
-          }
-
-          commit(SET_CHECKED_SUBSCRIPTION, payload.data)
-          commit(SET_CHECKED_SUBSCRIPTION_LOADING_STATE, false)
-          resolve()
-        })
-
-        window.ipc.send('QUERY_CHECKED_SUBSCRIPTION_FOR_NODE', JSON.stringify(node))
-      })
+      try {
+        const data = await once(QUERY_CHECKED_SUBSCRIPTION_FOR_NODE, node)
+        commit(SET_CHECKED_SUBSCRIPTION, data)
+      } finally {
+        commit(SET_CURRENT_SUBSCRIPTION_LOADING_STATE, false)
+      }
     },
-    subscribeToNode ({ commit, dispatch }, paymentInfo) {
+
+    async subscribeToNode ({ commit, dispatch }, paymentInfo) {
       commit(SET_PAYMENT_LOADING_STATE, true)
 
-      return new Promise((resolve, reject) => {
-        window.ipc.once('SUBSCRIBE_TO_NODE', async (payload) => {
-          let result
-          if (payload.error) {
-            result = {
-              success: false,
-              response: payload.error
-            }
-            await dispatch('setPaymentResult', result)
-            commit(SET_PAYMENT_LOADING_STATE, false)
-            reject(payload.error)
-            return
-          }
-
-          result = {
-            success: true,
-            response: payload.data
-          }
-
-          await dispatch('setPaymentResult', result)
-          commit(SET_PAYMENT_LOADING_STATE, false)
-          resolve()
+      try {
+        const data = await once(SUBSCRIBE_TO_NODE, paymentInfo)
+        await dispatch('setPaymentResult', {
+          success: true,
+          response: data
         })
-
-        window.ipc.send('SUBSCRIBE_TO_NODE', JSON.stringify(paymentInfo))
-      })
+        dispatch('fetchSubscribedNodes')
+      } catch (e) {
+        await dispatch('setPaymentResult', {
+          success: false,
+          response: e
+        })
+        throw e
+      } finally {
+        commit(SET_PAYMENT_LOADING_STATE, false)
+      }
     },
+
     clearSubscriptionForNode ({ commit }) {
       commit(CLEAR_CURRENT_SUBSCRIPTION)
     },
