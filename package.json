@@ -88,11 +88,11 @@
     "last 2 versions",
     "not dead"
   ],
-  "_id": "sentinel-dvpn-desktop@0.1.0",
+  "_id": "sentinel-dvpn-desktop@1.0.0",
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
-  "homepage": "https://github.com/solarlabsteam/sentinel-dvpn-desktop",
+  "homepage": "https://sentinel.co/",
   "lint-staged": {
     "*.{js,jsx,vue}": [
       "vue-cli-service lint",
