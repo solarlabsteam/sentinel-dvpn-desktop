@@ -19,6 +19,7 @@
 <script>
 import { useRouter } from 'vue-router'
 import { computed } from 'vue'
+import useShell from '@/client/hooks/useShell'
 
 export default {
   name: 'SlrButton',
@@ -59,6 +60,10 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    },
+    href: {
+      type: String,
+      default: ''
     }
   },
 
@@ -66,6 +71,7 @@ export default {
 
   setup (props, { emit }) {
     const router = useRouter()
+    const { openUrl } = useShell()
     const classes = computed(() => ({
       'slr-button--block': props.block,
       'slr-button--text': props.text,
@@ -86,6 +92,11 @@ export default {
 
       if (props.to) {
         router.push(props.to)
+        return
+      }
+
+      if (props.href) {
+        openUrl(props.href)
       }
     }
 

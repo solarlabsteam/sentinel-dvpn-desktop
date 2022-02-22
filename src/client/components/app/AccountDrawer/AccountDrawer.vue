@@ -58,6 +58,7 @@
           :large="true"
           :rounded="true"
           :block="true"
+          :href="`https://pay.solarlabs.ee/topup?currency=dvpn&wallet=${user?.addressBech32}`"
         >
           {{ t('action.topUp') }}
         </slr-button>
