@@ -92,7 +92,7 @@
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
-  "homepage": "https://github.com/solarlabsteam/sentinel-dvpn-desktop",
+  "homepage": "https://sentinel.co/",
   "lint-staged": {
     "*.{js,jsx,vue}": [
       "vue-cli-service lint",
