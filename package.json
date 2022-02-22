@@ -1,6 +1,6 @@
 {
   "name": "sentinel-dvpn-desktop",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0",
   "private": true,
   "description": "Sentinel dVPN",
   "license": "MIT",
