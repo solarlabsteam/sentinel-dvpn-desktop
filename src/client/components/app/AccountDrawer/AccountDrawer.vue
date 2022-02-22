@@ -17,7 +17,7 @@
             :tiny="true"
             class="ml-1"
             :loading="isBalancesLoading"
-            @click="fetchBalances"
+            @click="tryToFetchBalance"
           >
             <template #icon="{ loading }">
               <slr-icon
@@ -73,6 +73,7 @@ import { useStore } from 'vuex'
 import useGlobalEmitter from '@/client/hooks/useGlobalEmitter'
 import QrCode from '@/client/components/app/QrCode'
 import useBalance from '@/client/hooks/useBalance'
+import useNotification from '@/client/hooks/useNotification'
 
 export default {
   name: 'AccountDrawer',
@@ -87,14 +88,23 @@ export default {
     const emitter = useGlobalEmitter()
     const { t } = useI18n()
     const { balance, fetchBalances, isBalancesLoading } = useBalance()
+    const { showError } = useNotification()
 
     const open = () => {
       isOpen.value = true
-      fetchBalances()
+      tryToFetchBalance()
     }
 
     const close = () => {
       isOpen.value = false
+    }
+
+    const tryToFetchBalance = async () => {
+      try {
+        await fetchBalances()
+      } catch (e) {
+        await showError({ body: e.message })
+      }
     }
 
     emitter.$on('open-account-drawer', n => {
@@ -108,7 +118,7 @@ export default {
       balance,
       t,
       isBalancesLoading,
-      fetchBalances
+      tryToFetchBalance
     }
   }
 }

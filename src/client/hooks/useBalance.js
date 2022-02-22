@@ -2,12 +2,14 @@ import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { DENOM, transactionFee } from '@/shared/constants'
 import denomNames from '@/client/constants/denomNames'
+import useNotification from '@/client/hooks/useNotification'
 
 export default function useBalance () {
   const store = useStore()
   const amount = computed(() => Number(store.getters.balances.find(b => b.denom === DENOM)?.amount) || 0)
   const dvpn = computed(() => amount.value / denomNames[DENOM].perUnit)
   const isBalancesLoading = computed(() => store.getters.isBalancesLoading)
+  const { showError } = useNotification()
 
   const isBalanceEnough = async amount => {
     try {
@@ -22,7 +24,11 @@ export default function useBalance () {
   }
 
   const fetchBalances = async () => {
-    await store.dispatch('fetchBalances')
+    try {
+      return await store.dispatch('fetchBalances')
+    } catch (e) {
+      return await showError({ body: e.message })
+    }
   }
 
   return {

@@ -42,7 +42,6 @@ function initAccountListeners () {
     } catch (e) {
       const error = generateError(e)
       logger.error(QUERY_BALANCES, error.message)
-      Notifications.createCritical(error.message).show()
       event.reply(QUERY_BALANCES, { error })
     }
   })

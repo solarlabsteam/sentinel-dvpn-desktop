@@ -4,7 +4,7 @@ import { Notification } from 'electron'
 class Notifications {
   static create (options) {
     return new Notification({
-      title: 'Sentinel DVPN',
+      title: 'Sentinel dVPN',
       silent: false,
       timeoutType: 'default',
       icon: path.resolve(__static, 'assets/images/logo.png'),
