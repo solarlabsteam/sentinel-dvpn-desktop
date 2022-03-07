@@ -4,7 +4,7 @@ import {
   SET_QUOTA_LOADING_STATE
 } from '@/client/store/mutation-types'
 import { once } from '@/client/store/helpers/promisifyIpc'
-import { QUERY_CHECKED_QUOTA, QUERY_QUOTA } from '@/shared/channel-types'
+import { QUERY_CHECKED_QUOTA, QUERY_QUOTA, UPDATE_QUOTA } from '@/shared/channel-types'
 
 const getDefaultState = () => ({
   quota: null,
@@ -47,6 +47,18 @@ export default {
     },
     clearQuota ({ commit }) {
       commit(CLEAR_QUOTA)
+    },
+    async updateQuota ({ commit, getters }, payload) {
+      try {
+        await once(UPDATE_QUOTA, {
+          quota: getters.checkedQuota,
+          subscription: getters.checkedSubscription,
+          node: getters.selectedNode,
+          bytes: '500000000'
+        })
+      } finally {
+        // commit(SET_CHECKED_QUOTA_LOADING_STATE, false)
+      }
     }
   },
 

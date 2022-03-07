@@ -3,7 +3,7 @@ import { QueryServiceClient as SubscriptionQueryServiceClient } from '@/main/pro
 import Client from '@/main/services/CustomClient'
 import { Status } from '@/main/proto/sentinel/types/v1/status_pb'
 import { DVPN_KEY_NAME } from '@/shared/constants'
-import { MsgSubscribeToNodeRequest } from '@/main/proto/sentinel/subscription/v1/msg_pb.js'
+import { MsgSubscribeToNodeRequest, MsgUpdateQuotaRequest, MsgAddQuotaRequest } from '@/main/proto/sentinel/subscription/v1/msg_pb.js'
 import AccountService from '@/main/services/AccountService'
 import { Coin } from '@/main/proto/cosmos/base/v1beta1/coin_pb.js'
 import { Any } from '@/main/proto/google/protobuf/any_pb'
@@ -22,6 +22,8 @@ class SubscriptionService {
     const response = await this.client.call('queryQuota', request)
     const { quota } = response.toObject()
     const bytesPerGb = Math.pow(1000, 3)
+    console.log('consumed: ', quota.consumed)
+    console.log('allocated: ', quota.allocated)
     const allocatedGb = (Number(quota.allocated) / bytesPerGb)
     const consumedGb = (Number(quota.consumed) / bytesPerGb)
     const balanceGb = allocatedGb - consumedGb
@@ -31,6 +33,20 @@ class SubscriptionService {
     quota.balanceGb = balanceGb.toFixed(2)
 
     return quota
+  }
+
+  async updateQuota (node, address, subscription, bytes) {
+    const msg = new MsgUpdateQuotaRequest([subscription.owner, subscription.id, address, bytes])
+    const msgAny = new Any(['/sentinel.subscription.v1.MsgService/MsgUpdateQuota', msg.serializeBinary()])
+
+    return await this.transactionService.broadcastMessages([msgAny], BroadcastMode.BROADCAST_MODE_BLOCK)
+  }
+
+  async addQuota (node, address, subscription, bytes) {
+    const msg = new MsgAddQuotaRequest([subscription.owner, subscription.id, address, bytes])
+    const msgAny = new Any(['/sentinel.subscription.v1.MsgService/MsgAddQuota', msg.serializeBinary()])
+
+    return await this.transactionService.broadcastMessages([msgAny], BroadcastMode.BROADCAST_MODE_BLOCK)
   }
 
   async querySubscription (id) {

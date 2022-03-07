@@ -35,6 +35,7 @@ export default function useConnection () {
       await store.dispatch('selectNode', node)
       await setStoreValue('selectedNode', node)
       await store.dispatch('connectToNode')
+      await store.dispatch('updateQuota')
     } catch (e) {
       if (e.isResubscribeNeeded) {
         promptSubscription(node)
