@@ -1,0 +1,15 @@
+.slr-input {
+  transition: border-color .2s;
+  outline: none;
+  border: 1px solid $slr__clr-blue-4;
+  border-radius: 4px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 11px 12px;
+  background: $slr__clr-dark-blue;
+  color: $slr__clr-white-1;
+
+  &--focused {
+    border-color: $slr__clr-blue-6;
+  }
+}

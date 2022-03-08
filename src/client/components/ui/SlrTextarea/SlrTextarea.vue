@@ -20,7 +20,8 @@
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue'
+import { computed } from 'vue'
+import useFocus from '@/client/hooks/useFocus'
 
 export default {
   name: 'SlrTextarea',
@@ -47,23 +48,16 @@ export default {
   emits: ['update:modelValue'],
 
   setup (props) {
-    const state = reactive({
-      classes: {
-        'slr-textarea--focused': false,
-        [props.wrapperClassName]: true
-      }
-    })
-    const onFocus = () => {
-      state.classes['slr-textarea--focused'] = true
-    }
-    const onBlur = () => {
-      state.classes['slr-textarea--focused'] = false
-    }
+    const { onFocus, onBlur, classes: focusClasses } = useFocus('slr-textarea')
+    const classes = computed(() => ({
+      ...focusClasses.value,
+      [props.wrapperClassName]: true
+    }))
 
     return {
       onFocus,
       onBlur,
-      ...toRefs(state)
+      classes
     }
   }
 

@@ -12,6 +12,9 @@ export default {
         nodes: {
           title: 'Available nodes'
         }
+      },
+      search: {
+        placeholder: 'Input a node name or a country'
       }
     },
     plans: {
