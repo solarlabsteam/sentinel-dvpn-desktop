@@ -11,7 +11,7 @@
         v-for="(node, idx) in filteredNodes"
         :key="node.address"
         class="change-location__list-item"
-        :class="{'pt-0': idx === 0}"
+        :class="{'pt-2': idx === 0}"
         @click="() => openNode(node)"
       >
         <node-details :node="node" />
