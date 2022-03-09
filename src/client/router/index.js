@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Nodes from '@/client/pages/Nodes/Nodes'
+import ChangeLocation from '@/client/pages/ChangeLocation'
 import i18n from '@/client/plugins/i18n'
 import Node from '@/client/pages/Node'
 import Onboarding from '@/client/pages/Login/Onboarding'
@@ -9,7 +9,7 @@ import { getStoreValue } from '@/client/store/plugins/syncElectronStore'
 const routes = [
   {
     path: '/',
-    component: Nodes,
+    component: ChangeLocation,
     name: 'home',
     meta: {
       title: i18n.global.t('route.changeLocation.title')

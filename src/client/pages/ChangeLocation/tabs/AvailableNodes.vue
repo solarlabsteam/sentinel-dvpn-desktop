@@ -5,7 +5,7 @@
     <li
       v-for="(continentNodes, continentName) in nodes"
       :key="continentName"
-      class="nodes__list-item nodes__list-item--continent"
+      class="change-location__list-item change-location__list-item--continent"
       @click="() => openContinent(continentName)"
     >
       <continent-preview
@@ -44,17 +44,12 @@
       :placeholder="t('route.changeLocation.search.placeholder')"
       class="my-4"
     />
-  </template>
 
-  <template v-for="(continentNodes, continentName) in nodes">
-    <ul
-      v-if="displayedContinent === continentName"
-      :key="continentName"
-    >
+    <ul>
       <li
         v-for="(node, idx) in filteredNodes"
         :key="node.address"
-        class="nodes__list-item"
+        class="change-location__list-item"
         :class="{'pt-0': idx === 0}"
         @click="() => openNode(node)"
       >
@@ -69,7 +64,7 @@ import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import useNodeTabs from '@/client/pages/Nodes/tabs/useNodeTabs'
+import useNodeTabs from '@/client/pages/ChangeLocation/tabs/useNodeTabs'
 import ContinentPreview from '@/client/components/app/ContinentPreview'
 import NodeDetails from '@/client/components/app/NodeDetails'
 

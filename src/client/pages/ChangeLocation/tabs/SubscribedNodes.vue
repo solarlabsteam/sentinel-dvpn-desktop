@@ -10,7 +10,7 @@
       <li
         v-for="(node, idx) in filteredNodes"
         :key="node.address"
-        class="nodes__list-item"
+        class="change-location__list-item"
         :class="{'pt-0': idx === 0}"
         @click="() => openNode(node)"
       >
@@ -31,7 +31,7 @@
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
-import useNodeTabs from '@/client/pages/Nodes/tabs/useNodeTabs'
+import useNodeTabs from '@/client/pages/ChangeLocation/tabs/useNodeTabs'
 import NodeDetails from '@/client/components/app/NodeDetails'
 
 export default {

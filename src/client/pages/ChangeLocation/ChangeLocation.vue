@@ -1,5 +1,5 @@
 <template>
-  <div class="nodes mb-4">
+  <div class="change-location mb-4">
     <page-header>
       <slr-button
         :text="true"
@@ -47,7 +47,7 @@ import { useRouter } from 'vue-router'
 import SubscribedNodes from './tabs/SubscribedNodes'
 import AvailableNodes from './tabs/AvailableNodes'
 import PageHeader from '@/client/components/app/PageHeader'
-import useNodeTabs from '@/client/pages/Nodes/tabs/useNodeTabs'
+import useNodeTabs from '@/client/pages/ChangeLocation/tabs/useNodeTabs'
 
 export default {
   components: {
@@ -105,7 +105,7 @@ export default {
 </script>
 
 <style lang="scss">
-.nodes {
+.change-location {
 
   &__list-item {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
