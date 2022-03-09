@@ -105,8 +105,16 @@ class NodeService {
     const startTime = new Date()
     const { data } = await this.queryNodeStatus(node.remoteUrl)
 
-    if (!data.result || !data.result.price.includes(DENOM)) {
-      throw new Error('non-valid node')
+    if (!data.result) {
+      throw new Error(`The node "${address}" with remoteUrl "${node.remoteUrl}" doesn't return data`)
+    }
+
+    if (!data.result.price.includes(DENOM)) {
+      throw new Error(`The node "${address}" with remoteUrl "${node.remoteUrl}" doesn't have price in DVPN`)
+    }
+
+    if (data.result.address !== address) {
+      throw new Error(`The node "${address}" with remoteUrl "${node.remoteUrl}" returns another node "${data.result.address}"`)
     }
 
     if (data.result) {

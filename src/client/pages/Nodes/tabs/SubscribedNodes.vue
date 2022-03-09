@@ -9,7 +9,7 @@
     <ul>
       <li
         v-for="(node, idx) in filteredNodes"
-        :key="idx"
+        :key="node.address"
         class="nodes__list-item"
         :class="{'pt-0': idx === 0}"
         @click="() => openNode(node)"
