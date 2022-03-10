@@ -7,10 +7,13 @@
   box-sizing: border-box;
   width: 30%;
   min-width: 400px;
-  padding: 20px 16px 20px 16px;
+  padding: 20px 24px 20px 16px;
   background-color: $slr__clr-dark-blue;
 
   &__header {
+    display: flex;
+    align-items: center;
     padding: 10px 0;
+    margin-bottom: 20px;
   }
 }

@@ -11,6 +11,7 @@
     <div class="page">
       <router-view />
       <account-drawer />
+      <node-drawer />
     </div>
   </template>
 </template>
@@ -20,13 +21,15 @@ import { computed, watch, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import Connection from '@/client/pages/Connection'
 import AccountDrawer from '@/client/components/app/AccountDrawer'
+import NodeDrawer from '@/client/components/app/NodeDrawer'
 
 export default {
   name: 'App',
 
   components: {
     Connection,
-    AccountDrawer
+    AccountDrawer,
+    NodeDrawer
   },
 
   setup () {

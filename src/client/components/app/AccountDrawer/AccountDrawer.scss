@@ -1,8 +1,8 @@
 .account-drawer {
-  z-index: 9100;
+  z-index: 9100 !important;
 
   &__body {
-    padding: 111px 0;
+    padding: 90px 0;
     text-align: center;
   }
 

@@ -1,13 +1,10 @@
-import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
+import useGlobalEmitter from '@/client/hooks/useGlobalEmitter'
 
 export default function useNodeTabs () {
-  const router = useRouter()
-  const store = useStore()
+  const emitter = useGlobalEmitter()
 
   const openNode = async node => {
-    await store.dispatch('setDetailedNode', node)
-    router.push({ name: 'node' })
+    emitter.$emit('open-node-drawer', node)
   }
 
   const filterNodes = (nodes, filterString) => {

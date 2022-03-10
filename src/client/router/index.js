@@ -1,7 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import ChangeLocation from '@/client/pages/ChangeLocation'
 import i18n from '@/client/plugins/i18n'
-import Node from '@/client/pages/Node'
 import Onboarding from '@/client/pages/Login/Onboarding'
 import Login from '@/client/pages/Login'
 import { getStoreValue } from '@/client/store/plugins/syncElectronStore'
@@ -19,14 +18,6 @@ const routes = [
       if (isNaN(tab)) tab = null
 
       return { tab, continent: route.query.continent }
-    }
-  },
-  {
-    path: '/node',
-    name: 'node',
-    component: Node,
-    meta: {
-      hasStepBackButton: true
     }
   },
   {
