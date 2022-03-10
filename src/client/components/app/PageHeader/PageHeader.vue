@@ -13,19 +13,7 @@
 
     <slot />
 
-    <slr-button
-      :text="true"
-      :tiny="true"
-      class="ml-auto"
-      @click="openAccountDrawer"
-    >
-      <template #icon>
-        <slr-icon
-          :size="32"
-          :icon="'account'"
-        />
-      </template>
-    </slr-button>
+    <account-drawer-open-button class="ml-auto" />
   </div>
 </template>
 
@@ -33,10 +21,11 @@
 import { useRoute, useRouter } from 'vue-router'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import useAccount from '@/client/hooks/useAccount'
+import { OpenButton as AccountDrawerOpenButton } from '@/client/components/app/AccountDrawer'
 
 export default {
   name: 'PageHeader',
+  components: { AccountDrawerOpenButton },
 
   props: {
     to: {
@@ -49,7 +38,6 @@ export default {
     const route = useRoute()
     const router = useRouter()
     const { t } = useI18n()
-    const { openAccountDrawer } = useAccount()
 
     const stepBack = () => {
       const prevPath = window.history?.state?.back
@@ -70,8 +58,7 @@ export default {
       title: computed(() => route.meta.title),
       hasStepBackButton: computed(() => route.meta.hasStepBackButton),
       onStepBack,
-      t,
-      openAccountDrawer
+      t
     }
   }
 }

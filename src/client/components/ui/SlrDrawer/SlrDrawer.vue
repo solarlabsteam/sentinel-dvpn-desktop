@@ -5,14 +5,9 @@
       class="slr-drawer"
     >
       <div class="slr-drawer__header">
-        <slr-button
-          class="slr-drawer__close-button"
-          :text="true"
-          :tiny="true"
-          @click="close"
-        >
-          &times;
-        </slr-button>
+        <slot name="header">
+          <slr-drawer-close-button @close="close" />
+        </slot>
       </div>
 
       <div class="slr-drawer__body">
@@ -23,8 +18,14 @@
 </template>
 
 <script>
+import SlrDrawerCloseButton from './CloseButton'
+
 export default {
   name: 'SlrDrawer',
+
+  components: {
+    SlrDrawerCloseButton
+  },
 
   props: {
     open: {
