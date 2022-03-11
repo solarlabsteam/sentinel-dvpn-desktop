@@ -14,6 +14,7 @@ import SlrCard from '@/client/components/ui/SlrCard'
 import SlrClipboardText from '@/client/components/ui/SlrClipboardText'
 import SlrInput from '@/client/components/ui/SlrInput'
 import SlrSearchInput from '@/client/components/ui/SlrSearchInput'
+import SlrLazyList from '@/client/components/ui/SlrLazyList'
 
 export default function registerSlrComponents (app) {
   app.component('SlrButton', SlrButton)
@@ -32,4 +33,5 @@ export default function registerSlrComponents (app) {
   app.component('SlrClipboardText', SlrClipboardText)
   app.component('SlrInput', SlrInput)
   app.component('SlrSearchInput', SlrSearchInput)
+  app.component('SlrLazyList', SlrLazyList)
 }

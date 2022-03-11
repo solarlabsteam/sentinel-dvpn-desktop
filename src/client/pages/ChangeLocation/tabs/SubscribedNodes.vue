@@ -6,17 +6,18 @@
       class="my-4"
     />
 
-    <ul>
-      <li
-        v-for="(node, idx) in filteredNodes"
-        :key="node.address"
+    <slr-lazy-list
+      v-slot="{item: node, idx}"
+      :items="filteredNodes"
+      :key-field="'address'"
+    >
+      <node-details
+        :node="node"
         class="change-location__list-item"
         :class="{'pt-2': idx === 0}"
         @click="() => openNode(node)"
-      >
-        <node-details :node="node" />
-      </li>
-    </ul>
+      />
+    </slr-lazy-list>
   </template>
 
   <p
