@@ -53,7 +53,7 @@
     "vue-i18n": "^9.1.7",
     "vue-router": "4",
     "vue3-clipboard": "^1.0.0",
-    "vue3-popper": "^1.2.1",
+    "vue3-popper": "^1.4.2",
     "vuex": "^4.0.2",
     "wireguard-wrapper": "^1.0.3"
   },

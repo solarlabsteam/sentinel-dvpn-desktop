@@ -104,6 +104,7 @@ class NodeService {
     const node = await this.queryNode(address)
     const startTime = new Date()
     const { data } = await this.queryNodeStatus(node.remoteUrl)
+    const latency = new Date() - startTime
 
     if (!data.result) {
       throw new Error(`The node "${address}" with remoteUrl "${node.remoteUrl}" doesn't return data`)
@@ -121,8 +122,9 @@ class NodeService {
       data.result.bandwidth.downloadDetailed = this.formatBandwidth(data.result.bandwidth.download)
       data.result.bandwidth.uploadDetailed = this.formatBandwidth(data.result.bandwidth.upload)
       data.result.bandwidth.signalLevel = this.countSignalLevel(data.result.bandwidth.download, data.result.bandwidth.upload)
-      data.result.latencyPercentage = this.countLatencyPercentage(new Date() - startTime)
-      data.result.peersPercentage = this.countPeersPercentage(data.result.peers, data.result.qos && data.result.qos.maxPeers)
+      data.result.latency = latency
+      data.result.latencyPercentage = this.countLatencyPercentage(latency)
+      data.result.peersPercentage = this.countPeersPercentage(data.result.peers, data.result.qos && data.result.qos.max_peers)
       data.result.pricePercentage = this.countPricePercentage(data.result.price)
     }
 

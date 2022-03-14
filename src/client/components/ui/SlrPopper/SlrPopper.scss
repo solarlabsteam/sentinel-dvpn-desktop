@@ -1,14 +1,21 @@
-:root {
-  --popper-theme-background-color: #333333;
-  --popper-theme-background-color-hover: #333333;
-  --popper-theme-text-color: #ffffff;
-  --popper-theme-border-width: 0px;
-  --popper-theme-border-style: solid;
-  --popper-theme-border-radius: 6px;
-  --popper-theme-padding: 4px 8px;
-  --popper-theme-box-shadow: 0 6px 30px -6px rgba(0, 0, 0, 0.25);
-}
-
 .slr-popper {
   user-select: none;
+}
+
+:deep(.popper) {
+  background: rgba(58, 58, 58, 0.8);
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: $slr__clr-white-1;
+  box-shadow: 0 6px 30px -6px rgba(0, 0, 0, 0.25);
+  @include font-template(12px, 15px)
+}
+
+:deep(.popper #arrow::before) {
+  background: rgba(58, 58, 58, 0.8);
+}
+
+:deep(.popper:hover),
+:deep(.popper:hover > #arrow::before) {
+  background: rgba(58, 58, 58, 0.8);
 }

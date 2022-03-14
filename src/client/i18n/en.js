@@ -12,9 +12,6 @@ export default {
         nodes: {
           title: 'Available nodes'
         }
-      },
-      search: {
-        placeholder: 'Input a node name or a country'
       }
     },
     plans: {
@@ -78,7 +75,10 @@ export default {
       change: 'change'
     },
     list: {
-      noData: 'No available nodes found'
+      noData: 'No available nodes found',
+      search: {
+        placeholder: 'Input a node name or a country'
+      }
     },
     parameters: {
       price: 'Price',
@@ -93,6 +93,11 @@ export default {
       type: 'Type of node',
       country: 'Country',
       city: 'City'
+    },
+    scale: {
+      price: '{number} {denom}',
+      latency: '{number}s',
+      peers: '{min} of {max}'
     }
   },
 

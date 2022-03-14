@@ -13397,10 +13397,10 @@ vue3-clipboard@^1.0.0:
   dependencies:
     clipboard "^2.0.6"
 
-vue3-popper@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/vue3-popper/-/vue3-popper-1.2.1.tgz#1f0008a200dea6540c93da8ada0cf2f5282ca433"
-  integrity sha512-5dNp/ZBWOpPs+4/XulmKVQdlCvQkJD4ePRXJY6kd60TIwDgruEgDgGApdmO6s+M+QGjENV0mABbDLK1qCIoxgw==
+vue3-popper@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/vue3-popper/-/vue3-popper-1.4.2.tgz#2a15d92e3787c34d335efe3a61fd12ca960bbda1"
+  integrity sha512-nc5vM//AJ8/DyNetjrrgkkLv7aKVdSsljvqlQ1tWhAV2lgA8tkn8xE6icDd0/kBt0Yo5Li8Pftf0H0C/hNmu1Q==
   dependencies:
     "@popperjs/core" "^2.9.2"
     debounce "^1.2.1"

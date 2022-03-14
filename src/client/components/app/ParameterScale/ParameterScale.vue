@@ -19,7 +19,6 @@
 </template>
 
 <script>
-// @@todo: It's an ugly component. It should work with any count of scale
 import { computed } from 'vue'
 
 export default {

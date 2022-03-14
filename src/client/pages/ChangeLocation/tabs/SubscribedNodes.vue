@@ -2,7 +2,7 @@
   <template v-if="nodes.length">
     <slr-search-input
       v-model="searchString"
-      :placeholder="t('route.changeLocation.search.placeholder')"
+      :placeholder="t('node.list.search.placeholder')"
       class="my-4"
     />
 

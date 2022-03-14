@@ -14,18 +14,33 @@
     </div>
 
     <div class="node-details__main">
-      <parameter-scale
-        :value="node.pricePercentage"
-        :title="t('node.parameters.price')"
-      />
-      <parameter-scale
-        :value="node.latencyPercentage"
-        :title="t('node.parameters.latency')"
-      />
-      <parameter-scale
-        :value="node.peersPercentage"
-        :title="t('node.parameters.peers')"
-      />
+      <slr-popper
+        :content="t('node.scale.price', {number: price, denom: denom.name})"
+        :hover="true"
+      >
+        <parameter-scale
+          :value="node.pricePercentage"
+          :title="t('node.parameters.price')"
+        />
+      </slr-popper>
+      <slr-popper
+        :content="t('node.scale.latency', {number: latency})"
+        :hover="true"
+      >
+        <parameter-scale
+          :value="node.latencyPercentage"
+          :title="t('node.parameters.latency')"
+        />
+      </slr-popper>
+      <slr-popper
+        :content="t('node.scale.peers', {min: node.peers, max: node.qos?.max_peers || 100})"
+        :hover="true"
+      >
+        <parameter-scale
+          :value="node.peersPercentage"
+          :title="t('node.parameters.peers')"
+        />
+      </slr-popper>
 
       <slr-button
         class="node-details__connect-button"
@@ -49,6 +64,7 @@ import { useStore } from 'vuex'
 import useConnection from '@/client/hooks/useConnection'
 import ParameterScale from '@/client/components/app/ParameterScale'
 import NodePreview from '@/client/components/app/NodePreview'
+import denomNames from '@/client/constants/denomNames'
 
 export default {
   name: 'NodeDetails',
@@ -65,16 +81,22 @@ export default {
     }
   },
 
-  setup () {
+  setup (props) {
     const { t } = useI18n()
     const { connect } = useConnection()
     const store = useStore()
     const isConnectionLoading = computed(() => store.getters.isConnectionLoading)
+    const denom = computed(() => denomNames[props.node.price.replace(/[0-9]/g, '')])
+    const price = computed(() => Number(props.node.price.replace(/\D+/g, '')) / denom.value.perUnit)
+    const latency = computed(() => (props.node.latency / 1000).toFixed(2))
 
     return {
       t,
       connect,
-      isConnectionLoading
+      isConnectionLoading,
+      price,
+      denom,
+      latency
     }
   }
 }
