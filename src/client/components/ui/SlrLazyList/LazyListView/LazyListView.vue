@@ -1,6 +1,6 @@
 <template>
-  <ul>
-    <li
+  <component :is="tag">
+    <template
       v-for="(item, idx) in itemsToRender"
       :key="item[keyField]"
     >
@@ -8,8 +8,8 @@
         :item="item"
         :idx="idx"
       />
-    </li>
-  </ul>
+    </template>
+  </component>
 </template>
 
 <script>
@@ -27,6 +27,11 @@ export default {
     keyField: {
       type: String,
       default: ''
+    },
+
+    tag: {
+      type: String,
+      default: 'ul'
     }
   },
 

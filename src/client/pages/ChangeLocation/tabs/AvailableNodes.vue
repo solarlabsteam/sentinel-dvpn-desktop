@@ -50,12 +50,15 @@
       :items="filteredNodes"
       :key-field="'address'"
     >
-      <node-details
-        :node="node"
-        class="change-location__list-item"
+      <li
         :class="{'pt-2': idx === 0}"
-        @click="() => openNode(node)"
-      />
+        class="change-location__list-item"
+      >
+        <node-details
+          :node="node"
+          @click="() => openNode(node)"
+        />
+      </li>
     </slr-lazy-list>
   </template>
 </template>
