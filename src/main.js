@@ -23,6 +23,7 @@ import initI18n from '@/main/i18n'
 import ConnectionService from '@/main/services/СonnectionService'
 import { generateError } from '@/main/utils/errorHandler'
 import logger from '@/main/utils/logger'
+import { setters, getters } from '@/main/store/store'
 
 const isDevelopment = process.env.NODE_ENV === 'development'
 
@@ -66,11 +67,15 @@ if (!gotTheLock) {
 
       await createWindow()
 
-      if (!safeStorage.isEncryptionAvailable()) {
-        dialog.showErrorBox(i18next.t('dialog.decryption.error.title'), i18next.t('dialog.decryption.error.message'))
-        app.isQuitting = true
-        app.quit()
-        return
+      if (!safeStorage.isEncryptionAvailable() && !getters.getSetting('dontShowEncryptionDialog')) {
+        const { checkboxChecked } = await dialog.showMessageBox(win, {
+          message: i18next.t('dialog.decryption.warning.message'),
+          type: 'warning',
+          title: i18next.t('dialog.decryption.warning.title'),
+          checkboxLabel: i18next.t('dialog.checkbox.dontAskAgain')
+        })
+
+        if (checkboxChecked) setters.setSetting('dontShowEncryptionDialog', true)
       }
 
       tray = createTray()

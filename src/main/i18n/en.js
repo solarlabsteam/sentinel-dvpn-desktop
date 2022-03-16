@@ -49,13 +49,16 @@ export default {
         }
       },
       decryption: {
-        error: {
-          title: 'Decryption error',
-          message: 'Decryption is not available. Enable decryption and try again.'
+        warning: {
+          title: 'Decryption is not available',
+          message: 'The app may not work properly. Please, enable encryption and relaunch the app.'
         }
       },
       button: {
         cancel: 'Cancel'
+      },
+      checkbox: {
+        dontAskAgain: 'Don\'t ask me again.'
       }
     },
 

@@ -19,12 +19,25 @@ export function initStoreHandlers () {
 export const getters = {
   getUserKey () {
     return store.get('key')
+  },
+
+  getSetting (key) {
+    const settings = store.get('settings') || {}
+    return settings[key]
   }
 }
 
 export const setters = {
   setUserKey (key) {
     store.set('key', key)
+  },
+
+  setSetting (key, value) {
+    const settings = store.get('settings') || {}
+    store.set('settings', {
+      ...settings,
+      [key]: value
+    })
   }
 }
 
