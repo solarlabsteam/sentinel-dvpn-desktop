@@ -1,6 +1,6 @@
 import { useStore } from 'vuex'
 import { computed } from 'vue'
-import { DENOM, transactionFee } from '@/shared/constants'
+import { DENOM, defaultTransactionFee } from '@/shared/constants'
 import denomNames from '@/client/constants/denomNames'
 import useNotification from '@/client/hooks/useNotification'
 
@@ -15,7 +15,7 @@ export default function useBalance () {
     try {
       await store.dispatch('fetchBalances')
       return store.getters.balances.some(b => {
-        return b.denom === DENOM && Number(b.amount) > (amount + transactionFee)
+        return b.denom === DENOM && Number(b.amount) > (amount + defaultTransactionFee)
       })
     } catch (e) {
       window.logger.error(e)

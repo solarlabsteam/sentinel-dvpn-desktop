@@ -82,6 +82,7 @@ function initConnectionListeners () {
       const result = await connectionService.queryConnectToNode(subscription.id, DVPN_KEY_NAME, subscription.node, connectionData.result, connectionData.privateKey, resolvers)
       event.reply(CONNECT_TO_NODE, { data: result })
     } catch (e) {
+      console.trace(e)
       const error = generateError(e)
       logger.error(CONNECT_TO_NODE, error.message)
       Notifications.createCritical(i18next.t('connection.error.common')).show()

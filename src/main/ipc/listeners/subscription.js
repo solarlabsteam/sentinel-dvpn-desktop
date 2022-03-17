@@ -8,7 +8,8 @@ import logger from '@/main/utils/logger'
 import {
   QUERY_CHECKED_SUBSCRIPTION_FOR_NODE,
   QUERY_SUBSCRIPTION_FOR_NODE,
-  SUBSCRIBE_TO_NODE
+  SUBSCRIBE_TO_NODE,
+  UNSUBSCRIBE_FROM_NODE
 } from '@/shared/channel-types'
 
 const accountService = new AccountService()
@@ -58,6 +59,21 @@ function initSubscriptionListeners () {
       logger.error(QUERY_CHECKED_SUBSCRIPTION_FOR_NODE, error.message)
       Notifications.createCritical(error.message).show()
       event.reply(QUERY_CHECKED_SUBSCRIPTION_FOR_NODE, { error })
+    }
+  })
+
+  ipcMain.on(UNSUBSCRIBE_FROM_NODE, async (event, payload) => {
+    try {
+      const key = await accountService.queryKeyByName(DVPN_KEY_NAME)
+      const node = JSON.parse(payload)
+      const result = await subscriptionService.cancelSubscriptionsForNode(key.addressBech32, node.address)
+
+      event.reply(UNSUBSCRIBE_FROM_NODE, { data: result })
+    } catch (e) {
+      const error = generateError(e.rawLog || e)
+      logger.error(UNSUBSCRIBE_FROM_NODE, error.message)
+      Notifications.createCritical(error.message).show()
+      event.reply(UNSUBSCRIBE_FROM_NODE, { error })
     }
   })
 }

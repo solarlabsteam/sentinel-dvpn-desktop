@@ -9,8 +9,8 @@ class TransactionService {
     this.signService = new SignService()
   }
 
-  async broadcastMessages (messages, mode) {
-    const signedTxBytes = await this.signService.getSignedRequest(messages)
+  async broadcastMessages (messages, mode, gasFactor) {
+    const signedTxBytes = await this.signService.getSignedRequest(messages, gasFactor)
     return await this.broadcastTx(signedTxBytes.serializeBinary(), mode)
   }
 

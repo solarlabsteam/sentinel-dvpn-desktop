@@ -44,6 +44,13 @@
 
       <slr-button
         class="node-details__connect-button"
+        @click.stop="() => unsubscribe(node)"
+      >
+        unsubscribe
+      </slr-button>
+
+      <slr-button
+        class="node-details__connect-button"
         :disabled="isConnectionLoading"
         @click.stop="() => connect(node)"
       >
@@ -90,13 +97,19 @@ export default {
     const price = computed(() => Number(props.node.price.replace(/\D+/g, '')) / denom.value.perUnit)
     const latency = computed(() => (props.node.latency / 1000).toFixed(2))
 
+    const unsubscribe = async node => {
+      await store.dispatch('unsubscribeFromNode', node)
+      await store.dispatch('fetchSubscribedNodes')
+    }
+
     return {
       t,
       connect,
       isConnectionLoading,
       price,
       denom,
-      latency
+      latency,
+      unsubscribe
     }
   }
 }

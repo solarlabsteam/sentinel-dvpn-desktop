@@ -1,11 +1,12 @@
 import {
   CLEAR_CURRENT_SUBSCRIPTION, CLEAR_PAYMENT_RESULT, SET_CHECKED_SUBSCRIPTION, SET_CHECKED_SUBSCRIPTION_LOADING_STATE,
   SET_CURRENT_SUBSCRIPTION,
-  SET_CURRENT_SUBSCRIPTION_LOADING_STATE, SET_PAYMENT_LOADING_STATE, SET_PAYMENT_RESULT
+  SET_CURRENT_SUBSCRIPTION_LOADING_STATE, SET_PAYMENT_LOADING_STATE, SET_PAYMENT_RESULT, SET_UNSUBSCRIPTION_LOADING_STATE
 } from '@/client/store/mutation-types'
 import { setStoreValue } from '@/client/store/plugins/syncElectronStore'
 import { once } from '@/client/store/helpers/promisifyIpc'
 import {
+  UNSUBSCRIBE_FROM_NODE,
   QUERY_CHECKED_SUBSCRIPTION_FOR_NODE,
   QUERY_SUBSCRIPTION_FOR_NODE,
   SUBSCRIBE_TO_NODE
@@ -17,7 +18,8 @@ const getDefaultState = () => ({
   isPaymentLoading: false,
   paymentResult: null,
   checkedSubscription: null,
-  isCheckedSubscriptionLoading: false
+  isCheckedSubscriptionLoading: false,
+  isUnsubscriptionLoading: false
 })
 
 export default {
@@ -76,6 +78,16 @@ export default {
       }
     },
 
+    async unsubscribeFromNode ({ commit, dispatch }, payload) {
+      commit(SET_UNSUBSCRIPTION_LOADING_STATE, true)
+
+      try {
+        await once(UNSUBSCRIBE_FROM_NODE, payload)
+      } finally {
+        commit(SET_UNSUBSCRIPTION_LOADING_STATE, false)
+      }
+    },
+
     clearSubscriptionForNode ({ commit }) {
       commit(CLEAR_CURRENT_SUBSCRIPTION)
     },
@@ -112,6 +124,9 @@ export default {
     },
     [CLEAR_PAYMENT_RESULT] (state) {
       state.paymentResult = null
+    },
+    [SET_UNSUBSCRIPTION_LOADING_STATE] (state) {
+      state.isUnsubscriptionLoading = false
     }
   }
 }

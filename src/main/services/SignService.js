@@ -1,4 +1,4 @@
-import { chainId, DVPN_KEY_NAME, DENOM, transactionFee } from '@/shared/constants'
+import { chainId, DVPN_KEY_NAME, DENOM, defaultTransactionFee, defaultGasLimit } from '@/shared/constants'
 import { TxBody, Fee, SignerInfo, ModeInfo, AuthInfo, SignDoc, TxRaw } from '@/main/proto/cosmos/tx/v1beta1/tx_pb.js'
 import { Coin } from '@/main/proto/cosmos/base/v1beta1/coin_pb.js'
 import { SignMode } from '@/main/proto/cosmos/tx/signing/v1beta1/signing_pb.js'
@@ -11,9 +11,12 @@ class SignService {
     this.restKeyApi = new KeyApi()
   }
 
-  getFeeValue () {
-    const amount = new Coin([DENOM, transactionFee.toString()])
-    const fee = new Fee([[], 100000])
+  getFee (gasFactor = 0) {
+    const gasLimitPerFactor = defaultGasLimit / 10
+    const feePerFactor = defaultTransactionFee / 10
+    const amount = new Coin([DENOM, (defaultTransactionFee + (feePerFactor * gasFactor)).toString()])
+    const fee = new Fee()
+    fee.setGasLimit(defaultGasLimit + (gasLimitPerFactor * gasFactor))
     fee.addAmount(amount)
 
     return fee
@@ -43,9 +46,9 @@ class SignService {
     return info
   }
 
-  async getAuthInfo () {
+  async getAuthInfo (gasFactor) {
     const signerInfo = await this.getSignerInfo()
-    const fee = this.getFeeValue()
+    const fee = this.getFee(gasFactor)
     const authInfo = new AuthInfo()
     authInfo.setSignerInfosList([signerInfo])
     authInfo.setFee(fee)
@@ -59,9 +62,9 @@ class SignService {
     return new TxRaw([txBody.serializeBinary(), authInfo.serializeBinary(), [signBytes.signature]])
   }
 
-  async getSignedRequest (messages) {
+  async getSignedRequest (messages, gasFactor) {
     const txBody = this.getTxBody(messages)
-    const authInfo = await this.getAuthInfo()
+    const authInfo = await this.getAuthInfo(gasFactor)
     const key = await this.accountService.queryKeyByName(DVPN_KEY_NAME)
     const account = await this.accountService.queryAccount(key.addressBech32)
     return await this.getTxRaw(txBody, authInfo, chainId, account.accountNumber)

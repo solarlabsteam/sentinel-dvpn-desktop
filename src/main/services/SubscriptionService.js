@@ -3,18 +3,20 @@ import { QueryServiceClient as SubscriptionQueryServiceClient } from '@/main/pro
 import Client from '@/main/services/CustomClient'
 import { Status } from '@/main/proto/sentinel/types/v1/status_pb'
 import { DVPN_KEY_NAME } from '@/shared/constants'
-import { MsgSubscribeToNodeRequest } from '@/main/proto/sentinel/subscription/v1/msg_pb.js'
+import { MsgSubscribeToNodeRequest, MsgCancelRequest } from '@/main/proto/sentinel/subscription/v1/msg_pb.js'
 import AccountService from '@/main/services/AccountService'
 import { Coin } from '@/main/proto/cosmos/base/v1beta1/coin_pb.js'
 import { Any } from '@/main/proto/google/protobuf/any_pb'
 import { BroadcastMode } from '@/main/proto/cosmos/tx/v1beta1/service_pb'
 import TransactionService from '@/main/services/TransactionService'
+import SessionService from '@/main/services/SessionService'
 
 class SubscriptionService {
   constructor () {
     this.client = new Client(SubscriptionQueryServiceClient)
     this.accountService = new AccountService()
     this.transactionService = new TransactionService()
+    this.sessionService = new SessionService()
   }
 
   async queryQuota (id, address) {
@@ -55,6 +57,11 @@ class SubscriptionService {
     return response.getSubscriptionsList().map(s => s.toObject())
   }
 
+  async querySubscriptionForAddressAndNode (address, node) {
+    const subs = await this.querySubscriptionsForAddress(address)
+    return subs.filter(s => s.node === node)
+  }
+
   async querySubscriptionForAddress (address, node) {
     const subscriptions = await this.querySubscriptionsForAddress(address)
     return subscriptions
@@ -72,12 +79,14 @@ class SubscriptionService {
     return await this.transactionService.broadcastMessages([msgAny], BroadcastMode.BROADCAST_MODE_BLOCK)
   }
 
-  // sendCoins (address) {
-  //   const coin = new Coin([DENOM, '100'])
-  //   const msgSend = new MsgSend([address, 'sent1e7fka52pfqdushfezeg3w6swduklfskzx6vmfu', []])
-  //   msgSend.addAmount(coin)
-  //   const msgStartRequestAny = new Any(['/cosmos.bank.v1beta1.MsgSend', msgSend.serializeBinary()])
-  // }
+  async cancelSubscriptionsForNode (address, node) {
+    const subscriptions = await this.querySubscriptionForAddressAndNode(address, node)
+    const msgCancels = subscriptions.map(({ id }) => new MsgCancelRequest([address, id]))
+    const anyMsgCancels = msgCancels.map(msg => new Any(['/sentinel.subscription.v1.MsgService/MsgCancel', msg.serializeBinary()]))
+    const anyMsgStops = await this.sessionService.getSessionMsgEndAny(address)
+
+    return await this.transactionService.broadcastMessages([...anyMsgStops, ...anyMsgCancels], BroadcastMode.BROADCAST_MODE_BLOCK, subscriptions.length)
+  }
 }
 
 export default SubscriptionService
