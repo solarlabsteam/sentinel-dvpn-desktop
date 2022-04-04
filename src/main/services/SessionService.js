@@ -22,7 +22,7 @@ class SessionService {
 
   async startActiveSession (address, subscription) {
     const msgStartRequest = new MsgStartRequest([address, subscription.id, subscription.node])
-    const msgStartRequestAny = new Any(['/sentinel.session.v1.MsgService/MsgStart', msgStartRequest.serializeBinary()])
+    const msgStartRequestAny = new Any(['/sentinel.session.v1.MsgStartRequest', msgStartRequest.serializeBinary()])
     const msgsEndRequestAny = await this.getSessionMsgEndAny(address)
     await this.transactionService.broadcastMessages([...msgsEndRequestAny, msgStartRequestAny], BroadcastMode.BROADCAST_MODE_BLOCK)
     const activeSessions = await this.queryActiveSessionsForAddress(address)
@@ -34,7 +34,7 @@ class SessionService {
     const sessions = await this.queryActiveSessionsForAddress(address)
     return sessions.map(session => {
       const msg = new MsgEndRequest([address, session.id])
-      return new Any(['/sentinel.session.v1.MsgService/MsgEnd', msg.serializeBinary()])
+      return new Any(['/sentinel.session.v1.MsgEndRequest', msg.serializeBinary()])
     })
   }
 }

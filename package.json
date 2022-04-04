@@ -1,6 +1,6 @@
 {
   "name": "sentinel-dvpn-desktop",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Sentinel dVPN",
   "license": "MIT",
@@ -88,7 +88,7 @@
     "last 2 versions",
     "not dead"
   ],
-  "_id": "sentinel-dvpn-desktop@1.0.0",
+  "_id": "sentinel-dvpn-desktop@1.0.1",
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
