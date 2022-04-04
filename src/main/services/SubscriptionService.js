@@ -74,7 +74,7 @@ class SubscriptionService {
     const coin = new Coin([deposit.denom, deposit.amount])
     const msg = new MsgSubscribeToNodeRequest([key.addressBech32, to])
     msg.setDeposit(coin)
-    const msgAny = new Any(['/sentinel.subscription.v1.MsgService/MsgSubscribeToNode', msg.serializeBinary()])
+    const msgAny = new Any(['/sentinel.subscription.v1.MsgSubscribeToNodeRequest', msg.serializeBinary()])
 
     return await this.transactionService.broadcastMessages([msgAny], BroadcastMode.BROADCAST_MODE_BLOCK)
   }
