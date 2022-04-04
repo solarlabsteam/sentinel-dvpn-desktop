@@ -26,6 +26,7 @@ function initConnectionListeners () {
       const key = await accountService.queryKeyByName(DVPN_KEY_NAME)
       const { resolvers, node } = JSON.parse(payload)
       const subscription = await subscriptionService.querySubscriptionForAddress(key.addressBech32, node.address)
+      let activeSession, connectionData
 
       if (!subscription) {
         const message = i18next.t('connection.error.noSubscription')
@@ -47,7 +48,15 @@ function initConnectionListeners () {
         }
       } catch (e) {}
 
-      const activeSession = await sessionService.startActiveSession(key.addressBech32, subscription)
+      try {
+        activeSession = await sessionService.startActiveSession(key.addressBech32, subscription)
+      } catch (e) {
+        const error = generateError(e.rawLog || e)
+        logger.error(CONNECT_TO_NODE, error.message)
+        Notifications.createCritical(error.message).show()
+        event.reply(CONNECT_TO_NODE, { error: error })
+        return
+      }
 
       if (!activeSession) {
         const message = i18next.t('connection.error.noSession')
@@ -61,7 +70,6 @@ function initConnectionListeners () {
       const encodedBuffer = uint64be.encode(activeSession.id)
       const { signature } = await signService.querySignedBytes(Array.from(encodedBuffer))
 
-      let connectionData
       try {
         connectionData = await connectionService.queryConnectionData(nodeInfo.remoteUrl, key.addressBech32, activeSession.id, signature)
       } catch (e) {
