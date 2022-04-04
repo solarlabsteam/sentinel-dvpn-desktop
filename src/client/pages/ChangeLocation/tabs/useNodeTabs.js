@@ -12,7 +12,7 @@ export default function useNodeTabs () {
     if (!filterString?.length) return nodes
 
     const str = filterString.toLowerCase()
-    return nodes.filter(n => n.moniker.toLowerCase().includes(str) || n.location.country.toLowerCase().includes(str))
+    return nodes.filter(n => n.moniker.toLowerCase().includes(str) || n.location.country.toLowerCase().includes(str) || n.address.includes(str))
   }
 
   return {

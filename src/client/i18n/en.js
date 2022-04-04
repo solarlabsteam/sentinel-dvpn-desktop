@@ -77,7 +77,7 @@ export default {
     list: {
       noData: 'No available nodes found',
       search: {
-        placeholder: 'Input a node name or a country'
+        placeholder: 'Search by a country, moniker, address'
       }
     },
     parameters: {
