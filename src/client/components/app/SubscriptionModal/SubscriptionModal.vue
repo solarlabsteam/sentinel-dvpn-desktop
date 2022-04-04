@@ -74,7 +74,7 @@ export default {
     const isOpen = ref(false)
     const amountGb = ref(1)
     const node = ref(null)
-    const isPaymentLoading = computed(() => store.getters.isPaymentLoading)
+    const isPaymentLoading = computed(() => store.getters.isPaymentLoading || store.getters.isBalancesLoading)
 
     const open = () => {
       isOpen.value = true
