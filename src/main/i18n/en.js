@@ -50,8 +50,8 @@ export default {
       },
       decryption: {
         warning: {
-          title: 'Decryption is not available',
-          message: 'The app may not work properly. Please, enable encryption and relaunch the app.'
+          title: 'Secret key is not available',
+          message: 'The app failed to get access to a secret key. The app may not work properly.'
         }
       },
       button: {
