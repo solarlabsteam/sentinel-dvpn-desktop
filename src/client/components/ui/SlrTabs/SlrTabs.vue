@@ -1,6 +1,9 @@
 <template>
   <div class="slr-tabs">
-    <ul class="slr-tabs__nav">
+    <ul
+      class="slr-tabs__nav"
+      :class="classNav"
+    >
       <li
         v-for="(tab, i) in tabs"
         :key="tab.props.title"
@@ -11,7 +14,10 @@
         {{ tab.props.title }}
       </li>
     </ul>
-    <div class="slr-tabs__content">
+    <div
+      class="slr-tabs__content"
+      :class="classContent"
+    >
       <slot />
     </div>
   </div>
@@ -27,6 +33,14 @@ export default {
     defaultActiveTab: {
       type: [Number],
       default: 0
+    },
+    classContent: {
+      type: String,
+      default: ''
+    },
+    classNav: {
+      type: String,
+      default: ''
     }
   },
 

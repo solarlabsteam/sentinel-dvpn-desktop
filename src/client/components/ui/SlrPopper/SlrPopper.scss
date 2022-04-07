@@ -3,11 +3,11 @@
 }
 
 :deep(.popper) {
-  background: rgba(58, 58, 58, 0.8);
-  padding: 4px 8px;
-  border-radius: 4px;
-  color: $slr__clr-white-1;
   box-shadow: 0 6px 30px -6px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  padding: 4px 8px;
+  background: rgba(58, 58, 58, 0.8);
+  color: $slr__clr-white-1;
   @include font-template(12px, 15px)
 }
 

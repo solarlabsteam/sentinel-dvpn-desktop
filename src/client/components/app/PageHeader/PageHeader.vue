@@ -68,10 +68,10 @@ export default {
 .page-header {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
   box-sizing: border-box;
   width: 100%;
-  padding: 10px 0;
+  height: $header-height;
+  padding: 30px 24px 20px 20px;
 
   &__step-back.slr-button {
     @include font-template(18px, 27px)

@@ -24,26 +24,28 @@
 
   <p
     v-if="!nodes.length"
-    class="m-s12-lh15 opacity-4 text-center mt-5"
+    class="m-s12-lh15 opacity-4 text-center mt-2"
   >
     {{ t('node.list.noData') }}
   </p>
 
   <template v-if="displayedContinent">
-    <slr-button
-      :tiny="true"
-      :text="true"
-      class="mt-4 m-s14-lh17 px-0 py-0"
-      @click="showContinents"
-    >
-      {{ t('action.back') }}
-    </slr-button>
+    <div class="change-location__list-toolbar">
+      <slr-button
+        :tiny="true"
+        :text="true"
+        class="mb-4 m-s14-lh17 px-0 py-0"
+        @click="showContinents"
+      >
+        {{ t('action.back') }}
+      </slr-button>
 
-    <slr-search-input
-      v-model="searchString"
-      :placeholder="t('node.list.search.placeholder')"
-      class="my-4"
-    />
+      <slr-search-input
+        v-model="searchString"
+        :placeholder="t('node.list.search.placeholder')"
+        class="mb-4"
+      />
+    </div>
 
     <slr-lazy-list
       v-slot="{item: node, idx}"

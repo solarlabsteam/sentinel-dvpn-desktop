@@ -4,16 +4,24 @@
   top: 0;
   right: 0;
   bottom: 0;
+  overflow: auto;
   box-sizing: border-box;
   width: 30%;
   min-width: 400px;
-  padding: 20px 24px 20px 16px;
   background-color: $slr__clr-dark-blue;
 
   &__header {
+    position: sticky;
+    z-index: 100;
+    top: 0;
     display: flex;
     align-items: center;
-    padding: 10px 0;
     margin-bottom: 20px;
+    padding: 30px 24px 0 16px;
+    background-color: $slr__clr-dark-blue;
+  }
+
+  &__body {
+    padding: 20px 24px 20px 16px;
   }
 }

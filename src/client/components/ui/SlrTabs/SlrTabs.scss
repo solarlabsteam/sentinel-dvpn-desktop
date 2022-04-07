@@ -1,7 +1,9 @@
 .slr-tabs {
+  background-color: $slr__clr-dark-blue;
 
   &__nav {
     display: flex;
+    margin-bottom: 15px;
     outline: solid 1px $slr__clr-blue-5;
     border-radius: 6px;
   }

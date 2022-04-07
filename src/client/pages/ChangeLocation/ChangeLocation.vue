@@ -1,5 +1,5 @@
 <template>
-  <div class="change-location mb-4">
+  <div class="change-location">
     <page-header>
       <slr-button
         :text="true"
@@ -27,6 +27,9 @@
 
     <slr-tabs
       :default-active-tab="defaultActiveTab"
+      class="change-location__tabs"
+      :class-content="'change-location__tabs-content'"
+      :class-nav="'change-location__tabs-nav'"
       @change="onTabChanged"
     >
       <slr-tab :title="t('route.changeLocation.tab.subscriptions.title')">
@@ -106,6 +109,7 @@ export default {
 
 <style lang="scss">
 .change-location {
+  height: 100%;
 
   &__list-item {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -117,6 +121,10 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      &:first-child {
+        padding-top: 26px;
+      }
     }
 
     &:last-child {
@@ -126,6 +134,30 @@ export default {
 
   &__step-back.slr-button {
     @include font-template(18px, 27px)
+  }
+
+  &__tabs {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - #{$header-height});
+  }
+
+  &__tabs-nav {
+    margin-right: 24px;
+    margin-left: 20px;
+  }
+
+  &__tabs-content {
+    overflow-y: auto;
+    padding-right: 24px;
+    padding-left: 20px;
+  }
+
+  &__list-toolbar {
+    position: sticky;
+    z-index: 100;
+    top: 0;
+    background-color: $slr__clr-dark-blue;
   }
 }
 </style>

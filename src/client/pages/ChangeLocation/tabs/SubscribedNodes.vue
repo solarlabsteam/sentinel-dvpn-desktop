@@ -1,10 +1,12 @@
 <template>
   <template v-if="nodes.length">
-    <slr-search-input
-      v-model="searchString"
-      :placeholder="t('node.list.search.placeholder')"
-      class="my-4"
-    />
+    <div class="change-location__list-toolbar">
+      <slr-search-input
+        v-model="searchString"
+        :placeholder="t('node.list.search.placeholder')"
+        class="mb-4"
+      />
+    </div>
 
     <slr-lazy-list
       v-slot="{item: node, idx}"
@@ -25,7 +27,7 @@
 
   <p
     v-else
-    class="m-s12-lh15 opacity-4 text-center mt-5"
+    class="m-s12-lh15 opacity-4 text-center mt-2"
   >
     {{ t('subscription.list.noData') }}
   </p>
