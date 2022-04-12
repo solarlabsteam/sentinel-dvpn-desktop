@@ -51,7 +51,7 @@ export default {
       decryption: {
         warning: {
           title: 'Secret key is not available',
-          message: 'The app failed to get access to a secret key. The app may not work properly.'
+          message: 'The app failed to get access to the system\'s keyring or libsecret. The app may not work properly.'
         }
       },
       button: {
