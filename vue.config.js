@@ -18,7 +18,7 @@ module.exports = {
       rendererProcessFile: 'src/client.js',
       builderOptions: {
         linux: {
-          target: ['deb', 'AppImage'],
+          target: ['deb'],
           category: 'Utility',
           executableName: 'Sentinel dVPN',
           artifactName: '${productName}-${version}.${ext}'
