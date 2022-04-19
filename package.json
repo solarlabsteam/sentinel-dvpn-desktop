@@ -5,10 +5,6 @@
   "description": "Sentinel dVPN",
   "license": "MIT",
   "productName": "Sentinel dVPN",
-  "author": {
-    "name": "Exidio Corp.",
-    "email": "partners@solarlabs.ee"
-  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
