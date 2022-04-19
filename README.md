@@ -46,7 +46,7 @@ The build will be placed in `/dist_electron`. There will be the unpacked applica
 ├── dist_electron/
 │ ├── bundled/..  # where webpack outputs compiled files
 │ ├── linux-unpacked/..  # unpacked Electron app (main app and supporting files)
-│ ├── Sentinel dVPN setup [version].deb  # installer for Electron app
+│ ├── Sentinel dVPN-[version].deb  # installer for Electron app
 │ ├── index.js  # compiled background file used for electron:serve
 ├── bin/linux/ # additional application binaries
 │ ├── sentinelcli-dvpn-desktop # cli-client
