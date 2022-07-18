@@ -36,6 +36,7 @@ function isKeyringRestServerLaunched () {
   return new Promise((resolve) => {
     ps.lookup({
       command: 'sentinelcli-dvpn-desktop',
+      psargs: '-ef',
       arguments: '--with-keyring'
     }, function (err, resultList) {
       if (err) {

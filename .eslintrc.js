@@ -9,11 +9,11 @@ module.exports = {
     '@vue/standard'
   ],
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: '@babel/eslint-parser'
   },
   rules: {
-    "no-empty": ["error", { "allowEmptyCatch": true }],
-    "import/order": ["error", {"groups": ["builtin", "external", "parent", "sibling", "index"]}]
+    'no-empty': ['error', { allowEmptyCatch: true }],
+    'import/order': ['error', { groups: ['builtin', 'external', 'parent', 'sibling', 'index'] }]
   },
   overrides: [
     {

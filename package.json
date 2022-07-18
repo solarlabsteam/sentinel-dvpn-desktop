@@ -3,8 +3,6 @@
   "version": "1.1.1",
   "private": true,
   "description": "Sentinel dVPN",
-  "license": "MIT",
-  "productName": "Sentinel dVPN",
   "author": {
     "name": "Exidio Corp.",
     "email": "partners@solarlabs.ee"
@@ -20,7 +18,6 @@
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
   },
-  "main": "background.js",
   "dependencies": {
     "@babel/plugin-proposal-export-default-from": "^7.14.5",
     "@grpc/grpc-js": "^1.5.1",
@@ -41,8 +38,8 @@
     "portastic": "^1.0.1",
     "ps-node": "^0.1.6",
     "qrious": "^4.0.2",
-    "sass": "^1.37.5",
-    "sass-loader": "^10",
+    "sass": "^1.53.0",
+    "sass-loader": "^13.0.2",
     "stylelint": "^13.13.1",
     "stylelint-order": "^4.1.0",
     "stylelint-webpack-plugin": "^3.0.1",
@@ -52,33 +49,35 @@
     "vue-i18n": "^9.1.7",
     "vue-router": "4",
     "vue3-clipboard": "^1.0.0",
-    "vue3-popper": "^1.4.2",
+    "vue3-popper": "^1.5.0",
     "vuex": "^4.0.2",
     "wireguard-wrapper": "^1.0.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
     "@babel/plugin-proposal-optional-chaining": "^7.14.5",
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-unit-jest": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
+    "@vue/cli-plugin-babel": "~5.0.8",
+    "@vue/cli-plugin-eslint": "~5.0.8",
+    "@vue/cli-plugin-router": "~5.0.8",
+    "@vue/cli-plugin-unit-jest": "~5.0.8",
+    "@vue/cli-service": "~5.0.8",
     "@vue/compiler-sfc": "^3.0.0",
-    "@vue/eslint-config-standard": "^5.1.2",
+    "@vue/eslint-config-standard": "^6.1.0",
     "@vue/test-utils": "^2.0.0-0",
-    "babel-eslint": "^10.1.0",
-    "electron": "^16.0.1",
-    "electron-devtools-installer": "^3.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-import": "^2.20.2",
+    "electron": "^19.0.8",
+    "electron-devtools-installer": "^3.2.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^7.0.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "jest": "^27.1.0",
     "lint-staged": "^9.5.0",
     "style-resources-loader": "^1.4.1",
     "typescript": "~3.9.3",
-    "vue-cli-plugin-electron-builder": "~2.1.1",
+    "vue-cli-plugin-electron-builder": "^3.0.0-alpha.4",
     "vue-cli-plugin-style-resources-loader": "~0.1.5",
     "vue-jest": "^5.0.0-0"
   },
@@ -93,12 +92,14 @@
     "pre-commit": "lint-staged"
   },
   "homepage": "https://sentinel.co/",
+  "license": "MIT",
   "lint-staged": {
     "*.{js,jsx,vue}": [
       "vue-cli-service lint",
       "git add"
     ]
   },
+  "productName": "Sentinel dVPN",
   "readme": "README.md",
   "repository": {
     "type": "git",

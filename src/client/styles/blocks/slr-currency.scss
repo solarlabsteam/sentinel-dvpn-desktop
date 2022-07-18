@@ -2,6 +2,6 @@ $slr-currencies: "dvpn";
 
 @each $currency in $slr-currencies {
   .slr-currency.#{$currency} {
-    background-image: url("/assets/icons/#{$currency}.svg");
+    background-image: url("/public/assets/icons/#{$currency}.svg");
   }
 }
