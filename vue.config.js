@@ -51,7 +51,7 @@ module.exports = {
   configureWebpack: {
     plugins: [
       new StyleLintPlugin({
-        files: ['./src/**/*.{vue,less}']
+        files: ['./src/**/*.{vue,scss}']
       })
     ]
   },
