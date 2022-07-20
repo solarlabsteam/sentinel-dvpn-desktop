@@ -19,7 +19,7 @@ There is an auto-launching daemon. It may be necessary to restart a system.
 Node.js must be 14.17.6 LTS or later. [Download](https://nodejs.org/en/download/).
 
 ### 4. Install Vue CLI
-CLI must be v4. [Download](https://cli.vuejs.org/guide/installation.html).
+This version uses CLI 5. [Download](https://cli.vuejs.org/guide/installation.html).
 
 ### 5. Install npm dependencies
 ```
